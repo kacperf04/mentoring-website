@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Kalam:wght@400;700&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="css/style.css" />
+<link rel="stylesheet" href="css/style.css?v=2" />
 </head>
 <body>
 
@@ -507,13 +507,11 @@
     <h3 class="newsletter-title">Nie przegap startu rekrutacji!</h3>
     <p class="newsletter-subtitle">Zostaw swój adres, a powiadomimy Cię, gdy tylko otworzymy zapisy.</p>
     
-    <!-- Newsletter Form -->
     <form id="newsForm" class="news-form" novalidate>
       <div class="input-group">
         <label class="sr-only" for="newsEmail">Twój adres e-mail</label>
         <input type="email" id="newsEmail" class="news-input" name="email" placeholder="Wpisz swój e-mail..." autocomplete="email" required />
         
-        <!-- HONEYPOT FIELD -->
         <div style="display:none;" aria-hidden="true">
           <input type="text" name="website" id="newsWebsite" tabindex="-1" autocomplete="off" />
         </div>
