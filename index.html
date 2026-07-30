@@ -571,7 +571,10 @@
       <div class="reveal">
         <form id="newsForm" class="news-form" novalidate>
           <label class="sr-only" for="newsEmail">Twój adres e-mail</label>
-          <input type="email" id="newsEmail" placeholder="twoj@email.pl" autocomplete="email" />
+          <input type="email" id="newsEmail" name="email" placeholder="twoj@email.pl" autocomplete="email" />
+          <div style="display: none;" aria-hidden="true">
+            <input type="text" name="website" id="newsWebsite" tabindex="-1" autocomplete="off" />
+          </div>
           <button type="submit" class="btn btn-orange">Powiadom mnie <span aria-hidden="true">→</span></button>
         </form>
         <p class="news-msg" id="newsMsg" aria-live="polite"></p>
@@ -618,5 +621,6 @@
 </footer>
 
 <script src="js/main.js"></script>
+<div id="toast-container"></div>
 </body>
 </html>

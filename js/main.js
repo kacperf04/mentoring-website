@@ -6,6 +6,82 @@
 
   var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+  /* Obługa formularza newslettera */
+  async function handleNewsletterFormSubmit(event) {
+    event.preventDefault();
+
+    const form = event.target;
+    const emailInput = form.email.value;
+    const honeyPot = form.website.value;
+    const submitButton = form.querySelector('button[type="submit"]');
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(emailInput)) {
+      showToast("Podaj poprawny adres e-mail.", "error");
+      return;
+    }
+
+    if (honeyPot) {
+      form.reset();
+      showToast("Dziękujemy za zapisanie się do newslettera!", "success");
+      return;
+    }
+
+    if (localStorage.getItem("newsletter_subscribed")) {
+      form.reset();
+      showToast("Już jesteś zapisany!", "success");
+      return;
+    }
+
+    submitButton.textContent = "Zapisuję...";
+    submitButton.classList.toggle("btn-orange-disabled");
+    submitButton.disabled = true;
+
+    const scriptURL = "https://script.google.com/macros/s/AKfycby6srDlpLF2tasRy7gmBka1ilSaHTspa8vKfxJhNf7YxgD-_fjPcWdRmpI5Dea54LL8/exec"; // i tak będzie widoczne w network tabie więc no worries, że jest odkryte
+
+    try {
+      const response = await fetch(scriptURL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "text/plain;charset=utf-8"
+        },
+        body: JSON.stringify({ email: emailInput })
+      });
+
+      const result = await response.json();
+
+      if (result.status == "success" || result.message == "Już jesteś na liście!") {
+        showToast("Dziękujemy za zapisanie się do newslettera!", "success");
+        localStorage.setItem("newsletter_subscribed", "true");
+        form.reset();
+      } else {
+        showToast(result.message || "Coś poszło nie tak :( Spróbuj ponownie", "error");
+      }
+    } catch (error) {
+      showToast("Błąd połączenia :( Spróbuj ponownie", "error");
+    } finally {
+      submitButton.textContent = "Powiadom mnie";
+      submitButton.classList.toggle("btn-orange-disabled");
+      submitButton.disabled = false;
+    }
+  }
+
+  document.getElementById("newsForm").addEventListener("submit", handleNewsletterFormSubmit);
+
+  function showToast(message, type="success") {
+    const container = document.getElementById("toast-container");
+
+    const toast = document.createElement("div");
+    toast.className = `toast ${type}`;
+    toast.textContent = message;
+
+    container.appendChild(toast);
+
+    setTimeout(() => {
+      toast.remove();
+    }, 3500);
+  }
+
   /* ---------- mobile menu ---------- */
   var nav = document.querySelector(".nav");
   var burger = document.getElementById("burger");
@@ -223,35 +299,4 @@ faqs.forEach(details => {
   });
 
 });
-
-  /* ---------- newsletter ---------- */
-  var newsForm = document.getElementById("newsForm");
-  if (newsForm) {
-    newsForm.addEventListener("submit", function (ev) {
-      ev.preventDefault();
-      var input = document.getElementById("newsEmail");
-      var msg = document.getElementById("newsMsg");
-      var ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input.value.trim());
-      if (ok) {
-        /* EDYTUJ: podepnij wysyłkę do narzędzia newslettera
-           (MailerLite / Mailchimp / GetResponse — fetch POST na endpoint listy). */
-        msg.style.color = "#ffc459";
-        msg.textContent = "Zapisane! Odezwiemy się, gdy ruszy nabór.";
-        newsForm.reset();
-      } else {
-        msg.style.color = "#ffb3a0";
-        msg.textContent = "Ten adres nie wygląda dobrze — sprawdź literówki.";
-        input.focus();
-      }
-    });
-  }
-
-  /* ---------- Zaaplikuj (placeholder) ---------- */
-  var applyBtn = document.getElementById("applyBtn");
-  if (applyBtn && applyBtn.getAttribute("href") === "#") {
-    applyBtn.addEventListener("click", function (ev) {
-      ev.preventDefault();
-      alert("Podepnij tu link do formularza zgłoszeniowego (np. Google Forms / Typeform).");
-    });
-  }
 })();
