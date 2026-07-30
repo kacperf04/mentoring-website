@@ -502,11 +502,29 @@
       </div>
     </div>
 
-    <div class="recruit-cta reveal">
-      <!-- EDYTUJ: podepnij link do formularza zgłoszeniowego -->
-      <a class="btn btn-orange-disabled btn-lg" href="#" id="applyBtn">Aplikacje już wkrótce</a>
-      <span class="hand recruit-hand">Start programu: październik. Twój ruch.</span>
-    </div>
+<div class="recruit-cta reveal">
+  <div class="newsletter-wrapper">
+    <h3 class="newsletter-title">Nie przegap startu rekrutacji!</h3>
+    <p class="newsletter-subtitle">Zostaw swój adres, a powiadomimy Cię, gdy tylko otworzymy zapisy.</p>
+    
+    <!-- Newsletter Form -->
+    <form id="newsForm" class="news-form" novalidate>
+      <div class="input-group">
+        <label class="sr-only" for="newsEmail">Twój adres e-mail</label>
+        <input type="email" id="newsEmail" class="news-input" name="email" placeholder="Wpisz swój e-mail..." autocomplete="email" required />
+        
+        <!-- HONEYPOT FIELD -->
+        <div style="display:none;" aria-hidden="true">
+          <input type="text" name="website" id="newsWebsite" tabindex="-1" autocomplete="off" />
+        </div>
+
+        <button type="submit" class="btn btn-orange btn-lg">Powiadom mnie <span aria-hidden="true">→</span></button>
+      </div>
+    </form>
+
+    <!--<span class="hand recruit-hand">Start programu: październik. Twój ruch.</span>-->
+  </div>
+</div>
   </div>
 </section>
 

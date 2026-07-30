@@ -863,3 +863,59 @@ footer .brand-txt small{color:#a99cc9;font-family:var(--font);font-weight:500;te
   }
 }
 
+.newsletter-wrapper {
+  max-width: 600px;
+  margin: 0 auto;
+  text-align: center;
+  padding: 20px;
+}
+
+.newsletter-title {
+  font-size: 1.5rem;
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+.newsletter-subtitle {
+  font-size: 1rem;
+  margin-bottom: 24px;
+  opacity: 0.8;
+}
+
+.input-group {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  align-items: stretch;
+  margin-bottom: 16px;
+}
+
+.news-input {
+  flex: 1;
+  min-width: 250px;
+  padding: 12px 20px;
+  font-size: 1rem;
+  border-radius: 8px;
+  outline: none;
+  transition: all 2.7s ease;
+  font-family: inherit;
+  border: 2px solid var(--orange-deep) !important;
+  transition: box-shadow 0.3s ease !important;
+}
+
+.news-input:focus {
+  box-shadow: 0 0 10px var(--orange-deep) !important;
+}
+
+@media (max-width: 600px) {
+  .input-group {
+    flex-direction: column;
+    gap: 16px;
+  }
+  
+  .news-input, 
+  .input-group .btn {
+    width: 100%;
+  }
+}
+
