@@ -539,7 +539,7 @@ h3{font-size:1.3rem;}
 }
 .sg-row figure{
   margin:0;width:220px;flex:0 0 auto;border-radius:var(--r-md);overflow:hidden;
-  box-shadow:0 16px 34px rgba(41,25,66,.16);transform:rotate(-1deg);
+  box-shadow:0 16px 34px rgba(41,25,66,.16);transform:rotate(-1deg); aspect-ratio: 0.85; object-fit: cover;
 }
 .sg-row:nth-child(2) figure{transform:rotate(1.2deg);}
 .sg-row img{width:100%;height:260px;object-fit:cover;transition:transform .4s ease;}
