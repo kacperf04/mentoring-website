@@ -801,6 +801,34 @@ footer .brand-txt small{color:#a99cc9;font-family:var(--font);font-weight:500;te
   .pill-row{max-width:100%;}
   .pill{white-space:normal;}
   .photo-blob{width:min(240px,60vw);}
+
+  .scrollga {
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+    padding-bottom: 20px;
+    scroll-padding-left: 24px;
+  }
+
+  .scrollga::-webkit-scrollbar {
+    display: none;
+  }
+  .scrollga {
+    -ms-overflow-style: none;  
+    scrollbar-width: none;  
+  }
+
+  .sg-row {
+    transform: none !important; 
+    width: max-content;
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+
+  .sg-row figure {
+    scroll-snap-align: center;
+  }
 }
 @media(max-width:400px){
   h1{font-size:clamp(2rem,10vw,2.6rem);}
