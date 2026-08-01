@@ -24,12 +24,16 @@
     if (honeyPot) {
       form.reset();
       showToast("Dziękujemy za zapisanie się do newslettera!", "success");
+      const popup = document.getElementById("popupNews");
+      if (popup) popup.dispatchEvent(new Event("newsletter:success"));
       return;
     }
 
     if (localStorage.getItem("newsletter_subscribed")) {
       form.reset();
       showToast("Już jesteś zapisany!", "success");
+      const popup = document.getElementById("popupNews");
+      if (popup) popup.dispatchEvent(new Event("newsletter:success"));
       return;
     }
 
@@ -54,6 +58,10 @@
         showToast("Dziękujemy za zapisanie się do newslettera!", "success");
         localStorage.setItem("newsletter_subscribed", "true");
         form.reset();
+        const popup = document.getElementById("popupNews");
+        if (popup) {
+          popup.dispatchEvent(new Event("newsletter:success"));
+        }
       } else {
         showToast(result.message || "Coś poszło nie tak :( Spróbuj ponownie", "error");
       }
@@ -84,6 +92,41 @@
       toast.remove();
     }, 3500);
   }
+
+  /* ---------- popup newsletter ---------- */
+const popup = document.getElementById("popupNews");
+  const popupClose = document.getElementById("popupClose");
+ 
+  const isPopupDismissed = localStorage.getItem("popup_dismissed");
+  const isSubscribed = localStorage.getItem("newsletter_subscribed");
+ 
+  if (popup && !isPopupDismissed && !isSubscribed) {
+    setTimeout(() => {
+      popup.hidden = false;
+      requestAnimationFrame(() => {
+        popup.classList.add("show");
+        popup.setAttribute("aria-hidden", "false");
+      });
+    }, 1000);
+ 
+    const hidePopup = () => {
+      popup.classList.remove("show");
+      popup.setAttribute("aria-hidden", "true");
+      localStorage.setItem("popup_dismissed", "true");
+      
+      setTimeout(() => {
+        popup.hidden = true;
+      }, 500); 
+    };
+ 
+    popupClose.addEventListener("click", hidePopup);
+ 
+    popup.addEventListener("newsletter:success", () => {
+      setTimeout(hidePopup, 500);
+    });
+  }
+
+
 
   /* ---------- mobile menu ---------- */
   var nav = document.querySelector(".nav");

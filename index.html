@@ -637,7 +637,38 @@
   </div>
 </footer>
 
-<script src="js/main.js?v=3"></script>
+<!-- =====================================================
+   POPUP NEWSLETTER
+===================================================== -->
+<div class="popup-news" id="popupNews" aria-hidden="true" role="dialog" aria-labelledby="popupTitle" hidden>
+  <button class="popup-close" id="popupClose" aria-label="Zamknij powiadomienie">
+    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M1 1L13 13M13 1L1 13" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+  </button>
+  <div class="popup-content">
+    <div class="popup-icon" aria-hidden="true">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M3 6.5L12 13L21 6.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="3" y="4.5" width="18" height="15" rx="2.5" stroke="currentColor" stroke-width="1.8"/></svg>
+    </div>
+    <span class="popup-badge hand">Nie przegap!</span>
+    <h3 id="popupTitle" class="popup-title">Rekrutacja tuż-tuż</h3>
+    <p>Zapisz się do newslettera, w powiadomimy Cię, gdy ruszy rekrutacja!</p>
+    <form id="popupNewsForm" class="news-form popup-form" novalidate>
+      <label class="sr-only" for="popupEmail">Twój adres e-mail</label>
+      <input type="email" id="popupEmail" class="news-input popup-input" name="email" placeholder="twoj@email.pl" autocomplete="email" required />
+      <div style="display:none;" aria-hidden="true">
+        <input type="text" name="website" id="popupWebsite" tabindex="-1" autocomplete="off" />
+      </div>
+      <button type="submit" class="btn btn-orange btn-sm popup-btn">
+        Powiadom mnie
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M1 7H13M13 7L7.5 1.5M13 7L7.5 12.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </form>
+  </div>
+</div>
+
+
+
 <div id="toast-container"></div>
+
+<script src="js/main.js?v=3"></script>
 </body>
 </html>
