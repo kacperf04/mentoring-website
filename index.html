@@ -636,7 +636,18 @@
   </div>
 </footer>
 
-<script src="js/main.js?v=2"></script>
+
 <div id="toast-container"></div>
+<!-- ========== ROLE BOTTOM SHEET ========== -->
+<div id="roleSheet" class="role-sheet-overlay" hidden>
+  <div class="role-sheet" role="dialog" aria-modal="true" aria-labelledby="roleSheetTitle">
+    <div class="role-sheet-handle"></div>
+    <button class="role-sheet-close" id="roleSheetClose" aria-label="Zamknij">&times;</button>
+    <span class="role-sheet-icon" id="roleSheetIcon"></span>
+    <h3 id="roleSheetTitle"></h3>
+    <p id="roleSheetDesc"></p>
+  </div>
+</div>
+<script src="js/main.js?v=2"></script>
 </body>
 </html>

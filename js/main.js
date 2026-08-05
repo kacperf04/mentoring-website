@@ -299,4 +299,102 @@ faqs.forEach(details => {
   });
 
 });
-})();
+  /* ---------- role bottom sheet (ścieżki) ---------- */
+  var roleSheet = document.getElementById("roleSheet");
+  var roleSheetTitle = document.getElementById("roleSheetTitle");
+  var roleSheetDesc = document.getElementById("roleSheetDesc");
+  var roleSheetIcon = document.getElementById("roleSheetIcon");
+  var roleSheetClose = document.getElementById("roleSheetClose");
+  var lastActiveChip = null;
+
+  // Opisy dla każdej roli (możesz swobodnie edytować)
+  var roleData = {
+    "Marketing": {
+      icon: "img/Marketing.png",
+      desc: "Specjalista ds. marketingu odpowiada za promocję wydarzeń, tworzenie strategii komunikacji, zarządzanie kampaniami i budowanie rozpoznawalności marki Kanału Studenckiego. Nauczysz się tworzyć angażujące treści, analizować wyniki kampanii i współpracować z mediami."
+    },
+    "Analityka danych": {
+      icon: "img/Analityka_danych.png",
+      desc: "Analityk danych zbiera, przetwarza i wizualizuje dane dotyczące działalności fundacji. Będziesz pracować z arkuszami kalkulacyjnymi, tworzyć dashboardy i raporty wspierające decyzje zarządu. Idealna ścieżka dla osób lubiących liczby i wyciąganie wniosków."
+    },
+    "Project & Event Management": {
+      icon: "img/Project_Event_Development.png",
+      desc: "Zarządzanie projektami i eventami to serce działalności fundacji. Będziesz koordynować organizację wydarzeń studenckich, warsztatów i konferencji – od planowania budżetu, przez logistykę, po zarządzanie zespołem w dynamicznym środowisku."
+    },
+    "Software Development": {
+      icon: "img/Software_Development.png",
+      desc: "Ścieżka dla przyszłych programistów! Współtworzysz realne narzędzia i strony internetowe fundacji, ucząc się praktycznego kodowania. Poznasz pracę w zespole developerskim, code review, nowoczesne technologie webowe i dobre praktyki."
+    },
+    "Grafika / UX": {
+      icon: "img/Grafika.png",
+      desc: "Grafik / UX designer odpowiada za wizualną stronę projektów – od postów w social mediach, przez plakaty, po interfejsy aplikacji. Nauczysz się tworzyć estetyczne, spójne i funkcjonalne projekty, które przyciągają uwagę."
+    },
+    "Social media": {
+      icon: "img/Social_media.png",
+      desc: "Specjalista social media zarządza profilami fundacji na Instagramie, Facebooku, TikToku i LinkedIn. Będziesz tworzyć angażujące treści, planować kalendarz publikacji, analizować statystyki i budować aktywną społeczność wokół Kanału Studenckiego."
+    },
+    "HR & Employer Branding": {
+      icon: "img/HR.png",
+      desc: "HR i Employer Branding to ścieżka dla osób, które chcą dbać o atmosferę w zespole i wizerunek fundacji. Zajmiesz się rekrutacją, onboardigiem nowych członków, budowaniem kultury organizacyjnej oraz integracjami zespołowymi."
+    }
+  };
+
+  function openRoleSheet(chip) {
+    var roleName = chip.textContent.trim();
+    var data = roleData[roleName];
+    if (!data) return;
+
+    lastActiveChip = chip;
+    roleSheetIcon.innerHTML = '<img src="' + data.icon + '" alt="Ikona ' + roleName + '" class="custom-role-icon">';
+    roleSheetTitle.textContent = roleName;
+    roleSheetDesc.textContent = data.desc;
+    roleSheet.hidden = false;
+    document.body.style.overflow = "hidden";
+    roleSheetClose.focus();
+  }
+
+  function closeRoleSheet() {
+    roleSheet.hidden = true;
+    document.body.style.overflow = "";
+    if (lastActiveChip) {
+      lastActiveChip.focus();
+      lastActiveChip = null;
+    }
+  }
+
+  // Podepnij zdarzenia do wszystkich chipów
+  var chips = document.querySelectorAll(".paths-chips span");
+  chips.forEach(function (chip) {
+    chip.setAttribute("role", "button");
+    chip.setAttribute("tabindex", "0");
+
+    chip.addEventListener("click", function () {
+      openRoleSheet(chip);
+    });
+
+    chip.addEventListener("keydown", function (e) {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        openRoleSheet(chip);
+      }
+    });
+  });
+
+  // Zamknij: przycisk X
+  if (roleSheetClose) {
+    roleSheetClose.addEventListener("click", closeRoleSheet);
+  }
+
+  // Zamknij: kliknięcie w overlay (tło)
+  if (roleSheet) {
+    roleSheet.addEventListener("click", function (e) {
+      if (e.target === roleSheet) closeRoleSheet();
+    });
+  }
+
+  // Zamknij: klawisz Escape
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && roleSheet && !roleSheet.hidden) {
+      closeRoleSheet();
+    }
+  });})();
