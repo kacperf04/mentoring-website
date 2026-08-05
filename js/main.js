@@ -383,7 +383,7 @@ faqs.forEach(details => {
       desc: "Grafik / UX designer odpowiada za wizualną stronę projektów – od postów w social mediach, przez plakaty, po interfejsy aplikacji. Nauczysz się tworzyć estetyczne, spójne i funkcjonalne projekty, które przyciągają uwagę."
     },
     "Social media": {
-      icon: "img/Social_media.png",
+      icon: "img/Social_Media.png",
       desc: "Specjalista social media zarządza profilami fundacji na Instagramie, Facebooku, TikToku i LinkedIn. Będziesz tworzyć angażujące treści, planować kalendarz publikacji, analizować statystyki i budować aktywną społeczność wokół Kanału Studenckiego."
     },
     "HR & Employer Branding": {
