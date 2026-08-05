@@ -24,12 +24,16 @@
     if (honeyPot) {
       form.reset();
       showToast("Dziękujemy za zapisanie się do newslettera!", "success");
+      const popup = document.getElementById("popupNews");
+      if (popup) popup.dispatchEvent(new Event("newsletter:success"));
       return;
     }
 
     if (localStorage.getItem("newsletter_subscribed")) {
       form.reset();
       showToast("Już jesteś zapisany!", "success");
+      const popup = document.getElementById("popupNews");
+      if (popup) popup.dispatchEvent(new Event("newsletter:success"));
       return;
     }
 
@@ -54,6 +58,10 @@
         showToast("Dziękujemy za zapisanie się do newslettera!", "success");
         localStorage.setItem("newsletter_subscribed", "true");
         form.reset();
+        const popup = document.getElementById("popupNews");
+        if (popup) {
+          popup.dispatchEvent(new Event("newsletter:success"));
+        }
       } else {
         showToast(result.message || "Coś poszło nie tak :( Spróbuj ponownie", "error");
       }
@@ -66,7 +74,10 @@
     }
   }
 
-  document.getElementById("newsForm").addEventListener("submit", handleNewsletterFormSubmit);
+  const newsForms = document.querySelectorAll(".news-form");
+  newsForms.forEach(form => {
+    form.addEventListener("submit", handleNewsletterFormSubmit);
+  });
 
   function showToast(message, type="success") {
     const container = document.getElementById("toast-container");
@@ -81,6 +92,41 @@
       toast.remove();
     }, 3500);
   }
+
+  /* ---------- popup newsletter ---------- */
+const popup = document.getElementById("popupNews");
+  const popupClose = document.getElementById("popupClose");
+ 
+  const isPopupDismissed = localStorage.getItem("popup_dismissed");
+  const isSubscribed = localStorage.getItem("newsletter_subscribed");
+ 
+  if (popup && !isPopupDismissed && !isSubscribed) {
+    setTimeout(() => {
+      popup.hidden = false;
+      requestAnimationFrame(() => {
+        popup.classList.add("show");
+        popup.setAttribute("aria-hidden", "false");
+      });
+    }, 1000);
+ 
+    const hidePopup = () => {
+      popup.classList.remove("show");
+      popup.setAttribute("aria-hidden", "true");
+      localStorage.setItem("popup_dismissed", "true");
+      
+      setTimeout(() => {
+        popup.hidden = true;
+      }, 500); 
+    };
+ 
+    popupClose.addEventListener("click", hidePopup);
+ 
+    popup.addEventListener("newsletter:success", () => {
+      setTimeout(hidePopup, 500);
+    });
+  }
+
+
 
   /* ---------- mobile menu ---------- */
   var nav = document.querySelector(".nav");
@@ -229,6 +275,13 @@
   if (rows.length && !reduced) {
     var ticking = false;
     function updateRows() {
+      if (window.innerWidth <= 768) {
+        rows.forEach(function (row) {
+           row.style.transform = "none"; 
+        });
+        ticking = false;
+        return;
+      }
       var vh = window.innerHeight;
       rows.forEach(function (row) {
         var rect = row.getBoundingClientRect();
