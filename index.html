@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Program Mentoringowy dla Studentów - Fundacja Kanał Studencki | #MiejsceTwojegoRozwoju</title>
-<meta name="description" content="Roczny program mentoringowy dla studentów: projekt społeczny, zespół, mentor z biznesu i certyfikat. Aplikuj jako Mentee Specialist albo Mentee Lider." />
+<meta name="description" content="Roczny program mentoringowy dla studentów: projekt społeczny, zespół, mentor z biznesu i certyfikat. Aplikuj jako Mentee albo Mentee Lider." />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Kalam:wght@400;700&display=swap" rel="stylesheet" />
@@ -152,8 +152,8 @@
     <div class="stats-card reveal">
       <div class="stat"><span class="n" data-count="100" data-suffix="%">0%</span><span class="l">Mentees z ofertą pracy</span></div>
       <div class="stat"><span class="n" data-count="600" data-suffix="+">0+</span><span class="l">Godzin spotkań mentoringowych</span></div>
-      <div class="stat"><span class="n" data-count="28" data-suffix="">0</span><span class="l">Mentorów i trenerów</span></div>
-      <div class="stat"><span class="n" data-count="34" data-suffix="">0</span><span class="l">Osoby w programie</span></div>
+      <div class="stat"><span class="n" data-count="3" data-suffix="">0</span><span class="l">Mentorów</span></div>
+      <div class="stat"><span class="n" data-count="34" data-suffix="">0</span><span class="l">Mentees</span></div>
     </div>
   </div>
 </section>
@@ -239,7 +239,7 @@
       <div class="team-link" aria-hidden="true"></div>
       <div class="team-row t-spec">
         <span class="t-dot">●</span>
-        <div><b>Mentee Specialists</b><small>kilkuosobowy zespół, każdy w swojej ścieżce rozwoju</small></div>
+        <div><b>Mentees</b><small>kilkuosobowy zespół, każdy w swojej ścieżce rozwoju</small></div>
       </div>
     </div>
   </div>
@@ -332,7 +332,49 @@
   </div>
 </section>
 
-
+<!-- Zmieniono margin na: 20px (góra) auto (środek) 80px (dół) -->
+<div class="tl-col" style="max-width: 600px; margin: 5px auto 80px; padding: 30px; background-color: #ffffff; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.08);">
+  <p class="tl-title hand">Jak wygląda rekrutacja:</p>
+  <!-- EDYTUJ DATY etapów -->
+  <div class="timeline">
+    <div class="tl-step" data-stage="1">
+      <div class="tl-dot"><span>01</span></div>
+      <div class="tl-body">
+        <span class="tl-date hand">do 14 września</span>
+        <h4>CV + formularz</h4>
+        <p>Wysyłasz CV i krótki formularz m.in. wybór ścieżki rozwoju.</p>
+      </div>
+    </div>
+    
+    <!-- Etap dla Lidera (bez atrybutu hidden, by był od razu widoczny) -->
+    <div class="tl-step tl-lider" data-stage="L">
+      <div class="tl-dot dot-star"><span>★</span></div>
+      <div class="tl-body">
+        <span class="tl-date hand">15–19 września</span>
+        <h4>Zadanie liderskie <span class="tl-badge">tylko Lider</span></h4>
+        <p>Krótkie zadanie – pokazujesz, jak myślisz o prowadzeniu zespołu.</p>
+      </div>
+    </div>
+    
+    <div class="tl-step" data-stage="2">
+      <div class="tl-dot"><span>02</span></div>
+      <div class="tl-body">
+        <span class="tl-date hand">15–26 września</span>
+        <h4>Rozmowa kwalifikacyjna</h4>
+        <p>Poznajemy się. Sprawdzamy dopasowanie do ścieżki i zespołu.</p>
+      </div>
+    </div>
+    
+    <div class="tl-step" data-stage="3">
+      <div class="tl-dot"><span>03</span></div>
+      <div class="tl-body">
+        <span class="tl-date hand">do 30 września</span>
+        <h4>Decyzja</h4>
+        <p>Jasna informacja zwrotna. Wchodzisz i dobieramy Ci zespół, projekt i mentora.</p>
+      </div>
+    </div>
+  </div>
+</div>
 <!-- ===================== CERTYFIKAT ===================== 
 <section class="cert">
   <div class="wrap cert-grid">
@@ -427,10 +469,10 @@
   <div class="wrap">
     <p class="kicker k-orange reveal">Dwie ścieżki</p>
     <h2 class="reveal">Wchodzisz do zespołu  albo go prowadzisz.</h2>
-    <p class="intro reveal">Zgłaszasz się jako <b>Mentee Specialist</b> lub <b>Mentee Lider</b>. Wybór należy do Ciebie, role różnią się poziomem odpowiedzialności i przebiegiem rekrutacji.</p>
+    <p class="intro reveal">Zgłaszasz się jako <b>Mentee</b> lub <b>Mentee Lider</b>. Wybór należy do Ciebie, role różnią się poziomem odpowiedzialności i przebiegiem rekrutacji.</p>
 
     <div class="path-toggle reveal" role="tablist" aria-label="Wybór roli">
-      <button class="pt-btn active" id="tabSpec" role="tab" aria-selected="true" data-path="spec">Mentee Specialist</button>
+      <button class="pt-btn active" id="tabSpec" role="tab" aria-selected="true" data-path="spec">Mentee</button>
       <button class="pt-btn" id="tabLider" role="tab" aria-selected="false" data-path="lider">Mentee Lider <span class="pt-star" aria-hidden="true">★</span></button>
       <span class="pt-slider" aria-hidden="true"></span>
     </div>
@@ -439,7 +481,7 @@
       <!-- LEWA: opis roli -->
       <div class="role-col">
         <div class="role-panel active" id="roleSpec">
-          <h3>Mentee Specialist</h3>
+          <h3>Mentee</h3>
           <p class="role-lead">Wchodzisz do kilkuosobowego zespołu i przez rok działasz w wybranej ścieżce rozwoju, od pierwszego planu po gotowy projekt.</p>
           <b class="role-sub">Czym się zajmujesz:</b>
           <ul class="role-list">
@@ -551,7 +593,7 @@
           <div class="fq-a"><p>Nie. Program jest w 100% darmowy, to inicjatywa Fundacji Kanał Studencki.</p></div>
         </details>
         <details>
-          <summary>Czym różni się Mentee Specialist od Mentee Lidera?<span class="fq-ic" aria-hidden="true"></span></summary>
+          <summary>Czym różni się Mentee od Mentee Lidera?<span class="fq-ic" aria-hidden="true"></span></summary>
           <div class="fq-a"><p>Specialist działa w zespole w swojej ścieżce rozwoju. Lider prowadzi ten zespół, zarządza budżetem i odpowiada za efekt, dlatego w rekrutacji przechodzi dodatkowy etap: zadanie liderskie.</p></div>
         </details>
         <details>
@@ -637,7 +679,6 @@
   </div>
 </footer>
 
-<<<<<<< HEAD
 
 <div id="toast-container"></div>
 <!-- ========== ROLE BOTTOM SHEET ========== -->
@@ -651,7 +692,6 @@
   </div>
 </div>
 <script src="js/main.js?v=2"></script>
-=======
 <!-- =====================================================
    POPUP NEWSLETTER
 ===================================================== -->
@@ -685,6 +725,5 @@
 <div id="toast-container"></div>
 
 <script src="js/main.js?v=4"></script>
->>>>>>> 53e68a1ac5731e861a75e78144a6c739bf59b25e
 </body>
 </html>
