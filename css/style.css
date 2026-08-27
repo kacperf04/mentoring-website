@@ -78,7 +78,11 @@ h3{font-size:1.3rem;}
 }
 .btn-orange:hover{background:var(--orange-deep);transform:translateY(-3px) rotate(-1deg);box-shadow:0 14px 30px rgba(255,145,77,.5);}
 .btn-lg{padding:18px 38px;font-size:1.05rem;}
-
+.duo-card .btn{margin-top:22px;}
+.btn-white{background:#fff;box-shadow:0 8px 20px rgba(0,0,0,.15);}
+.btn-white:hover{background:var(--cream);transform:translateY(-3px) rotate(-1deg);box-shadow:0 12px 26px rgba(0,0,0,.2);}
+.dc-mentor .btn-white{color:var(--orange-deep);}
+.dc-trener .btn-white{color:var(--teal);}
 /* =====================================================
    NAV
 ===================================================== */
@@ -374,12 +378,12 @@ h3{font-size:1.3rem;}
 ===================================================== */
 .duo{background:#fff;padding:110px 0;}
 .duo-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:44px;}
-.duo-card{border-radius:var(--r-lg);padding:34px 32px;color:#fff;}
+.duo-card{border-radius:var(--r-lg);padding:34px 32px;color:#fff;display: flex; flex-direction: column; justify-content: space-between; align-items: start; gap: 12px}
 .dc-mentor{background:linear-gradient(150deg,var(--orange),#f2761f);}
 .dc-trener{background:linear-gradient(150deg,var(--teal),#0b8a90);}
 .duo-badge{
   display:inline-block;font-family:var(--hand);font-weight:700;font-size:1.25rem;
-  background:rgba(255,255,255,.2);border-radius:999px;padding:5px 18px;margin-bottom:14px;transform:rotate(-2deg);
+  background:rgba(255,255,255,.2);border-radius:999px;padding:5px 18px;margin-bottom:18px;transform:rotate(-2deg);;
 }
 .duo-card h3{color:#fff;font-size:1.5rem;margin-bottom:14px;}
 .duo-card ul{margin:0;padding:0;list-style:none;display:grid;gap:10px;}
