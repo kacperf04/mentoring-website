@@ -234,6 +234,128 @@ const popup = document.getElementById("popupNews");
     requestAnimationFrame(function () { setPath("spec"); });
   }
 
+  /* ---------- wieloetapowy formularz Mentee ---------- */
+  var menteeForm = document.getElementById("menteeApplicationForm");
+  if (menteeForm) {
+    var formSteps = Array.from(menteeForm.querySelectorAll(".form-step"));
+    var formProgressBar = document.getElementById("menteeProgressBar");
+    var formProgressCount = document.getElementById("menteeProgressCount");
+    var formProgressSteps = Array.from(document.querySelectorAll(".progress-steps span"));
+    var formPrev = document.getElementById("menteePrev");
+    var formNext = document.getElementById("menteeNext");
+    var formSubmit = document.getElementById("menteeSubmit");
+    var formStatus = document.getElementById("menteeFormStatus");
+    var formSuccess = document.getElementById("menteeApplicationSuccess");
+    var currentFormStep = 0;
+
+    function setFormStatus(message, type) {
+      if (!formStatus) return;
+      formStatus.textContent = message || "";
+      formStatus.classList.toggle("success", type === "success");
+    }
+
+    function showFormStep(index, shouldScroll) {
+      currentFormStep = Math.max(0, Math.min(index, formSteps.length - 1));
+      formSteps.forEach(function (step, stepIndex) {
+        var active = stepIndex === currentFormStep;
+        step.hidden = !active;
+        step.classList.toggle("active", active);
+      });
+
+      var stepNumber = currentFormStep + 1;
+      if (formProgressBar) formProgressBar.style.width = ((stepNumber / formSteps.length) * 100) + "%";
+      if (formProgressCount) formProgressCount.textContent = "Krok " + stepNumber + " z " + formSteps.length;
+      formProgressSteps.forEach(function (step, stepIndex) {
+        step.classList.toggle("active", stepIndex === currentFormStep);
+      });
+      if (formPrev) formPrev.hidden = currentFormStep === 0;
+      if (formNext) formNext.hidden = currentFormStep === formSteps.length - 1;
+      if (formSubmit) formSubmit.hidden = currentFormStep !== formSteps.length - 1;
+      setFormStatus("");
+
+      if (shouldScroll) {
+        var shell = document.querySelector(".application-shell");
+        if (shell) shell.scrollIntoView({ behavior: reduced ? "auto" : "smooth", block: "start" });
+      }
+    }
+
+    function validateCurrentStep() {
+      var fields = Array.from(formSteps[currentFormStep].querySelectorAll("input, textarea, select"));
+      var invalid = fields.find(function (field) { return !field.checkValidity(); });
+      if (invalid) {
+        invalid.reportValidity();
+        return false;
+      }
+      return true;
+    }
+
+    function focusFirstInvalid() {
+      var invalid = menteeForm.querySelector(":invalid");
+      if (!invalid) return false;
+      var step = invalid.closest(".form-step");
+      var stepIndex = formSteps.indexOf(step);
+      if (stepIndex >= 0 && stepIndex !== currentFormStep) showFormStep(stepIndex, false);
+      invalid.focus();
+      invalid.reportValidity();
+      return true;
+    }
+
+    if (formNext) {
+      formNext.addEventListener("click", function () {
+        if (validateCurrentStep()) showFormStep(currentFormStep + 1, true);
+      });
+    }
+    if (formPrev) {
+      formPrev.addEventListener("click", function () { showFormStep(currentFormStep - 1, true); });
+    }
+
+    menteeForm.addEventListener("submit", async function (event) {
+      event.preventDefault();
+      if (focusFirstInvalid()) return;
+
+      var endpoint = menteeForm.dataset.endpoint.trim();
+      if (!endpoint) {
+        setFormStatus("Formularz jest gotowy. Dodaj link do Google Apps Script w atrybucie data-endpoint formularza.");
+        return;
+      }
+
+      var payload = Object.fromEntries(new FormData(menteeForm).entries());
+      payload.application_type = "Mentee";
+
+      formSubmit.disabled = true;
+      formSubmit.classList.add("btn-orange-disabled");
+      formSubmit.innerHTML = "Wysyłam...";
+      setFormStatus("");
+
+      try {
+        var response = await fetch(endpoint, {
+          method: "POST",
+          headers: { "Content-Type": "text/plain;charset=utf-8" },
+          body: JSON.stringify(payload)
+        });
+        var raw = await response.text();
+        var result = {};
+        try { result = raw ? JSON.parse(raw) : {}; } catch (parseError) { result = { message: raw }; }
+
+        if (!response.ok || (result.status && result.status !== "success" && result.result !== "success")) {
+          throw new Error(result.message || "Nie udało się wysłać zgłoszenia.");
+        }
+
+        menteeForm.hidden = true;
+        if (formSuccess) formSuccess.hidden = false;
+        setFormStatus("", "success");
+      } catch (error) {
+        setFormStatus(error.message || "Błąd połączenia. Spróbuj ponownie.");
+      } finally {
+        formSubmit.disabled = false;
+        formSubmit.classList.remove("btn-orange-disabled");
+        formSubmit.innerHTML = 'Wyślij zgłoszenie <span aria-hidden="true">↗</span>';
+      }
+    });
+
+    showFormStep(0, false);
+  }
+
   /* ---------- mentorzy: modal bio ---------- */
   var modal = document.getElementById("mentorModal");
   if (modal) {
