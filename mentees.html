@@ -3,12 +3,24 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="referrer" content="strict-origin-when-cross-origin" />
+<script>
+  (function () {
+    var localHosts = ["localhost", "127.0.0.1", "::1", ""];
+    if (localHosts.indexOf(window.location.hostname) !== -1) return;
+
+    var policy = document.createElement("meta");
+    policy.httpEquiv = "Content-Security-Policy";
+    policy.content = "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://script.google.com https://script.googleusercontent.com; form-action 'self'; base-uri 'self'; object-src 'none'";
+    document.head.appendChild(policy);
+  }());
+</script>
 <title>Zostań Mentee lub Mentee Liderem - Fundacja Kanał Studencki | #MiejsceTwojegoRozwoju</title>
 <meta name="description" content="Aplikuj jako Mentee albo Mentee Lider do rocznego programu mentoringowego dla studentów. Sprawdź harmonogram rekrutacji i najczęściej zadawane pytania." />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Kalam:wght@400;700&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="css/style.css?v=7" />
+<link rel="stylesheet" href="css/style.css?v=13" />
 <link rel="canonical" href="https://kanalstudencki.pl/mentees" />
 </head>
 <body>
@@ -28,7 +40,7 @@
       <a href="index.html#zyskujesz">Co zyskujesz?</a>
       <a href="mentees.html#faq">FAQ</a>
     </nav>
-    <a class="btn btn-orange nav-cta" href="mentees.html#application">Aplikuj jako mentee</a>
+    <a class="btn btn-orange nav-cta" data-application-cta data-open-href="mentees.html#application" data-open-label="Aplikuj jako mentee" data-closed-label="Kalendarz rekrutacji" href="mentees.html#application">Aplikuj jako mentee</a>
     <button class="burger" id="burger" aria-label="Otwórz menu" aria-expanded="false"><span></span><span></span><span></span></button>
   </div>
   <div class="mobile-menu" id="mobileMenu">
@@ -38,7 +50,7 @@
     <a href="mentees.html">Mentees</a>
     <a href="index.html#zyskujesz">Co zyskujesz?</a>
     <a href="mentees.html#faq">FAQ</a>
-    <a class="btn btn-orange" href="mentees.html#application">Aplikuj jako mentee</a>
+    <a class="btn btn-orange" data-application-cta data-open-href="mentees.html#application" data-open-label="Aplikuj jako mentee" data-closed-label="Kalendarz rekrutacji" href="mentees.html#application">Aplikuj jako mentee</a>
   </div>
 </header>
 
@@ -47,7 +59,7 @@
   <div class="wrap">
     <h1 class="reveal">Zostań Mentee albo Mentee Liderem.</h1>
     <p class="reveal">Dołącz do zespołu, wybierz ścieżkę rozwoju i pracuj przez cały rok nad prawdziwym projektem pod okiem mentora z biznesu.</p>
-    <a class="btn btn-orange btn-lg" href="#application">Wypełnij formularz</a>
+    <a class="btn btn-orange btn-lg" data-application-cta data-open-href="mentees.html#application" data-open-label="Wypełnij formularz" data-closed-label="Sprawdź kalendarz rekrutacji" href="#application">Wypełnij formularz</a>
   </div>
 </section>
 
@@ -164,27 +176,50 @@
         <p class="kicker k-teal">Twoje zgłoszenie</p>
         <h2>Dołącz do programu.</h2>
       </div>
-      <p class="application-intro">Formularz ma cztery krótkie kroki. Odpowiadaj tak, jak czujesz - nie musisz mieć wcześniejszego doświadczenia, żeby zacząć.</p>
+      <p class="application-intro" id="applicationIntro">Wybierz rolę, która najlepiej pasuje do Twojego pomysłu na udział w programie. Formularz możesz wypełnić spokojnie, krok po kroku.</p>
+    </div>
+
+    <div class="application-role-switch reveal" role="tablist" aria-label="Wybierz rolę, o którą się ubiegasz">
+      <span class="application-role-label">Wypełniasz zgłoszenie jako:</span>
+      <div class="application-role-buttons">
+        <button class="application-role-btn active" id="applicationRoleMentee" type="button" role="tab" aria-selected="true" aria-controls="menteeApplicationForm" data-form-role="mentee">Mentee</button>
+        <button class="application-role-btn" id="applicationRoleLeader" type="button" role="tab" aria-selected="false" aria-controls="leaderApplicationForm" data-form-role="leader">Mentee Lider <span class="pt-star" aria-hidden="true">★</span></button>
+      </div>
     </div>
 
     <div class="application-shell reveal">
-      <div class="application-progress" aria-label="Postęp formularza">
+      <div class="application-progress" id="menteeApplicationProgress" aria-label="Postęp formularza Mentee">
         <div class="progress-copy">
+          <span class="progress-label" id="menteeProgressLabel">O Tobie</span>
           <span class="progress-count" id="menteeProgressCount">Krok 1 z 4</span>
         </div>
-        <div class="progress-track"><span id="menteeProgressBar"></span></div>
+        <div class="progress-track" role="progressbar" aria-label="Postęp formularza" aria-valuemin="1" aria-valuemax="4" aria-valuenow="1"><span id="menteeProgressBar"></span></div>
         <div class="progress-steps" aria-hidden="true">
           <span class="active">O Tobie</span><span>Doświadczenie</span><span>Motywacja</span><span>Finał</span>
         </div>
       </div>
 
+      <div class="application-progress" id="leaderApplicationProgress" aria-label="Postęp formularza Mentee Lider" hidden>
+        <div class="progress-copy">
+          <span class="progress-label" id="leaderProgressLabel">O Tobie</span>
+          <span class="progress-count" id="leaderProgressCount">Krok 1 z 6</span>
+        </div>
+        <div class="progress-track" role="progressbar" aria-label="Postęp formularza Mentee Lider" aria-valuemin="1" aria-valuemax="6" aria-valuenow="1"><span id="leaderProgressBar"></span></div>
+        <div class="progress-steps" aria-hidden="true">
+          <span class="active">O Tobie</span><span>Doświadczenie</span><span>Projekt</span><span>Sekcja liderska</span><span>Organizacja</span><span>Finał</span>
+        </div>
+      </div>
+
       <!-- data-endpoint = link do google sheet scripta -->
-      <form id="menteeApplicationForm" class="mentee-form" data-endpoint="" novalidate>
+      <form id="menteeApplicationForm" class="mentee-form" data-endpoint="https://script.google.com/macros/s/AKfycbxrLISF8y66pE_8fObIhfLpW0YJtVqtKZb_3C8eN2yZRTEEYF7kaibn4vVJrAIfn0iNYw/exec" novalidate>
+        <div aria-hidden="true" style="position:absolute;left:-10000px;width:1px;height:1px;overflow:hidden;opacity:0;">
+          <label for="menteeWebsite">Nie wypełniaj tego pola</label>
+          <input id="menteeWebsite" name="website" type="text" tabindex="-1" autocomplete="off" />
+        </div>
         <div class="form-step active" data-form-step="1" aria-labelledby="menteeStep1Title">
           <div class="form-step-heading">
             <span class="step-number">01</span>
             <div>
-              <p class="kicker k-orange">Zacznijmy od podstaw</p>
               <h3 id="menteeStep1Title">Powiedz nam, kim jesteś.</h3>
               <p>Podaj dane, dzięki którym będziemy mogli się z Tobą skontaktować.</p>
             </div>
@@ -204,9 +239,22 @@
               <input id="menteeName" name="name" type="text" autocomplete="name" placeholder="Twoje imię i nazwisko" required />
             </div>
             <div class="field field-wide">
-              <label for="menteeEducation">Uczelnia / Kierunek / Semestr <span aria-hidden="true">*</span></label>
+              <span class="field-label">Uczelnia / Kierunek / Semestr <span aria-hidden="true">*</span></span>
               <span class="field-help">Podaj semestr, który zaczynasz od października.</span>
-              <input id="menteeEducation" name="education" type="text" placeholder="np. Uniwersytet Warszawski / Socjologia / 3 semestr" required />
+              <div class="education-fields">
+                <div class="field">
+                  <label for="menteeUniversity">Uczelnia <span aria-hidden="true">*</span></label>
+                  <input id="menteeUniversity" name="education_university" type="text" autocomplete="organization" placeholder="np. AGH" required />
+                </div>
+                <div class="field">
+                  <label for="menteeStudyField">Kierunek <span aria-hidden="true">*</span></label>
+                  <input id="menteeStudyField" name="education_field" type="text" placeholder="np. Informatyka" required />
+                </div>
+                <div class="field">
+                  <label for="menteeSemester">Semestr <span aria-hidden="true">*</span></label>
+                  <input id="menteeSemester" name="education_semester" type="number" min="1" max="10" step="1" inputmode="numeric" placeholder="np. 3" required />
+                </div>
+              </div>
             </div>
             <div class="field field-wide">
               <label for="menteeCity">Miejscowość <span aria-hidden="true">*</span></label>
@@ -219,7 +267,6 @@
           <div class="form-step-heading">
             <span class="step-number step-blue">02</span>
             <div>
-              <p class="kicker k-blue">Twoja droga</p>
               <h3 id="menteeStep2Title">Opowiedz o doświadczeniu.</h3>
               <p>Liczą się również aktywności poza pracą i studiami. Brak doświadczenia nie wyklucza udziału.</p>
             </div>
@@ -248,7 +295,6 @@
           <div class="form-step-heading">
             <span class="step-number step-violet">03</span>
             <div>
-              <p class="kicker k-violet">Dopasowanie</p>
               <h3 id="menteeStep3Title">Co Cię najbardziej ciekawi?</h3>
               <p>Wybierz projekt, w którym najchętniej działasz, i napisz, skąd dowiedziałeś(-aś) się o programie.</p>
             </div>
@@ -275,7 +321,6 @@
           <div class="form-step-heading">
             <span class="step-number step-green">04</span>
             <div>
-              <p class="kicker k-green">Ostatnia prosta</p>
               <h3 id="menteeStep4Title">Pokaż nam siebie.</h3>
               <p>To ostatni krok. Zależy nam na Twojej autentycznej odpowiedzi, nie na idealnym tekście.</p>
             </div>
@@ -288,9 +333,22 @@
               <textarea id="menteeAbout" name="about" rows="7" placeholder="Kilka słów o Tobie..." required></textarea>
             </div>
             <div class="field">
-              <label for="menteeAvailability">Podaj trzy terminy, w których możesz wziąć udział w 30-minutowej rozmowie organizacyjnej <span aria-hidden="true">*</span></label>
+              <span class="field-label">Podaj trzy terminy, w których możesz wziąć udział w 30-minutowej rozmowie organizacyjnej <span aria-hidden="true">*</span></span>
               <span class="field-help">Wpisz trzy propozycje, podając datę oraz godzinę.</span>
-              <textarea id="menteeAvailability" name="interview_availability" rows="5" placeholder="1. ...&#10;2. ...&#10;3. ..." required></textarea>
+              <div class="availability-fields">
+                <div class="field">
+                  <label for="menteeAvailability1">Termin 1 <span aria-hidden="true">*</span></label>
+                  <input id="menteeAvailability1" name="interview_availability_1" type="datetime-local" autocomplete="off" required />
+                </div>
+                <div class="field">
+                  <label for="menteeAvailability2">Termin 2 <span aria-hidden="true">*</span></label>
+                  <input id="menteeAvailability2" name="interview_availability_2" type="datetime-local" autocomplete="off" required />
+                </div>
+                <div class="field">
+                  <label for="menteeAvailability3">Termin 3 <span aria-hidden="true">*</span></label>
+                  <input id="menteeAvailability3" name="interview_availability_3" type="datetime-local" autocomplete="off" required />
+                </div>
+              </div>
             </div>
             <div class="field">
               <label for="menteeAdditional">Chcesz nam coś jeszcze przekazać?</label>
@@ -301,11 +359,233 @@
 
         <div class="form-footer">
           <p class="required-note"><span aria-hidden="true">*</span> Pola oznaczone gwiazdką są wymagane.</p>
-          <p class="form-status" id="menteeFormStatus" aria-live="polite"></p>
           <div class="form-actions">
             <button class="btn btn-ghost" type="button" id="menteePrev" hidden>Wstecz</button>
             <button class="btn btn-orange" type="button" id="menteeNext">Dalej</button>
             <button class="btn btn-orange" type="submit" id="menteeSubmit" hidden>Wyślij zgłoszenie</button>
+          </div>
+        </div>
+      </form>
+
+      <!-- Replace the placeholder with the deployed Mentee Lider Apps Script web-app URL. -->
+      <form id="leaderApplicationForm" class="mentee-form" data-endpoint="https://script.google.com/macros/s/AKfycbyZBN4QYqjHwjpREe3MrRInDVBBDDxWJkQvmt3H7THEJIKjJCPHtLTgoa4ZxqqJL7g/exec" novalidate hidden>
+        <div aria-hidden="true" style="position:absolute;left:-10000px;width:1px;height:1px;overflow:hidden;opacity:0;">
+          <label for="leaderWebsite">Nie wypełniaj tego pola</label>
+          <input id="leaderWebsite" name="website" type="text" tabindex="-1" autocomplete="off" />
+        </div>
+
+        <div class="form-step active" data-form-step="1" aria-labelledby="leaderStep1Title">
+          <div class="form-step-heading">
+            <span class="step-number">01</span>
+            <div>
+              <h3 id="leaderStep1Title">Powiedz nam, kim jesteś.</h3>
+              <p>Podaj dane, dzięki którym będziemy mogli się z Tobą skontaktować.</p>
+            </div>
+          </div>
+
+          <div class="form-grid">
+            <div class="field field-wide">
+              <label for="leaderEmail">Adres e-mail <span aria-hidden="true">*</span></label>
+              <input id="leaderEmail" name="email" type="email" autocomplete="email" placeholder="twoj@email.pl" required />
+            </div>
+            <div class="field field-wide">
+              <label for="leaderAltEmail">Dodatkowy adres e-mail do kontaktu <small>(jeśli inny niż powyżej)</small></label>
+              <input id="leaderAltEmail" name="additional_email" type="email" autocomplete="email" placeholder="opcjonalnie" />
+            </div>
+            <div class="field field-wide">
+              <label for="leaderName">Imię i nazwisko <span aria-hidden="true">*</span></label>
+              <input id="leaderName" name="name" type="text" autocomplete="name" placeholder="Twoje imię i nazwisko" required />
+            </div>
+            <div class="field field-wide">
+              <span class="field-label">Uczelnia / Kierunek / Semestr <span aria-hidden="true">*</span></span>
+              <span class="field-help">Podaj semestr, który zaczynasz od października.</span>
+              <div class="education-fields">
+                <div class="field">
+                  <label for="leaderUniversity">Uczelnia <span aria-hidden="true">*</span></label>
+                  <input id="leaderUniversity" name="education_university" type="text" autocomplete="organization" placeholder="np. AGH" required />
+                </div>
+                <div class="field">
+                  <label for="leaderStudyField">Kierunek <span aria-hidden="true">*</span></label>
+                  <input id="leaderStudyField" name="education_field" type="text" placeholder="np. Informatyka" required />
+                </div>
+                <div class="field">
+                  <label for="leaderSemester">Semestr <span aria-hidden="true">*</span></label>
+                  <input id="leaderSemester" name="education_semester" type="number" min="1" max="10" step="1" inputmode="numeric" placeholder="np. 3" required />
+                </div>
+              </div>
+            </div>
+            <div class="field field-wide">
+              <label for="leaderCity">Miejscowość, w której mieszkasz <span aria-hidden="true">*</span></label>
+              <input id="leaderCity" name="city" type="text" placeholder="Gdzie mieszkasz?" required />
+            </div>
+          </div>
+        </div>
+
+        <div class="form-step" data-form-step="2" aria-labelledby="leaderStep2Title" hidden>
+          <div class="form-step-heading">
+            <span class="step-number step-blue">02</span>
+            <div>
+              <h3 id="leaderStep2Title">Opowiedz o doświadczeniu.</h3>
+              <p>Liczą się również aktywności poza pracą i studiami. Brak doświadczenia nie wyklucza udziału.</p>
+            </div>
+          </div>
+
+          <div class="form-grid form-grid-single">
+            <div class="field">
+              <label for="leaderExperience">Opisz swoje dotychczasowe doświadczenia i aktywności</label>
+              <span class="field-help">Możesz uwzględnić wolontariat, praktyki, pracę, działalność w organizacjach, kołach, samorządach, klubach sportowych, własne projekty i inne aktywności.</span>
+              <textarea id="leaderExperience" name="experience" rows="6" placeholder="Napisz kilka zdań..."></textarea>
+            </div>
+            <div class="field">
+              <label for="leaderPath">Czy masz wybrane ścieżki rozwoju?</label>
+              <span class="field-help">Jeśli tak, napisz jakie. Możesz wskazać więcej niż jedną.</span>
+              <textarea id="leaderPath" name="development_path" rows="4" placeholder="np. marketing, analityka danych, grafika / UX"></textarea>
+            </div>
+            <div class="field">
+              <label for="leaderGrowth">W jakich obszarach chciałbyś/chciałabyś się rozwijać? <span aria-hidden="true">*</span></label>
+              <span class="field-help">Wymień umiejętności, tematy lub rodzaje zadań - także spoza wybranej ścieżki.</span>
+              <textarea id="leaderGrowth" name="growth_areas" rows="5" placeholder="Co chciał(a)byś poznać lub przećwiczyć?" required></textarea>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-step" data-form-step="3" aria-labelledby="leaderStep3Title" hidden>
+          <div class="form-step-heading">
+            <span class="step-number step-violet">03</span>
+            <div>
+              <h3 id="leaderStep3Title">Wybierz kierunek działania.</h3>
+              <p>Wskaż projekt, w którym najchętniej działasz, i napisz, skąd dowiedziałeś(-aś) się o programie.</p>
+            </div>
+          </div>
+
+          <fieldset class="choice-field">
+            <legend>W którym projekcie Fundacji chciałbyś/chciałabyś działać?</legend>
+            <p class="field-help">Zaznacz tylko jedną odpowiedź.</p>
+            <div class="choice-list">
+              <label class="choice-card"><input type="radio" name="foundation_project" value="KOMPETENTNI" required /><span class="choice-mark"></span><span><b>KOMPETENTNI.</b><small>Projekt łączący studentów z rynkiem pracy i biznesem.</small></span></label>
+              <label class="choice-card"><input type="radio" name="foundation_project" value="TU.MATURA" /><span class="choice-mark"></span><span><b>TU.MATURA</b><small>Bezpłatna platforma edukacyjna wspierająca maturzystów.</small></span></label>
+              <label class="choice-card"><input type="radio" name="foundation_project" value="IMPULS" /><span class="choice-mark"></span><span><b>IMPULS</b><small>Ogólnopolski Zjazd Liderów Akademickich.</small></span></label>
+              <label class="choice-card"><input type="radio" name="foundation_project" value="Nie mam jeszcze preferencji" /><span class="choice-mark"></span><span><b>Nie mam jeszcze preferencji</b></span></label>
+            </div>
+          </fieldset>
+
+          <div class="field field-spaced">
+            <label for="leaderSource">Jak dowiedziałeś(-aś) się o Fundacji lub Programie Mentoringowym?</label>
+            <textarea id="leaderSource" name="source" rows="4" placeholder="Np. Instagram, znajomi, uczelnia..."></textarea>
+          </div>
+          <div class="field field-spaced">
+            <label for="leaderAbout">Napisz coś o sobie <span aria-hidden="true">*</span></label>
+            <span class="field-help">Co Cię interesuje? Co daje Ci energię? Możesz napisać po swojemu.</span>
+            <textarea id="leaderAbout" name="about" rows="7" placeholder="Kilka słów o Tobie..." required></textarea>
+          </div>
+        </div>
+
+        <div class="form-step" data-form-step="4" aria-labelledby="leaderStep4Title" hidden>
+          <div class="form-step-heading">
+            <span class="step-number step-violet">04</span>
+            <div>
+              <p class="kicker k-violet">Sekcja liderska</p>
+              <h3 id="leaderStep4Title">Pokaż nam, jak myślisz o prowadzeniu zespołu.</h3>
+              <p>Nie ma jednego klucza ani dobrych i złych odpowiedzi. Zależy nam na Twoim sposobie myślenia i obszarach, które chcesz rozwijać.</p>
+            </div>
+          </div>
+
+          <div class="form-grid form-grid-single">
+            <div class="field">
+              <label for="leaderMotivation">Co motywuje Cię do zostania mentee liderem? <span aria-hidden="true">*</span></label>
+              <textarea id="leaderMotivation" name="leader_motivation" rows="5" placeholder="Opowiedz, co Cię do tego przyciąga..." required></textarea>
+            </div>
+            <div class="field">
+              <label for="leaderDefinition">Jak wyobrażasz sobie dobrego lidera zespołu? <span aria-hidden="true">*</span></label>
+              <span class="field-help">Możesz, ale nie musisz, odwołać się do realnych, własnych doświadczeń.</span>
+              <textarea id="leaderDefinition" name="leader_definition" rows="5" placeholder="Jakie zachowania i podejście są ważne?" required></textarea>
+            </div>
+            <div class="field">
+              <label for="leaderStrengths">Jakie są Twoje mocne strony, które mogą pomóc Ci w roli mentee lidera? <span aria-hidden="true">*</span></label>
+              <textarea id="leaderStrengths" name="leader_strengths" rows="5" placeholder="W czym możesz wesprzeć zespół?" required></textarea>
+            </div>
+            <div class="field">
+              <label for="leaderWeaknesses">Jakie są Twoje słabsze strony lub obszary, które chcesz rozwinąć jako mentee lider?</label>
+              <span class="field-help">Napisz, co może być dla Ciebie wyzwaniem w prowadzeniu zespołu lub nad czym chcesz pracować.</span>
+              <textarea id="leaderWeaknesses" name="leader_weaknesses" rows="5" placeholder="Co chcesz rozwijać?" ></textarea>
+            </div>
+            <div class="field">
+              <label for="leaderDualTraits">Czy masz cechy, które zależnie od sytuacji mogą być zarówno Twoją mocną, jak i słabą stroną?</label>
+              <textarea id="leaderDualTraits" name="leader_dual_traits" rows="5" placeholder="Jeśli tak, opisz je..." ></textarea>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-step" data-form-step="5" aria-labelledby="leaderStep5Title" hidden>
+          <div class="form-step-heading">
+            <span class="step-number step-green">05</span>
+            <div>
+              <h3 id="leaderStep5Title">Ustalmy, czego potrzebujesz.</h3>
+              <p>Przemyśl, jakiego wsparcia oczekujesz i jak widzisz współpracę z mentorem.</p>
+            </div>
+          </div>
+
+          <div class="form-grid form-grid-single">
+            <div class="field">
+              <label for="leaderSupport">Jakiego wsparcia potrzebowałbyś/potrzebowałabyś jako mentee lider?</label>
+              <textarea id="leaderSupport" name="leader_support" rows="5" placeholder="Co pomogłoby Ci dobrze wejść w tę rolę?" ></textarea>
+            </div>
+            <div class="field">
+              <label for="leaderResponsibilities">Jak rozumiesz podział odpowiedzialności między mentee liderem a mentorem? <span aria-hidden="true">*</span></label>
+              <span class="field-help">Napisz, za co odpowiada mentee lider, a w jakich sytuacjach powinien korzystać ze wsparcia mentora.</span>
+              <textarea id="leaderResponsibilities" name="leader_responsibilities" rows="6" placeholder="Jak widzisz te role?" required></textarea>
+            </div>
+            <div class="field">
+              <span class="field-label">Podaj trzy terminy, w których możesz wziąć udział w 30-minutowej rozmowie organizacyjnej <span aria-hidden="true">*</span></span>
+              <span class="field-help">Wpisz trzy propozycje, podając datę oraz godzinę.</span>
+              <div class="availability-fields">
+                <div class="field">
+                  <label for="leaderAvailability1">Termin 1 <span aria-hidden="true">*</span></label>
+                  <input id="leaderAvailability1" name="interview_availability_1" type="datetime-local" autocomplete="off" required />
+                </div>
+                <div class="field">
+                  <label for="leaderAvailability2">Termin 2 <span aria-hidden="true">*</span></label>
+                  <input id="leaderAvailability2" name="interview_availability_2" type="datetime-local" autocomplete="off" required />
+                </div>
+                <div class="field">
+                  <label for="leaderAvailability3">Termin 3 <span aria-hidden="true">*</span></label>
+                  <input id="leaderAvailability3" name="interview_availability_3" type="datetime-local" autocomplete="off" required />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-step" data-form-step="6" aria-labelledby="leaderStep6Title" hidden>
+          <div class="form-step-heading">
+            <span class="step-number step-green">06</span>
+            <div>
+              <h3 id="leaderStep6Title">Ostatnie pytanie.</h3>
+              <p>Jeśli nie zostaniesz zakwalifikowany(-a) jako mentee lider, możemy rozpatrzyć Cię również do roli mentee specjalisty.</p>
+            </div>
+          </div>
+
+          <fieldset class="choice-field">
+            <legend>Czy chcesz, abyśmy rozpatrzyli Twoje zgłoszenie również na rolę mentee specjalisty, jeśli nie zostaniesz zakwalifikowany(-a) jako mentee lider? <span aria-hidden="true">*</span></legend>
+            <p class="field-help">Zaznacz tylko jedną odpowiedź.</p>
+            <div class="choice-list choice-list-compact">
+              <label class="choice-card"><input type="radio" name="consider_specialist" value="Tak" required /><span class="choice-mark"></span><span><b>Tak</b></span></label>
+              <label class="choice-card"><input type="radio" name="consider_specialist" value="Nie" /><span class="choice-mark"></span><span><b>Nie</b></span></label>
+            </div>
+          </fieldset>
+
+          <div class="field field-spaced">
+            <label for="leaderAdditional">Chcesz nam coś jeszcze przekazać?</label>
+            <textarea id="leaderAdditional" name="additional_message" rows="5" placeholder="Opcjonalnie..."></textarea>
+          </div>
+        </div>
+
+        <div class="form-footer">
+          <p class="required-note"><span aria-hidden="true">*</span> Pola oznaczone gwiazdką są wymagane.</p>
+          <div class="form-actions">
+            <button class="btn btn-ghost" type="button" id="leaderPrev" hidden>Wstecz</button>
+            <button class="btn btn-orange" type="button" id="leaderNext">Dalej</button>
+            <button class="btn btn-orange" type="submit" id="leaderSubmit" hidden>Wyślij zgłoszenie</button>
           </div>
         </div>
       </form>
@@ -315,6 +595,13 @@
         <p class="kicker k-green">Zgłoszenie wysłane</p>
         <h3>Dzięki za zaufanie!</h3>
         <p>Odezwiemy się do Ciebie na podany adres e-mail. Trzymamy kciuki!</p>
+      </div>
+
+      <div class="application-success" id="leaderApplicationSuccess" hidden>
+        <span class="success-mark" aria-hidden="true">✓</span>
+        <p class="kicker k-green">Zgłoszenie wysłane</p>
+        <h3>Dzięki za zaufanie!</h3>
+        <p>Odezwiemy się do Ciebie na podany adres e-mail. Trzymamy kciuki za Twoją liderską ścieżkę!</p>
       </div>
     </div>
   </div>
@@ -406,7 +693,7 @@
         <b>Program</b>
         <a href="index.html#mentoring">Czym jest mentoring</a>
         <a href="index.html#jak-dziala">Jak działa</a>
-        <a href="mentees.html#application">Formularz aplikacyjny</a>
+        <a data-application-cta data-open-href="mentees.html#application" data-open-label="Formularz aplikacyjny" data-closed-label="Kalendarz rekrutacji" href="mentees.html#application">Formularz aplikacyjny</a>
         <a href="mentees.html#faq">FAQ</a>
       </div>
       <div class="foot-col">
@@ -471,6 +758,6 @@
   </div>
 </div>
 
-<script src="js/main.js?v=6"></script>
+<script src="js/main.js?v=12"></script>
 </body>
 </html>

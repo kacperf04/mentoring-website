@@ -5,6 +5,33 @@
   "use strict";
 
   var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  // Flaga do wyświetlania formularzy
+  var MENTEE_APPLICATION_FORMS_ENABLED = false;
+
+  var applicationCtas = Array.from(document.querySelectorAll("[data-application-cta]"));
+  applicationCtas.forEach(function (cta) {
+    var open = MENTEE_APPLICATION_FORMS_ENABLED;
+    cta.href = open
+      ? (cta.getAttribute("data-open-href") || "mentees.html#application")
+      : "mentees.html#rekrutacja";
+    cta.textContent = open
+      ? (cta.getAttribute("data-open-label") || cta.textContent)
+      : (cta.getAttribute("data-closed-label") || "Kalendarz rekrutacji");
+  });
+
+  var applicationSection = document.getElementById("application");
+  if (applicationSection && !MENTEE_APPLICATION_FORMS_ENABLED) {
+    applicationSection.classList.add("forms-disabled");
+    applicationSection.hidden = true;
+    var applicationHead = applicationSection.querySelector(".application-head");
+    var applicationRoleSwitch = applicationSection.querySelector(".application-role-switch");
+    var applicationShell = applicationSection.querySelector(".application-shell");
+    var applicationAvailability = document.getElementById("applicationAvailability");
+    if (applicationHead) applicationHead.hidden = true;
+    if (applicationRoleSwitch) applicationRoleSwitch.hidden = true;
+    if (applicationShell) applicationShell.hidden = true;
+    if (applicationAvailability) applicationAvailability.hidden = false;
+  }
 
   /* Obługa formularza newslettera */
   async function handleNewsletterFormSubmit(event) {
@@ -224,6 +251,7 @@ const popup = document.getElementById("popupNews");
     if (liderStep) liderStep.hidden = !isLider;
     if (roleSpec) roleSpec.classList.toggle("active", !isLider);
     if (roleLider) roleLider.classList.toggle("active", isLider);
+    setApplicationRole(isLider ? "leader" : "mentee", false);
   }
   if (tabSpec && tabLider) {
     tabSpec.addEventListener("click", function () { setPath("spec"); });
@@ -234,25 +262,101 @@ const popup = document.getElementById("popupNews");
     requestAnimationFrame(function () { setPath("spec"); });
   }
 
-  /* ---------- wieloetapowy formularz Mentee ---------- */
-  var menteeForm = document.getElementById("menteeApplicationForm");
-  if (menteeForm) {
-    var formSteps = Array.from(menteeForm.querySelectorAll(".form-step"));
-    var formProgressBar = document.getElementById("menteeProgressBar");
-    var formProgressCount = document.getElementById("menteeProgressCount");
-    var formProgressSteps = Array.from(document.querySelectorAll(".progress-steps span"));
-    var formPrev = document.getElementById("menteePrev");
-    var formNext = document.getElementById("menteeNext");
-    var formSubmit = document.getElementById("menteeSubmit");
-    var formStatus = document.getElementById("menteeFormStatus");
-    var formSuccess = document.getElementById("menteeApplicationSuccess");
-    var currentFormStep = 0;
+  /* ---------- wieloetapowe formularze Mentee i Mentee Lider ---------- */
+  var applicationForms = {};
+  var applicationRoleButtons = Array.from(document.querySelectorAll("[data-form-role]"));
+  var applicationIntro = document.getElementById("applicationIntro");
 
-    function setFormStatus(message, type) {
-      if (!formStatus) return;
-      formStatus.textContent = message || "";
-      formStatus.classList.toggle("success", type === "success");
+  function createSubmissionId() {
+    if (window.crypto && typeof window.crypto.randomUUID === "function") {
+      return window.crypto.randomUUID();
     }
+    return Date.now().toString(36) + "-" + Math.random().toString(36).slice(2);
+  }
+
+  function setApplicationRole(role) {
+    var isLeader = role === "leader";
+    applicationRoleButtons.forEach(function (button) {
+      var active = button.getAttribute("data-form-role") === role;
+      button.classList.toggle("active", active);
+      button.setAttribute("aria-selected", String(active));
+    });
+
+    Object.keys(applicationForms).forEach(function (key) {
+      var instance = applicationForms[key];
+      var active = key === role;
+      instance.form.hidden = !active || instance.completed;
+      instance.progress.hidden = !active || instance.completed;
+      if (instance.success) instance.success.hidden = !active || !instance.completed;
+    });
+
+    if (applicationIntro) {
+      applicationIntro.textContent = isLeader
+        ? "Formularz lidera ma sześć kroków. Zatrzymaj się przy pytaniach liderskich - nie szukamy jednego dobrego klucza, tylko Twojego sposobu myślenia."
+        : "Wybierz rolę, która najlepiej pasuje do Twojego pomysłu na udział w programie. Formularz możesz wypełnić spokojnie, krok po kroku.";
+    }
+  }
+
+  function prepareApplicationPayload(payload, applicationType) {
+    payload.education = [
+      payload.education_university,
+      payload.education_field,
+      payload.education_semester
+    ].join(" / ");
+    delete payload.education_university;
+    delete payload.education_field;
+    delete payload.education_semester;
+    payload.interview_availability = [
+      payload.interview_availability_1,
+      payload.interview_availability_2,
+      payload.interview_availability_3
+    ].join("\n");
+    delete payload.interview_availability_1;
+    delete payload.interview_availability_2;
+    delete payload.interview_availability_3;
+    payload.application_type = applicationType;
+    return payload;
+  }
+
+  async function fetchWithTimeout(url, options, timeoutMs, timeoutMessage) {
+    var controller = typeof AbortController === "function" ? new AbortController() : null;
+    var timer = window.setTimeout(function () {
+      if (controller) controller.abort();
+    }, timeoutMs);
+    var requestOptions = Object.assign({}, options || {});
+    if (controller) requestOptions.signal = controller.signal;
+
+    try {
+      return await fetch(url, requestOptions);
+    } catch (error) {
+      if (error && error.name === "AbortError") {
+        var timeoutError = new Error(timeoutMessage || "Serwer formularza nie odpowiedział na czas. Spróbuj ponownie.");
+        timeoutError.isTimeout = true;
+        throw timeoutError;
+      }
+      throw error;
+    } finally {
+      window.clearTimeout(timer);
+    }
+  }
+
+  function initApplicationForm(config) {
+    var form = document.getElementById(config.formId);
+    if (!form) return;
+
+    var formSteps = Array.from(form.querySelectorAll(".form-step"));
+    var progress = document.getElementById(config.progressId);
+    var formProgressBar = document.getElementById(config.progressBarId);
+    var formProgressLabel = document.getElementById(config.progressLabelId);
+    var formProgressCount = document.getElementById(config.progressCountId);
+    var formProgressSteps = Array.from(progress.querySelectorAll(".progress-steps span"));
+    var formPrev = document.getElementById(config.prevId);
+    var formNext = document.getElementById(config.nextId);
+    var formSubmit = document.getElementById(config.submitId);
+    var formSuccess = document.getElementById(config.successId);
+    var currentFormStep = 0;
+    var formStartedAt = Date.now();
+    var submissionId = createSubmissionId();
 
     function showFormStep(index, shouldScroll) {
       currentFormStep = Math.max(0, Math.min(index, formSteps.length - 1));
@@ -263,89 +367,140 @@ const popup = document.getElementById("popupNews");
       });
 
       var stepNumber = currentFormStep + 1;
-      if (formProgressBar) formProgressBar.style.width = ((stepNumber / formSteps.length) * 100) + "%";
-      if (formProgressCount) formProgressCount.textContent = "Krok " + stepNumber + " z " + formSteps.length;
+      formProgressBar.style.width = ((stepNumber / formSteps.length) * 100) + "%";
+      formProgressLabel.textContent = formProgressSteps[currentFormStep] ? formProgressSteps[currentFormStep].textContent : "";
+      formProgressCount.textContent = "Krok " + stepNumber + " z " + formSteps.length;
+      formProgressBar.parentElement.setAttribute("aria-valuenow", String(stepNumber));
       formProgressSteps.forEach(function (step, stepIndex) {
         step.classList.toggle("active", stepIndex === currentFormStep);
       });
-      if (formPrev) formPrev.hidden = currentFormStep === 0;
-      if (formNext) formNext.hidden = currentFormStep === formSteps.length - 1;
-      if (formSubmit) formSubmit.hidden = currentFormStep !== formSteps.length - 1;
-      setFormStatus("");
-
+      formPrev.hidden = currentFormStep === 0;
+      formNext.hidden = currentFormStep === formSteps.length - 1;
+      formSubmit.hidden = currentFormStep !== formSteps.length - 1;
       if (shouldScroll) {
-        var shell = document.querySelector(".application-shell");
+        var shell = form.closest(".application-shell");
         if (shell) shell.scrollIntoView({ behavior: reduced ? "auto" : "smooth", block: "start" });
       }
+    }
+
+    function getValidationMessage(field) {
+      if (field.validity.valueMissing) return "Uzupełnij wymagane pole.";
+      if (field.validity.typeMismatch) return "Podaj poprawny adres e-mail.";
+      if (field.validity.tooLong) return "Skróć odpowiedź i spróbuj ponownie.";
+      return "Sprawdź zaznaczoną odpowiedź.";
     }
 
     function validateCurrentStep() {
       var fields = Array.from(formSteps[currentFormStep].querySelectorAll("input, textarea, select"));
       var invalid = fields.find(function (field) { return !field.checkValidity(); });
       if (invalid) {
-        invalid.reportValidity();
+        invalid.focus();
+        showToast(getValidationMessage(invalid), "error");
         return false;
       }
       return true;
     }
 
     function focusFirstInvalid() {
-      var invalid = menteeForm.querySelector(":invalid");
+      var invalid = form.querySelector(":invalid");
       if (!invalid) return false;
       var step = invalid.closest(".form-step");
       var stepIndex = formSteps.indexOf(step);
       if (stepIndex >= 0 && stepIndex !== currentFormStep) showFormStep(stepIndex, false);
       invalid.focus();
-      invalid.reportValidity();
+      showToast(getValidationMessage(invalid), "error");
       return true;
     }
 
-    if (formNext) {
-      formNext.addEventListener("click", function () {
-        if (validateCurrentStep()) showFormStep(currentFormStep + 1, true);
-      });
-    }
-    if (formPrev) {
-      formPrev.addEventListener("click", function () { showFormStep(currentFormStep - 1, true); });
+    async function getSubmissionChallenge(endpoint) {
+      var separator = endpoint.indexOf("?") === -1 ? "?" : "&";
+      var response;
+      try {
+        response = await fetchWithTimeout(
+          endpoint + separator + "action=challenge",
+          { method: "GET", cache: "no-store" },
+          30000,
+          "Nie udało się rozpocząć sesji formularza w wyznaczonym czasie. Odśwież stronę i spróbuj ponownie."
+        );
+      } catch (error) {
+        if (error && error.isTimeout) throw error;
+        throw new Error("Nie udało się połączyć z serwerem formularza. Sprawdź połączenie i spróbuj ponownie.");
+      }
+      if (!response.ok) throw new Error("Nie udało się połączyć z serwerem formularza. Spróbuj ponownie.");
+
+      var result;
+      try {
+        result = await response.json();
+      } catch (error) {
+        throw new Error("Serwer formularza zwrócił nieprawidłową odpowiedź. Spróbuj ponownie za chwilę.");
+      }
+      if (result.status !== "success" || typeof result.challenge !== "string") {
+        throw new Error(result.message || "Sesja formularza jest nieaktualna. Odśwież stronę i spróbuj ponownie.");
+      }
+      return result.challenge;
     }
 
-    menteeForm.addEventListener("submit", async function (event) {
+    if (formNext) formNext.addEventListener("click", function () {
+      if (validateCurrentStep()) showFormStep(currentFormStep + 1, true);
+    });
+    if (formPrev) formPrev.addEventListener("click", function () { showFormStep(currentFormStep - 1, true); });
+
+    form.addEventListener("submit", async function (event) {
       event.preventDefault();
       if (focusFirstInvalid()) return;
 
-      var endpoint = menteeForm.dataset.endpoint.trim();
+      var endpoint = form.dataset.endpoint.trim();
       if (!endpoint) {
-        setFormStatus("Formularz jest gotowy. Dodaj link do Google Apps Script w atrybucie data-endpoint formularza.");
+        showToast("Formularz nie jest jeszcze skonfigurowany. Spróbuj ponownie później.", "error");
+        return;
+      }
+      if (/REPLACE_WITH|PASTE_|YOUR_/i.test(endpoint)) {
+        showToast("Formularz lidera nie ma jeszcze skonfigurowanego adresu wysyłki.", "error");
         return;
       }
 
-      var payload = Object.fromEntries(new FormData(menteeForm).entries());
-      payload.application_type = "Mentee";
+      var payload = prepareApplicationPayload(Object.fromEntries(new FormData(form).entries()), config.applicationType);
+      payload.form_started_at = String(formStartedAt);
+      payload.submission_id = submissionId;
 
       formSubmit.disabled = true;
       formSubmit.classList.add("btn-orange-disabled");
       formSubmit.innerHTML = "Wysyłam...";
-      setFormStatus("");
 
       try {
-        var response = await fetch(endpoint, {
-          method: "POST",
-          headers: { "Content-Type": "text/plain;charset=utf-8" },
-          body: JSON.stringify(payload)
-        });
-        var raw = await response.text();
-        var result = {};
-        try { result = raw ? JSON.parse(raw) : {}; } catch (parseError) { result = { message: raw }; }
-
-        if (!response.ok || (result.status && result.status !== "success" && result.result !== "success")) {
-          throw new Error(result.message || "Nie udało się wysłać zgłoszenia.");
+        payload.challenge = await getSubmissionChallenge(endpoint);
+        var response;
+        try {
+          response = await fetchWithTimeout(endpoint, {
+            method: "POST",
+            headers: { "Content-Type": "text/plain;charset=utf-8" },
+            body: JSON.stringify(payload)
+          }, 45000, "Wysyłka trwała zbyt długo. Nie klikaj ponownie, dopóki nie sprawdzisz, czy zgłoszenie nie zostało zapisane.");
+        } catch (error) {
+          if (error && error.isTimeout) throw error;
+          throw new Error("Nie udało się połączyć z serwerem formularza. Sprawdź połączenie i spróbuj ponownie.");
         }
 
-        menteeForm.hidden = true;
+        var raw = await response.text();
+        var result = {};
+        try {
+          result = raw ? JSON.parse(raw) : {};
+        } catch (parseError) {
+          throw new Error("Serwer formularza zwrócił nieprawidłową odpowiedź. Spróbuj ponownie za chwilę.");
+        }
+        if (result.status === "duplicate") {
+          showToast(result.message || "Z tego adresu e-mail zgłoszenie zostało już wysłane.", "error");
+          return;
+        }
+        if (!response.ok || result.status !== "success") throw new Error(result.message || "Nie udało się wysłać zgłoszenia.");
+
+        form.hidden = true;
+        progress.hidden = true;
+        if (applicationForms[config.role]) applicationForms[config.role].completed = true;
         if (formSuccess) formSuccess.hidden = false;
-        setFormStatus("", "success");
+        showToast("Zgłoszenie zostało wysłane.", "success");
       } catch (error) {
-        setFormStatus(error.message || "Błąd połączenia. Spróbuj ponownie.");
+        showToast(error.message || "Nie udało się połączyć z serwerem formularza. Spróbuj ponownie.", "error");
       } finally {
         formSubmit.disabled = false;
         formSubmit.classList.remove("btn-orange-disabled");
@@ -353,8 +508,21 @@ const popup = document.getElementById("popupNews");
       }
     });
 
+    applicationForms[config.role] = { form: form, progress: progress, success: formSuccess, completed: false };
     showFormStep(0, false);
   }
+
+  initApplicationForm({ role: "mentee", applicationType: "Mentee", formId: "menteeApplicationForm", progressId: "menteeApplicationProgress", progressBarId: "menteeProgressBar", progressLabelId: "menteeProgressLabel", progressCountId: "menteeProgressCount", prevId: "menteePrev", nextId: "menteeNext", submitId: "menteeSubmit", successId: "menteeApplicationSuccess" });
+  initApplicationForm({ role: "leader", applicationType: "Mentee Lider", formId: "leaderApplicationForm", progressId: "leaderApplicationProgress", progressBarId: "leaderProgressBar", progressLabelId: "leaderProgressLabel", progressCountId: "leaderProgressCount", prevId: "leaderPrev", nextId: "leaderNext", submitId: "leaderSubmit", successId: "leaderApplicationSuccess" });
+  applicationRoleButtons.forEach(function (button) {
+    button.addEventListener("click", function () {
+      var role = button.getAttribute("data-form-role");
+      setApplicationRole(role);
+      if (role === "leader") setPath("lider");
+      else setPath("spec");
+    });
+  });
+  setApplicationRole("mentee");
 
   /* ---------- mentorzy: modal bio ---------- */
   var modal = document.getElementById("mentorModal");
@@ -520,7 +688,12 @@ faqs.forEach(details => {
     if (!data) return;
 
     lastActiveChip = chip;
-    roleSheetIcon.innerHTML = '<img src="' + data.icon + '" alt="Ikona ' + roleName + '" class="custom-role-icon">';
+    while (roleSheetIcon.firstChild) roleSheetIcon.removeChild(roleSheetIcon.firstChild);
+    var roleIcon = document.createElement("img");
+    roleIcon.src = data.icon;
+    roleIcon.alt = "Ikona " + roleName;
+    roleIcon.className = "custom-role-icon";
+    roleSheetIcon.appendChild(roleIcon);
     roleSheetTitle.textContent = roleName;
     roleSheetDesc.textContent = data.desc;
     roleSheet.hidden = false;
