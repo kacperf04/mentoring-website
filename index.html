@@ -251,17 +251,20 @@
 </section>
 
 <!-- ===================== SUCCESS STORIES ===================== -->
-<section class="stories">
+<section class="stories" id="success-stories">
   <div class="wrap">
     <p class="kicker k-blue reveal">Success stories</p>
     <h2 class="reveal">Już rozpoczęli swoje kariery.</h2>
-    <div class="stories-grid">
-      <div></div>
-      <div class="story reveal">
-        <p class="story-q">Dzięki naszemu programowi mentoringowemu zdobędziesz wiedzę oraz projekty do portfolio, które pozwolą Ci zdobyć Twoje wymarzone stanowisko.</p>
-        <div class="story-who"><span class="m-avatar ma-blue">T</span><span><b>Ty</b><small>ścieżka: jaka tylko chcesz</small></span></div>
+    <div class="stories-carousel" id="storiesCarousel" role="region" aria-label="Historie uczestników programu">
+      <div class="stories-controls" aria-label="Nawigacja po historiach">
+        <button class="stories-nav stories-prev" id="storiesPrev" type="button" aria-label="Poprzednie historie" disabled><span aria-hidden="true">←</span> Poprzednia</button>
+        <button class="stories-nav stories-next" id="storiesNext" type="button" aria-label="Następne historie" disabled>Następna <span aria-hidden="true">→</span></button>
       </div>
-      <div></div>
+      <div class="stories-track">
+        <div class="stories-grid" id="storiesGrid" tabindex="0" aria-live="polite">
+          <p class="stories-status">Ładujemy historie uczestników…</p>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -371,6 +374,6 @@
   </div>
 </div>
 
-<script src="js/main.js?v=5"></script>
+<script src="js/main.js?v=6"></script>
 </body>
 </html>

@@ -5,6 +5,115 @@
   "use strict";
 
   var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  /* ---------- historie uczestników ---------- */
+  function initSuccessStories() {
+    var grid = document.getElementById("storiesGrid");
+    if (!grid) return;
+
+    function initials(name) {
+      return name.split(/\s+/).map(function (part) { return part.charAt(0); }).slice(0, 2).join("").toUpperCase();
+    }
+
+    function renderStory(story, index) {
+      var name = typeof story.name === "string" && story.name.trim() ? story.name.trim() : "Uczestnik programu";
+      var description = typeof story.description === "string" ? story.description.trim() : "";
+      var path = typeof story.path === "string" && story.path.trim() ? story.path.trim() : "ścieżka rozwoju";
+      var imageName = typeof story.img_path === "string" ? story.img_path : story.img;
+      var card = document.createElement("article");
+      card.className = "story reveal";
+      card.style.transitionDelay = Math.min(index * 60, 240) + "ms";
+
+      var imageWrap = document.createElement("div");
+      imageWrap.className = "story-image";
+      var fallback = document.createElement("span");
+      fallback.className = "story-image-fallback";
+      fallback.textContent = initials(name);
+      imageWrap.appendChild(fallback);
+      if (imageName) {
+        var image = document.createElement("img");
+        image.src = "img/success_stories/" + imageName;
+        image.alt = "Zdjęcie: " + name;
+        image.loading = "lazy";
+        image.addEventListener("load", function () { fallback.hidden = true; });
+        image.addEventListener("error", function () { image.remove(); });
+        imageWrap.appendChild(image);
+      }
+
+      var body = document.createElement("div");
+      body.className = "story-body";
+
+      var quote = document.createElement("p");
+      quote.className = "story-q";
+      quote.textContent = description;
+      body.appendChild(quote);
+
+      var who = document.createElement("div");
+      who.className = "story-who";
+      var identity = document.createElement("span");
+      var nameEl = document.createElement("b");
+      nameEl.textContent = name;
+      var roleEl = document.createElement("small");
+      roleEl.textContent = "ścieżka: " + path;
+      identity.appendChild(nameEl);
+      identity.appendChild(roleEl);
+      who.appendChild(imageWrap);
+      who.appendChild(identity);
+      body.appendChild(who);
+      card.appendChild(body);
+      return card;
+    }
+
+    fetch("success-stories.json", { cache: "no-store" })
+      .then(function (response) {
+        if (!response.ok) throw new Error("Nie udało się pobrać historii.");
+        return response.json();
+      })
+      .then(function (data) {
+        var stories = Array.isArray(data) ? data : Object.keys(data).sort(function (a, b) { return Number(a) - Number(b); }).map(function (key) { return data[key]; });
+        if (!stories.length) throw new Error("Brak historii do wyświetlenia.");
+        grid.replaceChildren();
+        stories.forEach(function (story, index) { grid.appendChild(renderStory(story, index)); });
+        grid.querySelectorAll(".reveal").forEach(function (el) { el.classList.add("in"); });
+
+        var previous = document.getElementById("storiesPrev");
+        var next = document.getElementById("storiesNext");
+        var track = grid.closest(".stories-track");
+        function carouselStep() {
+          var card = grid.querySelector(".story");
+          return card ? card.getBoundingClientRect().width + 20 : grid.clientWidth;
+        }
+        function updateCarouselControls() {
+          var maxScroll = grid.scrollWidth - grid.clientWidth;
+          previous.disabled = grid.scrollLeft <= 8;
+          next.disabled = grid.scrollLeft >= maxScroll - 8;
+          if (track) {
+            track.classList.toggle("at-start", grid.scrollLeft <= 8);
+            track.classList.toggle("at-end", grid.scrollLeft >= maxScroll - 8);
+          }
+        }
+        function moveCarousel(direction) {
+          var maxScroll = Math.max(0, grid.scrollWidth - grid.clientWidth);
+          var target = Math.max(0, Math.min(grid.scrollLeft + direction * carouselStep(), maxScroll));
+          grid.scrollTo({ left: target, behavior: reduced ? "auto" : "smooth" });
+        }
+        previous.addEventListener("click", function () { moveCarousel(-1); });
+        next.addEventListener("click", function () { moveCarousel(1); });
+        grid.addEventListener("scroll", updateCarouselControls, { passive: true });
+        window.addEventListener("resize", updateCarouselControls);
+        updateCarouselControls();
+      })
+      .catch(function () {
+        grid.replaceChildren();
+        var status = document.createElement("p");
+        status.className = "stories-status";
+        status.textContent = "Historie uczestników są chwilowo niedostępne. Spróbuj ponownie za chwilę.";
+        grid.appendChild(status);
+      });
+  }
+
+  initSuccessStories();
+
   // Flaga do wyświetlania formularzy
   var MENTEE_APPLICATION_FORMS_ENABLED = false;
 
