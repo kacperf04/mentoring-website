@@ -377,18 +377,6 @@ faqs.forEach(details => {
     "Software Development": {
       icon: "img/Software_Development.png",
       desc: "Ścieżka dla przyszłych programistów! Współtworzysz realne narzędzia i strony internetowe fundacji, ucząc się praktycznego kodowania. Poznasz pracę w zespole developerskim, code review, nowoczesne technologie webowe i dobre praktyki."
-    },
-    "Grafika / UX": {
-      icon: "img/Grafika.png",
-      desc: "Grafik / UX designer odpowiada za wizualną stronę projektów – od postów w social mediach, przez plakaty, po interfejsy aplikacji. Nauczysz się tworzyć estetyczne, spójne i funkcjonalne projekty, które przyciągają uwagę."
-    },
-    "Social media": {
-      icon: "img/Social_Media.png",
-      desc: "Specjalista social media zarządza profilami fundacji na Instagramie, Facebooku, TikToku i LinkedIn. Będziesz tworzyć angażujące treści, planować kalendarz publikacji, analizować statystyki i budować aktywną społeczność wokół Kanału Studenckiego."
-    },
-    "HR & Employer Branding": {
-      icon: "img/HR.png",
-      desc: "HR i Employer Branding to ścieżka dla osób, które chcą dbać o atmosferę w zespole i wizerunek fundacji. Zajmiesz się rekrutacją, onboardigiem nowych członków, budowaniem kultury organizacyjnej oraz integracjami zespołowymi."
     }
   };
 
