@@ -1,0 +1,50 @@
+{
+    "0": {
+        "name": "Julka Pieczara",
+        "description": "Nie wszystko trzeba mieć zaplanowane. Ale trzeba dać sobie szansę, żeby sprawdzić. Pierwsze projekty, rozmowy, wydarzenia, współprace i decyzje często zaczynają się od stresu. Od myśli: „czy ja się nadaję?”, „czy dam radę?”, „czy to w ogóle dla mnie?”. Ale właśnie wtedy dzieje się najwięcej. Bo każda okazja, za którą odważysz się chwycić, czegoś Cię uczy. O ludziach. O pracy. O Twoich możliwościach. I o Tobie samej.",
+        "path": "Marketing",
+        "img": "julka_pieczara.jpeg"
+    },
+    "1": {
+        "name": "Wiktor Stasiak",
+        "description": "Bałem się, że poza teorią ze studiów nie będę miał pracodawcy nic do zaoferowania. Rok w Fundacji całkowicie to zmienił. Dała mi pierwsze konkretne doświadczenie, a praca przy projektach zapewniła realne przykłady do CV i rozmów rekrutacyjnych. To właśnie to doświadczenie pomogło mi znaleźć pracę w dziedzinie, w której chciałem się rozwijać.",
+        "path": "Analityka Danych",
+        "img": "wiktor_stasiak.jpeg"
+    },
+    "2": {
+        "name": "Kacper Filip",
+        "description": "Przez ostatnie dwa lata Fundacja dała mi ogromne pole do rozwoju. Nauczyłem się efektywnej komunikacji z innymi zespołami i pracy zespołowej. Dzięki wsparciu merytorycznemu i projektowemu lepiej zrozumiałem, jak chcę ukierunkować swoją karierę. Przy szukaniu pracy bardzo pomógł mi realny wpis w CV w postaci wolontariatu, dzięki czemu udało mi się zdobyć wymarzony staż.",
+        "path": "Software Development",
+        "img": "kacper_filip.jpg"
+    },
+    "3": {
+        "name": "Wiktoria May",
+        "description": "Pierwszym większym doświadczeniem projektowym było dla mnie badanie Kompetentnych. Uczyłam się prowadzenia wywiadów, zadawania trafnych pytań i wyciągania wniosków z danych. Zobaczyłam też, jak ważne są dobra współpraca, odpowiedzialność i dowożenie rezultatów. Dziś rozwijam karierę w Accenture i nadal korzystam z doświadczeń zdobytych przy tym projekcie.",
+        "path": "Marketing",
+        "img": "wiktoria_may.jpeg"
+    },
+    "4": {
+        "name": "Marek Zjeżdżalka",
+        "description": "Najbardziej ceniłem to, że od początku pracowałem nad prawdziwymi projektami. Rozwijałem tumatura.pl, brałem udział w rebrandingu, planowałem UX i zajmowałem się implementacją. Pomagałem też przy Discordzie, eventach i technicznej obsłudze konferencji. Uczyłem się samodzielności, odpowiedzialności i przekładania pomysłów na rozwiązania, co dało mi odwagę do organizacji własnego hackathonu w technikum.",
+        "path": "Software Development",
+        "img": "marek_zjezdzalka.jpeg"
+    },
+    "5": {
+        "name": "Marta Szymurska",
+        "description": "Marketing był dla mnie przestrzenią do eksperymentowania, testowania pomysłów i odkrywania, co daje mi satysfakcję. Współtworzyłam kierunek komunikacji i nauczyłam się otwartości na nowe możliwości. Dziś pracuję jako stewardessa w Emirates Airlines, ale nadal korzystam z odwagi do podejmowania wyzwań, którą wtedy zdobyłam. Czasem największy rozwój zaczyna się od decyzji, żeby spróbować.",
+        "path": "Marketing",
+        "img": "marta_szymurska.jpeg"
+    },
+    "6": {
+        "name": "Aleksandra Górka",
+        "description": "Wszystko zaczęło się od Instagrama Tumatury. Tworzenie profilu od zera i budowanie komunikacji projektu było wyzwaniem, ale szybko stało się początkiem czegoś większego. Testowałam pomysły i uczyłam się marketingu w praktyce, odkrywając, że to kierunek dla mnie. Wygrany Ideathon tylko mnie w tym utwierdził. Dziś pracuję przy marketingu marek w międzynarodowej korporacji.",
+        "path": "Marketing",
+        "img": "aleksandra_gorka.png"
+    },
+    "7": {
+        "name": "Jędrzej Raczyk",
+        "description": "W Fundacji uczestniczyłem w programie mentoringowym, rozwijając projekty związane z AI jako Project Manager. Planowałem, koordynowałem działania i uczyłem się odpowiedzialności za projekt. Zdobyłem doświadczenie, pewność siebie i poznałem ludzi, z którymi dobrze się pracowało i bawiło. Te umiejętności pomogły mi zrobić kolejny krok zawodowy - dziś pracuję w centrali ORLEN przy projektach i nowych technologiach.",
+        "path": "Project & Event Management",
+        "img": "jedrzej_raczyk.png"
+    }
+}
