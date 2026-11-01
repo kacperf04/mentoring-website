@@ -116,17 +116,21 @@
     button.type = "button";
     button.className = "cookie-settings-button";
     button.textContent = "Ustawienia cookies";
-    button.addEventListener("click", openBanner);
+    button.addEventListener("click", function () {
+      openBanner(true);
+    });
     (footerLegalLinks || footerBottom).appendChild(button);
   }
 
-  function openBanner() {
+  function openBanner(moveFocus) {
     var banner = document.getElementById("cookieConsent");
     if (!banner) return;
-    lastFocusedElement = document.activeElement;
+    lastFocusedElement = moveFocus ? document.activeElement : null;
     banner.hidden = false;
     document.body.classList.add("cookie-consent-open");
-    banner.querySelector("[data-consent-reject]").focus();
+    if (moveFocus) {
+      banner.querySelector("[data-consent-reject]").focus({ preventScroll: true });
+    }
   }
 
   function closeBanner() {
@@ -143,7 +147,7 @@
     createSettingsButton();
 
     if (currentChoice && currentChoice.marketing) loadMetaPixel();
-    if (!currentChoice) openBanner();
+    if (!currentChoice) openBanner(false);
   }
 
   if (document.readyState === "loading") {
