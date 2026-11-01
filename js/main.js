@@ -268,16 +268,34 @@ const popup = document.getElementById("popupNews");
   var nav = document.querySelector(".nav");
   var burger = document.getElementById("burger");
   if (burger) {
+    var desktopNav = window.matchMedia("(min-width: 1101px)");
+    var closeMobileMenu = function () {
+      nav.classList.remove("open");
+      burger.setAttribute("aria-expanded", "false");
+    };
+
     burger.addEventListener("click", function () {
       var open = nav.classList.toggle("open");
       burger.setAttribute("aria-expanded", open ? "true" : "false");
     });
     document.querySelectorAll(".mobile-menu a").forEach(function (a) {
-      a.addEventListener("click", function () {
-        nav.classList.remove("open");
-        burger.setAttribute("aria-expanded", "false");
-      });
+      a.addEventListener("click", closeMobileMenu);
     });
+    document.addEventListener("keydown", function (event) {
+      if (event.key === "Escape" && nav.classList.contains("open")) {
+        closeMobileMenu();
+        burger.focus();
+      }
+    });
+    if (desktopNav.addEventListener) {
+      desktopNav.addEventListener("change", function (event) {
+        if (event.matches) closeMobileMenu();
+      });
+    } else {
+      desktopNav.addListener(function (event) {
+        if (event.matches) closeMobileMenu();
+      });
+    }
   }
 
   /* ---------- scroll reveal ---------- */
