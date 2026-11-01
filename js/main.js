@@ -230,13 +230,14 @@
   }
 
   /* ---------- popup newsletter ---------- */
+  const NEWSLETTER_POPUP_ENABLED = false;
 const popup = document.getElementById("popupNews");
   const popupClose = document.getElementById("popupClose");
  
   const isPopupDismissed = localStorage.getItem("popup_dismissed");
   const isSubscribed = localStorage.getItem("newsletter_subscribed");
  
-  if (popup && !isPopupDismissed && !isSubscribed) {
+  if (NEWSLETTER_POPUP_ENABLED && popup && !isPopupDismissed && !isSubscribed) {
     setTimeout(() => {
       popup.hidden = false;
       requestAnimationFrame(() => {
