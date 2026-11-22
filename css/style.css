@@ -22,7 +22,7 @@
   --line:#e9e5f2;
   --font:'Poppins',system-ui,sans-serif;
   --hand:'Kalam',cursive;
-  --wrap:1180px;
+  --wrap:1320px;
   --r-lg:28px;
   --r-md:20px;
 }
@@ -905,7 +905,7 @@ footer .brand-txt small{color:#a99cc9;font-family:var(--font);font-weight:500;te
    RESPONSIVE
 ===================================================== */
 @media(min-width:1600px){
-  :root{--wrap:1280px;}
+  :root{--wrap:1480px;}
 }
 @media(max-width:1240px) and (min-width:1101px){
   .nav-inner{gap:11px;}

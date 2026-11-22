@@ -8,8 +8,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Kalam:wght@400;700&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="css/style.css?v=15" />
-<link rel="stylesheet" href="css/mentorzy.css?v=6" />
+<link rel="stylesheet" href="css/style.css?v=16" />
+<link rel="stylesheet" href="css/mentorzy.css?v=9" />
 <link rel="canonical" href="https://kanalstudencki.pl/mentorzy" />
 </head>
 <body>
@@ -135,6 +135,53 @@
   </div>
 </section>
 
+<!-- ===================== RAZEM ROZWIJAMY TALENTY ===================== -->
+<section class="mentor-talents" aria-labelledby="mentorTalentsTitle">
+  <div class="mentor-talents-inner">
+    <img class="mentor-talents-star mentor-talents-star-large" src="assets/mentorzy/star-geometric.svg" alt="" aria-hidden="true" />
+    <img class="mentor-talents-star mentor-talents-star-small" src="assets/mentorzy/star-doodle.svg" alt="" aria-hidden="true" />
+
+    <h2 id="mentorTalentsTitle"><span>Razem rozwijamy polskie, młode talenty!</span></h2>
+
+    <img class="mentor-talents-star mentor-talents-star-right" src="assets/mentorzy/star-doodle.svg" alt="" aria-hidden="true" />
+  </div>
+</section>
+
+<!-- ===================== WYBIERZ ŚCIEŻKĘ MENTORINGU ===================== -->
+<section class="mentor-paths" aria-labelledby="mentorPathsTitle">
+  <div class="mentor-paths-inner">
+    <div class="mentor-paths-heading">
+      <h2 id="mentorPathsTitle">Wybierz ścieżkę mentoringu</h2>
+      <img src="assets/mentorzy/star-doodle.svg" alt="" aria-hidden="true" />
+    </div>
+
+    <div class="mentor-paths-grid">
+      <button class="mentor-path-card" type="button" data-path="marketing" aria-haspopup="dialog">
+        <span class="mentor-path-card-plus" aria-hidden="true">+</span>
+        <span class="mentor-path-card-name">Marketing</span>
+      </button>
+
+      <button class="mentor-path-card" type="button" data-path="event-management" aria-haspopup="dialog">
+        <span class="mentor-path-card-plus" aria-hidden="true">+</span>
+        <span class="mentor-path-card-name">Event<br />Management</span>
+      </button>
+
+      <button class="mentor-path-card" type="button" data-path="ai-engineering" aria-haspopup="dialog">
+        <span class="mentor-path-card-plus" aria-hidden="true">+</span>
+        <span class="mentor-path-card-name">AI Engineering</span>
+      </button>
+
+      <button class="mentor-path-card mentor-path-card-disabled" type="button" disabled aria-disabled="true">
+        <span class="mentor-path-card-lock" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none"><rect x="5" y="10" width="14" height="10" rx="2" stroke="currentColor" stroke-width="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </span>
+        <span class="mentor-path-card-status">Opis w przygotowaniu</span>
+        <span class="mentor-path-card-name">Software<br />Engineering</span>
+      </button>
+    </div>
+  </div>
+</section>
+
 <!-- Zmieniono margin na: 20px (góra) auto (środek) 80px (dół) -->
 <div class="tl-col" style="max-width: 600px; margin: 5px auto 80px; padding: 30px; background-color: #ffffff; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.08);">
 <p class="tl-title hand">Jak wygląda rekrutacja:</p>
@@ -209,14 +256,16 @@
 
 <div id="toast-container"></div>
 
-<!-- ========== ROLE BOTTOM SHEET ========== -->
-<div id="roleSheet" class="role-sheet-overlay" hidden>
-  <div class="role-sheet" role="dialog" aria-modal="true" aria-labelledby="roleSheetTitle">
-    <div class="role-sheet-handle"></div>
-    <button class="role-sheet-close" id="roleSheetClose" aria-label="Zamknij">&times;</button>
-    <span class="role-sheet-icon" id="roleSheetIcon"></span>
-    <h3 id="roleSheetTitle"></h3>
-    <p id="roleSheetDesc"></p>
+<!-- ========== POPUP ŚCIEŻKI MENTORINGOWEJ ========== -->
+<div class="mentor-path-modal" id="mentorPathModal" hidden aria-hidden="true">
+  <div class="mentor-path-modal-dialog" role="dialog" aria-modal="true" aria-labelledby="mentorPathModalTitle" tabindex="-1">
+    <button class="mentor-path-modal-close" id="mentorPathModalClose" type="button" aria-label="Zamknij opis ścieżki">&times;</button>
+    <header class="mentor-path-modal-header">
+      <p>Ścieżka mentoringowa</p>
+      <h3 id="mentorPathModalTitle"></h3>
+      <div class="mentor-path-modal-lead" id="mentorPathModalLead"></div>
+    </header>
+    <div class="mentor-path-modal-content" id="mentorPathModalContent"></div>
   </div>
 </div>
 
@@ -250,5 +299,6 @@
 
 <script src="js/consent.js?v=3"></script>
 <script src="js/main.js?v=15"></script>
+<script src="js/mentorzy.js?v=1"></script>
 </body>
 </html>

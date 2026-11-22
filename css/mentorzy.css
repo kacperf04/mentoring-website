@@ -14,7 +14,7 @@
 
   .mentor-hero-inner {
     position: relative;
-    width: min(1080px, calc(100% - 48px));
+    width: min(1240px, calc(100% - 48px));
     height: 100%;
     margin: 0 auto;
   }
@@ -468,7 +468,7 @@
     display: grid;
     grid-template-columns: .95fr 1.05fr;
     gap: 48px;
-    width: min(1080px, calc(100% - 48px));
+    width: min(1240px, calc(100% - 48px));
     min-height: 534px;
     margin: 0 auto;
     align-items: center;
@@ -713,7 +713,7 @@
 
   .mentor-support-inner {
     width: calc(100% - 48px);
-    max-width: 1062px;
+    max-width: 1240px;
     margin: 0 auto;
   }
 
@@ -967,5 +967,635 @@
   @media (prefers-reduced-motion: reduce) {
     .mentor-support-cta {
       transition: none;
+    }
+  }
+
+  /* =====================================================
+     RAZEM ROZWIJAMY POLSKIE, MŁODE TALENTY
+  ===================================================== */
+  .mentor-talents {
+    position: relative;
+    min-height: 138px;
+    overflow: hidden;
+    background-color: #173e91;
+    background-image:
+      linear-gradient(109deg, transparent 0%, transparent 31%, rgba(32, 81, 158, .35) 31.2%, rgba(32, 81, 158, .35) 45%, transparent 45.2%, transparent 100%),
+      linear-gradient(73deg, transparent 0%, transparent 59%, rgba(22, 60, 132, .42) 59.2%, rgba(22, 60, 132, .42) 75%, transparent 75.2%, transparent 100%);
+  }
+
+  .mentor-talents::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, rgba(80, 124, 199, .12) 0%, transparent 30%, transparent 74%, rgba(11, 42, 105, .14) 100%);
+    pointer-events: none;
+  }
+
+  .mentor-talents-inner {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    width: min(1160px, calc(100% - 48px));
+    min-height: 138px;
+    margin: 0 auto;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .mentor-talents h2 {
+    position: relative;
+    z-index: 2;
+    margin: 0;
+    color: #2368bc;
+    font-size: 38px;
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -.045em;
+    text-transform: none;
+    transform: rotate(.7deg);
+  }
+
+  .mentor-talents h2 span {
+    display: inline-block;
+    padding: 7px 10px 6px;
+    background: #ddfafa;
+  }
+
+  .mentor-talents-star {
+    position: absolute;
+    height: auto;
+    pointer-events: none;
+    user-select: none;
+  }
+
+  .mentor-talents-star-large {
+    top: 18px;
+    left: 0;
+    width: 102px;
+  }
+
+  .mentor-talents-star-small {
+    bottom: 21px;
+    left: 106px;
+    width: 31px;
+    transform: rotate(-7deg);
+  }
+
+  .mentor-talents-star-right {
+    top: 34px;
+    right: 1px;
+    width: 51px;
+    transform: rotate(-10deg);
+  }
+
+  @media (max-width: 900px) {
+    .mentor-talents h2 {
+      font-size: clamp(28px, 5vw, 36px);
+    }
+
+    .mentor-talents-star-large {
+      left: -18px;
+      opacity: .7;
+    }
+
+    .mentor-talents-star-small {
+      left: 63px;
+    }
+
+    .mentor-talents-star-right {
+      right: -5px;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .mentor-talents,
+    .mentor-talents-inner {
+      min-height: 154px;
+    }
+
+    .mentor-talents-inner {
+      width: calc(100% - 36px);
+      justify-content: flex-start;
+    }
+
+    .mentor-talents h2 {
+      width: 280px;
+      max-width: calc(100% - 28px);
+      margin-left: 11px;
+      font-size: 27px;
+      line-height: 1.02;
+    }
+
+    .mentor-talents h2 span {
+      display: block;
+      box-sizing: border-box;
+      padding: 6px 8px 7px;
+      box-decoration-break: clone;
+      -webkit-box-decoration-break: clone;
+    }
+
+    .mentor-talents-star-large {
+      top: -26px;
+      left: -38px;
+      width: 92px;
+      opacity: .48;
+    }
+
+    .mentor-talents-star-small {
+      bottom: 6px;
+      left: 5px;
+      width: 26px;
+    }
+
+    .mentor-talents-star-right {
+      top: 49px;
+      right: -7px;
+      width: 38px;
+    }
+  }
+
+  @media (max-width: 360px) {
+    .mentor-talents h2 {
+      font-size: 25px;
+    }
+
+    .mentor-talents-star-right {
+      display: none;
+    }
+  }
+
+  /* =====================================================
+     WYBIERZ ŚCIEŻKĘ MENTORINGU
+  ===================================================== */
+  .mentor-paths {
+    position: relative;
+    min-height: 610px;
+    padding: 77px 0 95px;
+    overflow: hidden;
+    background:
+      linear-gradient(rgba(25, 28, 39, .3), rgba(25, 28, 39, .3)),
+      url("../assets/mentorzy/mentor-paths-background.webp") center 48% / cover no-repeat;
+  }
+
+  .mentor-paths-inner {
+    position: relative;
+    z-index: 2;
+    width: calc(100% - 48px);
+    max-width: 1240px;
+    margin: 0 auto;
+  }
+
+  .mentor-paths-heading {
+    display: flex;
+    align-items: center;
+    gap: 96px;
+  }
+
+  .mentor-paths h2 {
+    margin: 0;
+    color: #fff;
+    font-size: 46px;
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -.035em;
+    text-transform: none;
+  }
+
+  .mentor-paths-heading img {
+    width: 54px;
+    height: auto;
+    transform: rotate(7deg);
+  }
+
+  .mentor-paths-grid {
+    display: flex;
+    margin-top: 28px;
+    justify-content: space-between;
+  }
+
+  .mentor-path-card {
+    position: relative;
+    flex: 0 0 calc((100% - 75px) / 4);
+    height: 358px;
+    margin: 0;
+    padding: 24px 25px 35px;
+    overflow: hidden;
+    border: 0;
+    border-radius: 19px;
+    background: rgba(255, 105, 30, .86);
+    color: #fff;
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+    box-shadow: 0 16px 35px rgba(27, 23, 35, .12);
+    transition: transform .22s ease, background .22s ease, box-shadow .22s ease;
+  }
+
+  .mentor-path-card::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border: 2px solid transparent;
+    border-radius: inherit;
+    pointer-events: none;
+    transition: border-color .22s ease;
+  }
+
+  .mentor-path-card:not(:disabled):hover {
+    background: rgba(255, 105, 30, .96);
+    transform: translateY(-5px);
+    box-shadow: 0 23px 44px rgba(27, 23, 35, .22);
+  }
+
+  .mentor-path-card:not(:disabled):hover::after,
+  .mentor-path-card:focus-visible::after {
+    border-color: #fff;
+  }
+
+  .mentor-path-card:focus-visible {
+    outline: 3px solid #ffd35a;
+    outline-offset: 5px;
+  }
+
+  .mentor-path-card-plus,
+  .mentor-path-card-lock {
+    position: absolute;
+    top: 22px;
+    right: 23px;
+    display: grid;
+    width: 26px;
+    height: 26px;
+    place-items: center;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, .88);
+    color: #ef721e;
+    font-size: 29px;
+    font-weight: 400;
+    line-height: 1;
+  }
+
+  .mentor-path-card-lock svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .mentor-path-card-name {
+    position: absolute;
+    right: 25px;
+    bottom: 37px;
+    left: 25px;
+    color: #fff;
+    font-size: 27px;
+    font-weight: 400;
+    line-height: .98;
+    letter-spacing: -.025em;
+  }
+
+  .mentor-path-card-disabled {
+    background: rgba(255, 105, 30, .72);
+    cursor: not-allowed;
+    box-shadow: none;
+  }
+
+  .mentor-path-card-status {
+    position: absolute;
+    right: 25px;
+    bottom: 101px;
+    left: 25px;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: rgba(255, 255, 255, .82);
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1.2;
+  }
+
+  @media (max-width: 900px) {
+    .mentor-paths {
+      padding: 68px 0 78px;
+    }
+
+    .mentor-paths-inner {
+      width: calc(100% - 40px);
+      max-width: 650px;
+    }
+
+    .mentor-paths-heading {
+      gap: 35px;
+    }
+
+    .mentor-paths h2 {
+      font-size: clamp(40px, 6vw, 46px);
+    }
+
+    .mentor-paths-grid {
+      flex-wrap: wrap;
+      margin-top: 38px;
+    }
+
+    .mentor-path-card {
+      flex-basis: calc((100% - 22px) / 2);
+      height: 280px;
+    }
+
+    .mentor-path-card:nth-child(n + 3) {
+      margin-top: 22px;
+    }
+  }
+
+  @media (max-width: 540px) {
+    .mentor-paths {
+      padding: 56px 0 66px;
+      background-position: 58% center;
+    }
+
+    .mentor-paths-inner {
+      width: calc(100% - 30px);
+    }
+
+    .mentor-paths-heading {
+      gap: 14px;
+      align-items: flex-start;
+    }
+
+    .mentor-paths h2 {
+      font-size: clamp(36px, 10.2vw, 43px);
+    }
+
+    .mentor-paths-heading img {
+      width: 44px;
+      flex: 0 0 auto;
+    }
+
+    .mentor-paths-grid {
+      display: block;
+      margin-top: 34px;
+    }
+
+    .mentor-path-card {
+      display: block;
+      width: 100%;
+      height: 190px;
+      padding: 20px 22px 28px;
+      border-radius: 17px;
+    }
+
+    .mentor-path-card:nth-child(n + 2) {
+      margin-top: 17px;
+    }
+
+    .mentor-path-card-plus,
+    .mentor-path-card-lock {
+      top: 18px;
+      right: 19px;
+    }
+
+    .mentor-path-card-name {
+      right: 22px;
+      bottom: 27px;
+      left: 22px;
+      font-size: 26px;
+    }
+
+    .mentor-path-card-status {
+      right: 22px;
+      bottom: 84px;
+      left: 22px;
+    }
+  }
+
+  /* Popup opisów ścieżek. */
+  body.mentor-path-modal-open {
+    overflow: hidden;
+  }
+
+  .mentor-path-modal {
+    position: fixed;
+    z-index: 1200;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    width: 100%;
+    height: 100%;
+    padding: 24px;
+    box-sizing: border-box;
+    align-items: center;
+    justify-content: center;
+    background: rgba(28, 17, 44, .72);
+    backdrop-filter: blur(7px);
+  }
+
+  .mentor-path-modal[hidden] {
+    display: none;
+  }
+
+  .mentor-path-modal-dialog {
+    position: relative;
+    display: flex;
+    width: 100%;
+    max-width: 880px;
+    max-height: calc(100vh - 48px);
+    max-height: calc(100dvh - 48px);
+    flex-direction: column;
+    overflow: hidden;
+    border-radius: 25px;
+    background: #fff;
+    color: #291942;
+    box-shadow: 0 32px 85px rgba(17, 10, 28, .38);
+    animation: mentorPathModalIn .25s ease both;
+  }
+
+  @keyframes mentorPathModalIn {
+    from { opacity: 0; transform: translateY(18px) scale(.985); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  .mentor-path-modal-close {
+    position: absolute;
+    z-index: 3;
+    top: 19px;
+    right: 19px;
+    display: grid;
+    width: 43px;
+    height: 43px;
+    padding: 0;
+    place-items: center;
+    border: 0;
+    border-radius: 50%;
+    background: #f2ecf8;
+    color: #291942;
+    font: 400 28px/1 var(--font);
+    cursor: pointer;
+    transition: transform .2s ease, background .2s ease, color .2s ease;
+  }
+
+  .mentor-path-modal-close:hover {
+    background: #ff772b;
+    color: #fff;
+    transform: rotate(90deg);
+  }
+
+  .mentor-path-modal-close:focus-visible {
+    outline: 3px solid #4096ff;
+    outline-offset: 3px;
+  }
+
+  .mentor-path-modal-header {
+    flex: 0 0 auto;
+    padding: 34px 78px 27px 36px;
+    background: #f8f8f8 url("../assets/mentorzy/mentor-support-background.webp") center / cover;
+    border-bottom: 1px solid #e7e1ef;
+  }
+
+  .mentor-path-modal-header > p {
+    margin: 0 0 2px;
+    color: #4096ff;
+    font-size: 18px;
+    font-weight: 700;
+  }
+
+  .mentor-path-modal-header h3 {
+    margin: 0;
+    color: #291942;
+    font-size: 43px;
+    font-weight: 800;
+    line-height: 1.03;
+    letter-spacing: -.035em;
+    text-transform: none;
+  }
+
+  .mentor-path-modal-lead {
+    margin-top: 8px;
+    color: #ff772b;
+    font-family: var(--hand);
+    font-size: 28px;
+    font-weight: 400;
+    line-height: 1.15;
+  }
+
+  .mentor-path-modal-content {
+    display: grid;
+    gap: 24px;
+    padding: 28px 36px 36px;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+
+  .mentor-path-modal-section h4 {
+    display: inline-block;
+    margin: 0 0 10px;
+    padding: 2px 6px 3px;
+    background: #4096ff;
+    color: #fff;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 1.15;
+  }
+
+  .mentor-path-modal-section p,
+  .mentor-path-modal-section li {
+    color: #33274e;
+    font-size: 15px;
+    line-height: 1.55;
+  }
+
+  .mentor-path-modal-section p {
+    max-width: 74ch;
+    margin: 0;
+  }
+
+  .mentor-path-modal-section ul {
+    display: grid;
+    gap: 7px;
+    margin: 8px 0 0;
+    padding-left: 22px;
+  }
+
+  .mentor-path-modal-section li::marker {
+    color: #ff772b;
+  }
+
+  .mentor-path-modal-role {
+    padding: 18px 20px;
+    border-left: 4px solid #ff772b;
+    background: #f7f4fa;
+  }
+
+  .mentor-path-modal-role h4 {
+    margin-bottom: 8px;
+    padding: 0;
+    background: none;
+    color: #291942;
+    font-size: 21px;
+  }
+
+  @media (max-width: 640px) {
+    .mentor-path-modal {
+      padding: 16px 0 0;
+      align-items: flex-end;
+    }
+
+    .mentor-path-modal-dialog {
+      width: 100%;
+      max-height: calc(100vh - 16px);
+      max-height: calc(100dvh - 16px);
+      border-radius: 24px 24px 0 0;
+    }
+
+    .mentor-path-modal-close {
+      top: 14px;
+      right: 14px;
+      width: 40px;
+      height: 40px;
+    }
+
+    .mentor-path-modal-header {
+      padding: 28px 62px 22px 23px;
+    }
+
+    .mentor-path-modal-header > p {
+      font-size: 15px;
+    }
+
+    .mentor-path-modal-header h3 {
+      font-size: 34px;
+    }
+
+    .mentor-path-modal-lead {
+      font-size: 23px;
+    }
+
+    .mentor-path-modal-content {
+      gap: 21px;
+      padding: 24px 23px 32px;
+    }
+
+    .mentor-path-modal-section h4 {
+      font-size: 16px;
+    }
+
+    .mentor-path-modal-section p,
+    .mentor-path-modal-section li {
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .mentor-path-modal-role {
+      padding: 16px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .mentor-path-card,
+    .mentor-path-card::after,
+    .mentor-path-modal-close {
+      transition: none;
+    }
+
+    .mentor-path-modal-dialog {
+      animation: none;
     }
   }
