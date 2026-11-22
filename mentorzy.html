@@ -9,6 +9,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Kalam:wght@400;700&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="css/style.css?v=15" />
+<link rel="stylesheet" href="css/mentorzy.css?v=6" />
 <link rel="canonical" href="https://kanalstudencki.pl/mentorzy" />
 </head>
 <body>
@@ -42,105 +43,96 @@
   </div>
 </header>
 
-<!-- ===================== PAGE HEAD ===================== -->
-<section class="page-head">
-  <div class="wrap">
-    <h1 class="reveal">Zostań mentorem albo trenerem.</h1>
-    <p class="reveal">Podziel się doświadczeniem z biznesu, wesprzyj studencki zespół w realizacji prawdziwego projektu i zostań częścią społeczności Fundacji Kanał Studencki.</p>
-    <a class="btn btn-orange btn-lg" href="#mentor_i_trener">Zgłoś się</a>
-  </div>
-</section>
-
-<!-- ===================== MENTORZY ===================== -->
-<section class="mentors" id="mentorzy">
-  <div class="wrap">
-    <div class="mentors-head">
-      <div>
-        <p class="kicker k-orange reveal">Kim są mentorzy?</p>
-        <h2 class="reveal">Eksperci, którzy chcą dzielić się swoim doświadczeniem.</h2>
-        <p class="mentors-lead reveal">Mentorzy to specjaliści, którzy na co dzień pracują w branży, która Cię interesuje. Wspierają Cię podczas realizacji projektu, dzielą się swoim doświadczeniem i pomagają rozwijać umiejętności zawodowe.</p>
+<!-- ===================== HERO ===================== -->
+<section class="mentor-hero" aria-labelledby="mentorHeroTitle">
+  <div class="mentor-hero-stage">
+    <div class="mentor-hero-inner">
+      <div class="mentor-hero-copy">
+        <h1 id="mentorHeroTitle">Zostań mentorem<br />albo trenerem</h1>
+        <img class="mentor-hero-underscore" src="assets/mentorzy/underscore.svg" alt="" aria-hidden="true" />
+        <p class="mentor-hero-tagline">Twój czas, ich przyszłość</p>
+        <a class="btn btn-orange mentor-hero-cta" href="#mentor_i_trener">
+          <span>Zgłoś się</span>
+          <span class="mentor-hero-cta-arrow" aria-hidden="true">↓</span>
+        </a>
       </div>
-      <ul class="mentors-points reveal">
-        <li>Specjaliści i liderzy z firm, którzy na co dzień pracują w obszarze, który Ty dopiero zaczynasz.</li>
-        <li>Dzielą się doświadczeniem zdobytym w pracy z klientami i zespołami.</li>
-        <li>Dają konkretny feedback, który pomaga rozwijać projekt i Twoje umiejętności.</li>
-        <li>Budujesz relacje, które często zostają z Tobą na długo po programie.</li>
-      </ul>
+
     </div>
 
-    <!-- Jak zdobędziemy mentorów to dodajemy tutaj
+    <div class="mentor-hero-people">
+      <img class="mentor-hero-person mentor-hero-person-two" src="assets/mentorzy/hero-person-2.webp" alt="" aria-hidden="true" />
+      <img class="mentor-hero-person mentor-hero-person-one" src="assets/mentorzy/hero-person-1.webp" alt="" aria-hidden="true" />
 
-    <div class="mentor-grid reveal" id="mentorGrid">
-      <button class="mentor-card" data-bio="15 lat w marketingu, dziś head of marketing w firmie technologicznej. W programie prowadzi zespoły marketingowe i uczy, jak myśleć kampanią, nie pojedynczym postem.">
-        <span class="m-avatar ma-orange">AK</span>
-        <b>Imię Nazwisko</b><small>Head of Marketing · [firma]</small>
-        <span class="m-more">poznaj mnie +</span>
-      </button>
-      <button class="mentor-card" data-bio="Analityk danych i lider zespołu BI. Pokazuje, jak zamieniać dane w decyzje — i jak wejść do branży bez trzech lat stażu.">
-        <span class="m-avatar ma-blue">MP</span>
-        <b>Imię Nazwisko</b><small>Data Team Lead · [firma]</small>
-        <span class="m-more">poznaj mnie +</span>
-      </button>
-      <button class="mentor-card" data-bio="Przedsiębiorca i project manager. Przeprowadził dziesiątki projektów od pomysłu do wdrożenia. W programie nadzoruje zespoły eventowe i PM-owe.">
-        <span class="m-avatar ma-green">JW</span>
-        <b>Imię Nazwisko</b><small>Founder &amp; PM · [firma]</small>
-        <span class="m-more">poznaj mnie +</span>
-      </button>
-      <button class="mentor-card" data-bio="Senior software developer. Mentoruje początkujących programistów i uczy pracy w zespole developerskim — code review, git, realne standardy.">
-        <span class="m-avatar ma-violet">KD</span>
-        <b>Imię Nazwisko</b><small>Senior Developer · [firma]</small>
-        <span class="m-more">poznaj mnie +</span>
-      </button>
+      <p class="mentor-hero-note mentor-hero-note-support">Wspieraj rozwój<br />polskich talentów</p>
+      <p class="mentor-hero-note mentor-hero-note-training">Prowadź szkolenia<br />jako ekspert</p>
+      <p class="mentor-hero-note mentor-hero-note-brand">Buduj swoją<br />markę własną</p>
     </div>
   </div>
--->
 
-  <!-- modal bio -->
-  <div class="modal" id="mentorModal" role="dialog" aria-modal="true" aria-labelledby="modalName" hidden>
-    <div class="modal-box">
-      <button class="modal-x" id="modalClose" aria-label="Zamknij">×</button>
-      <span class="m-avatar" id="modalAvatar">AK</span>
-      <h3 id="modalName">Imię Nazwisko</h3>
-      <small id="modalRole">Stanowisko · firma</small>
-      <p id="modalBio"></p>
+  <div class="mentor-hero-marquee" aria-hidden="true">
+    <div class="mentor-hero-marquee-track">
+      <span>Dziel się doświadczeniem</span><i>✦</i>
+      <span>Rozwijaj polskie talenty</span><i>✦</i>
+      <span>Dziel się wiedzą</span><i>✦</i>
+      <span>Inspiruj do działania</span><i>✦</i>
+      <span>Zgłoszenia otwarte</span><i>✦</i>
+      <span>Dziel się doświadczeniem</span><i>✦</i>
+      <span>Rozwijaj polskie talenty</span><i>✦</i>
     </div>
   </div>
 </section>
 
-<!-- ===================== MENTOR VS TRENER ===================== -->
-<section class="duo" id="mentor_i_trener">
-<div class="wrap">
-<p class="kicker k-teal reveal">Podstawowe i dodatkowe wsparcie</p>
-<h2 class="reveal">Mentor i trener. Kto jest kim?</h2>
-<div class="duo-grid">
-<div class="duo-card dc-mentor reveal">
-<span class="duo-badge">Mentor</span>
-<div style="display: flex; flex-direction: column; justify-content: start; align-items: start; min-height: 200px;">
-  <h3>Prowadzi Ciebie i Twój zespół</h3>
-  <ul>
-  <li>Ekspert z biznesu z latami praktyki w Twojej ścieżce.</li>
-  <li>Wspiera Twój zespół oraz Lidera w kierunku i decyzjach.</li>
-  <li>Spotykasz się z nim regularnie, by omówić postępy i wyzwania.</li>
-  <li>Zapewnia feedback do Twojej pracy.</li>
-  </ul>
-</div>
-<a href="https://docs.google.com/forms/d/e/1FAIpQLSfIB8LSeF-gFOKi8pd_U-oFUsR_RX3jZrrxfOsZnAejpbcjUA/viewform" target="_blank" class="btn btn-white">Zgłoś się</a>
-</div>
-<div class="duo-card dc-trener reveal">
-<span class="duo-badge">Trener</span>
-<div style="display: flex; flex-direction: column; justify-content: start; align-items: start; min-height: 200px;">
-  <h3>Prowadzi dodatkowe szkolenia</h3>
-  <ul>
-  <li>Praktyk, który współpracuje z Fundacją.</li>
-  <li>Warsztaty dostępne dla wszystkich uczestników programu przez cały rok.</li>
-  <li>Różne obszary i tematy, także te wykraczające poza zakres mentoringu.</li>
-  <li>Szansa na zdobycie dodatkowych kompetencji</li>
-  </ul>
-</div>
-<a href="https://docs.google.com/forms/d/1spegp5-wQa25uxLAM3Pag5r5r9aczgTUc6eIM0xKzic" target="_blank" class="btn btn-white">Zapisy wkrótce</a>
-</div>
-</div>
-</div>
+<!-- ===================== KIM SĄ MENTOR I TRENER ===================== -->
+<section class="mentor-intro" id="mentorzy" aria-labelledby="mentorIntroTitle">
+  <div class="mentor-intro-inner">
+    <div class="mentor-intro-heading">
+      <h2 id="mentorIntroTitle">Kim są mentor<br />i trener?</h2>
+      <img class="mentor-intro-underline" src="assets/mentorzy/underscore.svg" alt="" aria-hidden="true" />
+    </div>
+
+    <div class="mentor-intro-note">
+      <img class="mentor-intro-paper" src="assets/mentorzy/post-it-note.webp" alt="" aria-hidden="true" />
+      <p>To specjaliści pracujący na co dzień w branży, którzy przeszli już drogę, na którą nasi studenci dopiero wkraczają. Wspierają młode talenty w realizacji projektów, dzielą się wiedzą z praktyki i pomagają rozwijać kluczowe umiejętności zawodowe – bez czystej teorii.</p>
+      <img class="mentor-intro-doodle" src="assets/mentorzy/doodle-blue.svg" alt="" aria-hidden="true" />
+      <img class="mentor-intro-smiley" src="assets/mentorzy/smiley.svg" alt="" aria-hidden="true" />
+    </div>
+  </div>
+
+  <img class="mentor-intro-star" src="assets/mentorzy/star-doodle.svg" alt="" aria-hidden="true" />
+  <img class="mentor-intro-arrows-left" src="assets/mentorzy/arrows-orange.svg" alt="" aria-hidden="true" />
+  <img class="mentor-intro-arrows-right" src="assets/mentorzy/arrows-yellow.svg" alt="" aria-hidden="true" />
+</section>
+
+<!-- ===================== BĄDŹ WSPARCIEM DLA STUDENTÓW ===================== -->
+<section class="mentor-support" id="mentor_i_trener" aria-labelledby="mentorSupportTitle">
+  <div class="mentor-support-inner">
+    <p class="mentor-support-kicker">Która rola jest dla Ciebie?</p>
+    <h2 id="mentorSupportTitle">Bądź wsparciem dla studentów</h2>
+
+    <div class="mentor-support-grid">
+      <article class="mentor-support-card mentor-support-card-mentor">
+        <h3 class="mentor-support-label">Mentor</h3>
+        <ul>
+          <li><strong>Dedykowany ekspert:</strong> Prowadzisz zespół rozwijający się ściśle w Twojej dziedzinie</li>
+          <li><strong>Długofalowa relacja:</strong> 6-miesięczna opieka nad przydzielonym zespołem mentees</li>
+          <li><strong>Regularne calle:</strong> Stałe spotkania online i monitorowanie postępów projektu</li>
+          <li><strong>Wyższe zaangażowanie:</strong> Stała, kluczowa rola w całym cyklu programu</li>
+        </ul>
+        <a class="mentor-support-cta" href="https://docs.google.com/forms/d/e/1FAIpQLSfIB8LSeF-gFOKi8pd_U-oFUsR_RX3jZrrxfOsZnAejpbcjUA/viewform" target="_blank" rel="noopener">Zostań mentorem</a>
+      </article>
+
+      <article class="mentor-support-card mentor-support-card-trainer">
+        <h3 class="mentor-support-label">Trener</h3>
+        <ul>
+          <li><strong>Dowolna dziedzina:</strong> Szukamy ekspertów z KAŻDEJ ścieżki (od umiejętności miękkich po AI, prawo)</li>
+          <li><strong>Formuła warsztatowa:</strong> Przeprowadzenie 1-2 autorskich szkoleń online</li>
+          <li><strong>Wsparcie 1:1:</strong> Okazjonalne konsultacje dla studentów w zależności od dostępności</li>
+          <li><strong>Elastyczny czas:</strong> Niskie zobowiązanie czasowe - idealne przy napiętym grafiku</li>
+        </ul>
+        <a class="mentor-support-cta" href="https://docs.google.com/forms/d/1spegp5-wQa25uxLAM3Pag5r5r9aczgTUc6eIM0xKzic" target="_blank" rel="noopener">Zostań trenerem</a>
+      </article>
+    </div>
+  </div>
 </section>
 
 <!-- Zmieniono margin na: 20px (góra) auto (środek) 80px (dół) -->
