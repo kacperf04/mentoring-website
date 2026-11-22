@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Kalam:wght@400;700&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="css/style.css?v=16" />
-<link rel="stylesheet" href="css/mentorzy.css?v=9" />
+<link rel="stylesheet" href="css/mentorzy.css?v=12" />
 <link rel="canonical" href="https://kanalstudencki.pl/mentorzy" />
 </head>
 <body>
@@ -182,38 +182,112 @@
   </div>
 </section>
 
-<!-- Zmieniono margin na: 20px (góra) auto (środek) 80px (dół) -->
-<div class="tl-col" style="max-width: 600px; margin: 5px auto 80px; padding: 30px; background-color: #ffffff; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.08);">
-<p class="tl-title hand">Jak wygląda rekrutacja:</p>
-<!-- EDYTUJ DATY etapów -->
-<div class="timeline">
-<div class="tl-step" data-stage="1">
-<div class="tl-dot"><span>01</span></div>
-<div class="tl-body">
-<span class="tl-date hand">od 24 sierpnia</span>
-<h4>CV + formularz</h4>
-<p>Wysyłasz CV i krótki formularz m.in. wybór ścieżki rozwoju.</p>
-</div>
-</div>
+<!-- ===================== JAK DO NAS DOŁĄCZYĆ ===================== -->
+<section class="mentor-join" id="dolacz" aria-labelledby="mentorJoinTitle">
+  <div class="mentor-join-inner">
+    <h2 id="mentorJoinTitle">Jak do Nas dołączyć jako:</h2>
 
-<div class="tl-step" data-stage="2">
-<div class="tl-dot"><span>02</span></div>
-<div class="tl-body">
-<span class="tl-date hand">15-28 września</span>
-<h4>Rozmowa kwalifikacyjna</h4>
-<p>Poznajemy się. Sprawdzamy dopasowanie do ścieżki i zespołu.</p>
-</div>
-</div>
-<div class="tl-step" data-stage="3">
-<div class="tl-dot"><span>03</span></div>
-<div class="tl-body">
-<span class="tl-date hand">do 16 października</span>
-<h4>Decyzja</h4>
-<p>Jasna informacja zwrotna. Wchodzisz i dobieramy Ci zespół, projekt i mentora.</p>
-</div>
-</div>
-</div>
-</div>
+    <div class="mentor-join-tabs" role="tablist" aria-label="Wybierz rolę w programie">
+      <button class="mentor-join-tab is-active" id="mentorJoinTabMentor" type="button" role="tab" aria-selected="true" aria-controls="mentorJoinPanelMentor" tabindex="0">Mentor</button>
+      <button class="mentor-join-tab" id="mentorJoinTabTrainer" type="button" role="tab" aria-selected="false" aria-controls="mentorJoinPanelTrainer" tabindex="-1">Trener</button>
+    </div>
+
+    <div class="mentor-join-stage">
+      <p class="mentor-join-note mentor-join-note-management" aria-hidden="true">Zwiększ swoje<br />kompetencje<br />zarządcze</p>
+      <p class="mentor-join-note mentor-join-note-knowledge" aria-hidden="true">Dziel się<br />wiedzą</p>
+      <p class="mentor-join-note mentor-join-note-leader" aria-hidden="true">Rozwijaj<br />umiejętności<br />lidera</p>
+
+      <div class="mentor-join-panel" id="mentorJoinPanelMentor" role="tabpanel" aria-labelledby="mentorJoinTabMentor">
+        <ol class="mentor-join-timeline">
+          <li class="mentor-join-step">
+            <span class="mentor-join-step-number" aria-hidden="true">01</span>
+            <div>
+              <p class="mentor-join-date">Do 25.11.2026</p>
+              <h3>Formularz rekrutacyjny</h3>
+              <p>Wysyłasz CV i krótki formularz, w którym wskazujesz między innymi wybraną ścieżkę rozwoju.</p>
+            </div>
+          </li>
+          <li class="mentor-join-step">
+            <span class="mentor-join-step-number" aria-hidden="true">02</span>
+            <div>
+              <p class="mentor-join-date">Do 4.12.2026</p>
+              <h3>Rozmowa kwalifikacyjna</h3>
+              <p>Poznajemy Twoje potrzeby i dowiadujemy się, co chcesz osiągnąć z zespołem jako mentor.</p>
+            </div>
+          </li>
+          <li class="mentor-join-step">
+            <span class="mentor-join-step-number" aria-hidden="true">03</span>
+            <div>
+              <p class="mentor-join-date">Do 8.12.2026</p>
+              <h3>Decyzja</h3>
+              <p>Otrzymujesz jasną informację zwrotną — mamy nadzieję, że witamy Cię na pokładzie!</p>
+            </div>
+          </li>
+        </ol>
+
+        <a class="mentor-join-cta" href="https://docs.google.com/forms/d/e/1FAIpQLSfIB8LSeF-gFOKi8pd_U-oFUsR_RX3jZrrxfOsZnAejpbcjUA/viewform" target="_blank" rel="noopener">Zostań mentorem</a>
+      </div>
+
+      <div class="mentor-join-panel mentor-join-panel-trainer" id="mentorJoinPanelTrainer" role="tabpanel" aria-labelledby="mentorJoinTabTrainer" hidden>
+        <div class="mentor-join-trainer-content">
+          <p class="mentor-join-trainer-badge">Nabór ciągły</p>
+          <h3>Dołącz jako trener w każdym momencie</h3>
+          <p>Przez cały rok zapraszamy ekspertów, którzy chcą podzielić się praktyczną wiedzą podczas szkolenia lub warsztatu dla studentów.</p>
+          <p>Możesz napisać na <a class="mentor-join-mail" href="mailto:kontakt@kanalstudencki.pl?subject=Chcę%20zostać%20trenerem%20w%20Programie%20Mentoringowym">kontakt@kanalstudencki.pl</a> albo przesłać zgłoszenie przez formularz.</p>
+
+          <div class="mentor-join-actions">
+            <a class="mentor-join-cta mentor-join-cta-secondary" href="mailto:kontakt@kanalstudencki.pl?subject=Chcę%20zostać%20trenerem%20w%20Programie%20Mentoringowym">Napisz maila</a>
+            <a class="mentor-join-cta" href="https://docs.google.com/forms/d/1spegp5-wQa25uxLAM3Pag5r5r9aczgTUc6eIM0xKzic" target="_blank" rel="noopener">Wypełnij formularz</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== NASI TRENERZY PRACUJĄ W ===================== -->
+<section class="mentor-companies" aria-labelledby="mentorCompaniesTitle">
+  <div class="mentor-companies-inner">
+    <h2 id="mentorCompaniesTitle">Nasi trenerzy pracują w:</h2>
+    <ul aria-label="Firmy, w których pracują trenerzy programu">
+      <li>Puls Biznesu</li>
+      <li>IT.INTEGRO</li>
+      <li>Żabka</li>
+      <li>Allegro</li>
+      <li>Erste</li>
+      <li>Cheers</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ===================== TRENERZY PROGRAMU ===================== -->
+<section class="mentor-trainers" id="trenerzy" aria-labelledby="mentorTrainersTitle">
+  <div class="mentor-trainers-inner">
+    <header class="mentor-trainers-header">
+      <div class="mentor-trainers-heading">
+        <h2 id="mentorTrainersTitle">Trenerzy programu</h2>
+        <img src="assets/mentorzy/underscore.svg" alt="" aria-hidden="true" />
+      </div>
+
+      <p class="mentor-trainers-count" aria-label="Liczba ekspertów z branży">
+        <strong id="mentorTrainersTotal">—</strong>
+        <span><b>ekspertów</b><em>z branży</em></span>
+      </p>
+    </header>
+
+    <div class="mentor-trainers-filters" id="mentorTrainersFilters" role="group" aria-label="Filtruj trenerów według obszaru"></div>
+
+    <div class="mentor-trainers-carousel">
+      <button class="mentor-trainers-arrow mentor-trainers-arrow-prev" id="mentorTrainersPrev" type="button" aria-label="Pokaż poprzednich trenerów" hidden>‹</button>
+      <div class="mentor-trainers-track" id="mentorTrainersTrack" aria-busy="true">
+        <p class="mentor-trainers-message">Ładujemy trenerów…</p>
+      </div>
+      <button class="mentor-trainers-arrow mentor-trainers-arrow-next" id="mentorTrainersNext" type="button" aria-label="Pokaż kolejnych trenerów" hidden>›</button>
+    </div>
+
+    <p class="sr-only" id="mentorTrainersStatus" role="status" aria-live="polite"></p>
+  </div>
+</section>
 
 <!-- ===================== FOOTER ===================== -->
 <footer>
@@ -299,6 +373,6 @@
 
 <script src="js/consent.js?v=3"></script>
 <script src="js/main.js?v=15"></script>
-<script src="js/mentorzy.js?v=1"></script>
+<script src="js/mentorzy.js?v=3"></script>
 </body>
 </html>

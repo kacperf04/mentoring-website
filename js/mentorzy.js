@@ -150,3 +150,257 @@
     }
   });
 })();
+
+(function () {
+  "use strict";
+
+  var section = document.getElementById("trenerzy");
+  var total = document.getElementById("mentorTrainersTotal");
+  var filters = document.getElementById("mentorTrainersFilters");
+  var track = document.getElementById("mentorTrainersTrack");
+  var previousButton = document.getElementById("mentorTrainersPrev");
+  var nextButton = document.getElementById("mentorTrainersNext");
+  var status = document.getElementById("mentorTrainersStatus");
+  var trainers = [];
+  var categories = [];
+  var activeCategory = "";
+
+  if (!section || !total || !filters || !track || !previousButton || !nextButton || !status) return;
+
+  function cleanText(value) {
+    return typeof value === "string" ? value.trim() : "";
+  }
+
+  function normalizeTrainer(item, index) {
+    if (!item || typeof item !== "object" || !cleanText(item.name)) return null;
+
+    return {
+      id: cleanText(item.id) || "trainer-" + index,
+      name: cleanText(item.name),
+      position: cleanText(item.position),
+      company: cleanText(item.company),
+      categories: Array.isArray(item.categories) ? item.categories.map(cleanText).filter(Boolean) : [],
+      image: cleanText(item.image),
+      imageAlt: cleanText(item.imageAlt),
+      description: cleanText(item.description),
+      featured: item.featured === true
+    };
+  }
+
+  function initialsFor(name) {
+    return name.split(/\s+/).filter(Boolean).slice(0, 2).map(function (part) {
+      return part.charAt(0).toUpperCase();
+    }).join("");
+  }
+
+  function createTrainerCard(trainer) {
+    var card = document.createElement("article");
+    var media = document.createElement("div");
+    var fallback = document.createElement("span");
+    var overlay = document.createElement("div");
+    var name = document.createElement("h3");
+    var nameHighlight = document.createElement("span");
+    var role = document.createElement("p");
+
+    card.className = "mentor-trainer-card" + (trainer.featured ? " is-featured" : "");
+    card.setAttribute("data-trainer-id", trainer.id);
+    media.className = "mentor-trainer-media";
+    fallback.className = "mentor-trainer-initials";
+    fallback.textContent = initialsFor(trainer.name);
+    media.appendChild(fallback);
+
+    if (trainer.image) {
+      var image = document.createElement("img");
+      image.src = trainer.image;
+      image.alt = trainer.imageAlt || "Portret: " + trainer.name;
+      image.loading = "lazy";
+      image.decoding = "async";
+      image.addEventListener("load", function () {
+        card.classList.add("has-image");
+        fallback.hidden = true;
+      });
+      image.addEventListener("error", function () {
+        image.remove();
+      });
+      media.appendChild(image);
+    }
+
+    overlay.className = "mentor-trainer-overlay";
+
+    if (trainer.description && trainer.featured) {
+      var description = document.createElement("p");
+      description.className = "mentor-trainer-description";
+      description.textContent = trainer.description;
+      overlay.appendChild(description);
+    }
+
+    nameHighlight.textContent = trainer.name;
+    name.appendChild(nameHighlight);
+    overlay.appendChild(name);
+
+    role.className = "mentor-trainer-role";
+    role.textContent = trainer.position + (trainer.company ? " @" + trainer.company : "");
+    if (role.textContent.trim()) overlay.appendChild(role);
+
+    card.appendChild(media);
+    card.appendChild(overlay);
+    return card;
+  }
+
+  function visibleTrainers() {
+    if (!activeCategory) return trainers.slice();
+    return trainers.filter(function (trainer) {
+      return trainer.categories.indexOf(activeCategory) !== -1;
+    });
+  }
+
+  function renderCards() {
+    var visible = visibleTrainers();
+    track.innerHTML = "";
+    track.scrollLeft = 0;
+    track.classList.toggle("is-single", visible.length === 1);
+
+    if (!visible.length) {
+      var empty = document.createElement("p");
+      empty.className = "mentor-trainers-message";
+      empty.textContent = "W tej kategorii nie dodano jeszcze trenerów.";
+      track.appendChild(empty);
+    } else {
+      visible.forEach(function (trainer) {
+        track.appendChild(createTrainerCard(trainer));
+      });
+    }
+
+    previousButton.hidden = visible.length < 2;
+    nextButton.hidden = visible.length < 2;
+    track.setAttribute("aria-busy", "false");
+    status.textContent = visible.length === 1
+      ? "Wyświetlono jednego trenera."
+      : "Wyświetlono trenerów: " + visible.length + ".";
+  }
+
+  function renderFilters() {
+    filters.innerHTML = "";
+    filters.hidden = categories.length === 0;
+
+    categories.forEach(function (category) {
+      var button = document.createElement("button");
+      var isActive = category === activeCategory;
+
+      button.type = "button";
+      button.className = "mentor-trainers-filter" + (isActive ? " is-active" : "");
+      button.textContent = category;
+      button.setAttribute("aria-pressed", isActive ? "true" : "false");
+      button.addEventListener("click", function () {
+        activeCategory = category;
+        renderFilters();
+        renderCards();
+      });
+      filters.appendChild(button);
+    });
+  }
+
+  function showLoadError() {
+    track.innerHTML = "";
+    track.setAttribute("aria-busy", "false");
+    total.textContent = "0";
+    filters.hidden = true;
+    previousButton.hidden = true;
+    nextButton.hidden = true;
+
+    var error = document.createElement("p");
+    error.className = "mentor-trainers-message mentor-trainers-message-error";
+    error.textContent = "Nie udało się wczytać listy trenerów. Spróbuj ponownie później.";
+    track.appendChild(error);
+    status.textContent = error.textContent;
+  }
+
+  function scrollTrack(direction) {
+    var card = track.querySelector(".mentor-trainer-card");
+    var distance = card ? card.offsetWidth + 26 : 340;
+    var target = track.scrollLeft + direction * distance;
+
+    if (typeof track.scrollTo === "function") {
+      track.scrollTo({ left: target, behavior: "smooth" });
+    } else {
+      track.scrollLeft = target;
+    }
+  }
+
+  previousButton.addEventListener("click", function () {
+    scrollTrack(-1);
+  });
+
+  nextButton.addEventListener("click", function () {
+    scrollTrack(1);
+  });
+
+  fetch("data/trenerzy.json", { cache: "no-store" })
+    .then(function (response) {
+      if (!response.ok) throw new Error("HTTP " + response.status);
+      return response.json();
+    })
+    .then(function (data) {
+      var source = data && Array.isArray(data.trainers) ? data.trainers : [];
+      var configuredCategories = data && Array.isArray(data.categories) ? data.categories.map(cleanText).filter(Boolean) : [];
+
+      trainers = source.map(normalizeTrainer).filter(Boolean);
+      categories = configuredCategories.length ? configuredCategories : trainers.reduce(function (result, trainer) {
+        trainer.categories.forEach(function (category) {
+          if (result.indexOf(category) === -1) result.push(category);
+        });
+        return result;
+      }, []);
+      activeCategory = categories[0] || "";
+
+      total.textContent = data && typeof data.totalExperts === "number" && isFinite(data.totalExperts)
+        ? String(Math.max(0, Math.round(data.totalExperts)))
+        : String(trainers.length);
+
+      renderFilters();
+      renderCards();
+    })
+    .catch(showLoadError);
+})();
+
+(function () {
+  "use strict";
+
+  var tabs = Array.prototype.slice.call(document.querySelectorAll(".mentor-join-tab"));
+  var panels = Array.prototype.slice.call(document.querySelectorAll(".mentor-join-panel"));
+
+  if (!tabs.length || !panels.length) return;
+
+  function activateTab(nextTab) {
+    tabs.forEach(function (tab) {
+      var isActive = tab === nextTab;
+      var panelId = tab.getAttribute("aria-controls");
+      var panel = document.getElementById(panelId);
+
+      tab.classList.toggle("is-active", isActive);
+      tab.setAttribute("aria-selected", isActive ? "true" : "false");
+      tab.setAttribute("tabindex", isActive ? "0" : "-1");
+      if (panel) panel.hidden = !isActive;
+    });
+  }
+
+  tabs.forEach(function (tab, index) {
+    tab.addEventListener("click", function () {
+      activateTab(tab);
+    });
+
+    tab.addEventListener("keydown", function (event) {
+      var nextIndex = index;
+
+      if (event.key === "ArrowRight") nextIndex = (index + 1) % tabs.length;
+      else if (event.key === "ArrowLeft") nextIndex = (index - 1 + tabs.length) % tabs.length;
+      else if (event.key === "Home") nextIndex = 0;
+      else if (event.key === "End") nextIndex = tabs.length - 1;
+      else return;
+
+      event.preventDefault();
+      activateTab(tabs[nextIndex]);
+      tabs[nextIndex].focus();
+    });
+  });
+})();
