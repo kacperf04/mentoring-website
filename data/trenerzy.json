@@ -1,5 +1,4 @@
 {
-  "totalExperts": 24,
   "categories": [
     "IT i dane",
     "Marketing",
@@ -9,7 +8,6 @@
   ],
   "trainers": [
     {
-      "submittedAt": "2026-11-06 19:51:32",
       "id": "aleksandra-kumorek",
       "name": "Aleksandra Kumorek",
       "position": "Privacy Specialist",
@@ -17,13 +15,13 @@
       "categories": [
         "IT i dane"
       ],
-      "image": "",
+      "image": "/assets/mentorzy/zdjecia-trenerow/webp/aleksandra_kumorek.jpeg",
       "imageAlt": "",
+      "imagePosition": "50% 50%",
       "description": "Pracuję jako Privacy Specialist w międzynarodowej korporacji oraz jestem studentką V roku Prawa na UJ. Na co dzień zajmuję się ochroną danych osobowych, przede wszystkim realizacją praw osób, których dane dotyczą, m.in. prawa dostępu do danych i prawa do bycia zapomnianym oraz obsługą incydentów związanych z bezpieczeństwem danych i zarządzaniem ryzykiem.…",
       "featured": true
     },
     {
-      "submittedAt": "2026-11-09 20:38:57",
       "id": "angelika-garczyk",
       "name": "Angelika Garczyk",
       "position": "Founder",
@@ -31,13 +29,13 @@
       "categories": [
         "Marketing"
       ],
-      "image": "/assets/mentorzy/zdjecia-trenerow/angelika-garczyk.png",
+      "image": "/assets/mentorzy/zdjecia-trenerow/webp/angelika-garczyk.webp",
       "imageAlt": "Portret: Angelika Garczyk",
+      "imagePosition": "50% 50%",
       "description": "Kiedy po studiach zderzyłam się z rzeczywistością rynku pracy, zamiast czekać na cud, postanowiłam zacząć budować swoją widoczność na LinkedInie. Dziś prowadzę własną firmę, występuję na konferencjach i szkolę innych z budowania marki osobistej i jestem przekonana, że bez LinkedIna moja kariera potoczyłaby się zupełnie inaczej. Tym bardziej dziwi mnie, że…",
       "featured": true
     },
     {
-      "submittedAt": "2026-11-10 11:26:35",
       "id": "magdalena-kieferling",
       "name": "Magdalena Kieferling",
       "position": "Ekspertka neuronegocjacji, autorka i mówczyni",
@@ -45,13 +43,13 @@
       "categories": [
         "Kompetencje miękkie"
       ],
-      "image": "",
+      "image": "/assets/mentorzy/zdjecia-trenerow/webp/magdalena-kieferling.webp",
       "imageAlt": "Portret: Magdalena Kieferling",
+      "imagePosition": "50% 50%",
       "description": "Od ponad 20 lat obserwuję, jak bardzo umiejętność rozmowy wpływa na nasze życie: na odwagę, relacje, decyzje i szanse, które dostajemy. Przeszłam przez świat biznesu, zarządzania, komunikacji i mediów, napisałam trzy książki, w tym bestsellery, wystąpiłam na TEDx i dziś pracuję z liderami największych organizacji. Chciałabym przekazać młodym ludziom coś…",
       "featured": true
     },
     {
-      "submittedAt": "2026-11-10 19:14:35",
       "id": "karolina-nibus",
       "name": "Karolina Nibus",
       "position": "Specjalistka HR, rekrutacji i employer brandingu",
@@ -60,13 +58,13 @@
         "HR",
         "Kompetencje miękkie"
       ],
-      "image": "",
+      "image": "/assets/mentorzy/zdjecia-trenerow/webp/karolina-nibus.webp",
       "imageAlt": "Portret: Karolina Nibus",
+      "imagePosition": "50% 50%",
       "description": "Bo robię to od 14 roku życia. Wtedy zaczęła się moja przygoda z korkami. Ucze mocno wizualnie i bez wzorów i z czasem zobacyzłam że to jak \"widzę\" matmę i procesy moge pokazywac innym i niektórym to bardzo pomaga. Plus jestem autentyczna w relacjach. Na luziku i tyle :)",
       "featured": true
     },
     {
-      "submittedAt": "2026-11-10 20:20:21",
       "id": "borys-stelmaszyk",
       "name": "Borys Stelmaszyk",
       "position": "Salesforce Developer",
@@ -74,13 +72,13 @@
       "categories": [
         "IT i dane"
       ],
-      "image": "",
+      "image": "/assets/mentorzy/zdjecia-trenerow/webp/borys-stelmaszyk.webp",
       "imageAlt": "Portret: Borys Stelmaszyk",
+      "imagePosition": "50% 50%",
       "description": "Heloł! Poza pracą żyję motoryzacją, szeroko pojętymi finansami i odkrywaniem nowych rzeczy :) Jakiś czas temu przekonałem się, jak dużo satysfakcji daje mi dzielenie się swoimi doświadczeniami z innymi, między innymi dlatego wypełniam ten formularz. Mimo młodego wieku zdążyłem już zdobyć niemałe doświadczenie w korporacjach i świecie nowych technologii. Po…",
       "featured": false
     },
     {
-      "submittedAt": "2026-11-11 12:03:08",
       "id": "anastazja-kochanowicz",
       "name": "Anastazja Kochanowicz",
       "position": "Specjalistka Marketing Automation i doradczyni marketingowa",
@@ -88,13 +86,13 @@
       "categories": [
         "Marketing"
       ],
-      "image": "",
+      "image": "/assets/mentorzy/zdjecia-trenerow/webp/anastazja-kochanowicz.webp",
       "imageAlt": "Portret: Anastazja Kochanowicz",
+      "imagePosition": "50% 50%",
       "description": "Od ponad 3 lat zajmuję się marketingiem, dokładniej Marketing Automation, a od 3 lat działam jako freelancerka. Do tego współorganizuję cykliczne wydarzenia marketingowe i prowadzę warsztaty dla studentów na jednej z uczelni wyższych. Chcę wspierać młodych ludzi, ponieważ sama chciałabym na początku dowiedzieć się o tym, co już wiem mając kilkuletnie…",
       "featured": false
     },
     {
-      "submittedAt": "2026-11-11 19:14:56",
       "id": "klaudia-stano",
       "name": "Klaudia Stano",
       "position": "Analityczka danych i edukatorka",
@@ -102,13 +100,13 @@
       "categories": [
         "IT i dane"
       ],
-      "image": "",
+      "image": "/assets/mentorzy/zdjecia-trenerow/webp/klaudia-stano.webp",
       "imageAlt": "Portret: Klaudia Stano",
+      "imagePosition": "50% 50%",
       "description": "Jestem analityczką danych i entuzjastką wizualizacji danych. Szkolę z data storytellingu i komunikacji danych. Prowadzę Klub Języka Danych – społeczność, w której entuzjaści danych (zarówno początkujący, jak i zaawansowani) mogą szlifować umiejętności wizualizacji i data storytellingu w regularnych wyzwaniach na prawdziwych danych. Zależy mi na tym, aby…",
       "featured": false
     },
     {
-      "submittedAt": "2026-11-11 19:17:56",
       "id": "patrycja-grupinska",
       "name": "Patrycja Grupińska",
       "position": "eCommerce Supply Chain Manager i doktorantka",
@@ -116,13 +114,13 @@
       "categories": [
         "Kompetencje miękkie"
       ],
-      "image": "",
+      "image": "/assets/mentorzy/zdjecia-trenerow/webp/patrycja-grupinska.webp",
       "imageAlt": "Portret: Patrycja Grupińska",
+      "imagePosition": "50% 50%",
       "description": "Parę lat temu byłam w tym samym miejscu, w którym są młode osoby szukające swojej drogi w świecie biznesu: które próbują przebić szklany sufit (który podobno nie istnieje). Mi się udało i teraz chętnie opowiadam swoją historię, łącząc przy tym dwa środowiska - biznes i akademię. Rozwijam się w obu tych obszarach. Z jednej strony budując swoją zawodową…",
       "featured": false
     },
     {
-      "submittedAt": "2026-11-12 08:57:20",
       "id": "agnieszka-kaniewska",
       "name": "Agnieszka Kaniewska",
       "position": "Project Managerka",
@@ -130,13 +128,13 @@
       "categories": [
         "Kompetencje miękkie"
       ],
-      "image": "",
+      "image": "/assets/mentorzy/zdjecia-trenerow/webp/agnieszka-kaniewska.webp",
       "imageAlt": "Portret: Agnieszka Kaniewska",
+      "imagePosition": "50% 50%",
       "description": "Jestem osobą, która lubi ludzi, dużo rozmawia, chętnie podejmuje nowe wyzwania i zdecydowanie nie potrafi długo siedzieć w miejscu. Lubię działać, szukać rozwiązań i sprawdzać się w nowych sytuacjach, nawet jeśli oznacza to wyjście poza własną strefę komfortu. W pracy przekonałam się, że najwięcej uczymy się nie wtedy, kiedy wszystko idzie zgodnie z planem…",
       "featured": false
     },
     {
-      "submittedAt": "2026-11-12 10:13:55",
       "id": "martyna-brzeszcz",
       "name": "Martyna Brzeszcz",
       "position": "Konsultantka i audytorka performance marketingu",
@@ -144,13 +142,13 @@
       "categories": [
         "Marketing"
       ],
-      "image": "",
+      "image": "/assets/mentorzy/zdjecia-trenerow/webp/martyna-brzeszcz.webp",
       "imageAlt": "Portret: Martyna Brzeszcz",
+      "imagePosition": "50% 50%",
       "description": "Mam ponad 14 lat doświadczenia w marketingu digitalowym. Łączę trzy światy, bo pracowałam po stronie agencji, po stronie klienta (a właściwie różnych ;)), a obecnie jestem \"trzecią stroną\", czyli audytorką. Dzięki temu, że pracowałam w agencji jako accountka, mam szerokie doświadczenie w różnych obszarach marketingu i wiem, jak łączyć online z offline, jak…",
       "featured": false
     },
     {
-      "submittedAt": "2026-11-12 10:52:51",
       "id": "joanka-stefaniak",
       "name": "Joanka Stefaniak",
       "position": "Performance Marketing Managerka",
@@ -158,13 +156,13 @@
       "categories": [
         "Marketing"
       ],
-      "image": "",
+      "image": "/assets/mentorzy/zdjecia-trenerow/webp/joanka-stefaniak.webp",
       "imageAlt": "Portret: Joanka Stefaniak",
+      "imagePosition": "50% 50%",
       "description": "Pomagam sklepom internetowym i twórcom produktów cyfrowych robić reklamy, które są skuteczne. Mam 13 lat doświadczenia w marketingu. Specjalizuję się w Meta Ads dla eCommerce i obecności w social media. Tylko w 2025 roku wydałam dla moich klientów około 6 000 000 zł. Współpracuję z markami, które cenią konkrety i partnerskie podejście. Łączę rolę mentorki…",
       "featured": false
     },
     {
-      "submittedAt": "2026-11-12 20:34:52",
       "id": "amelia-czerwik",
       "name": "Amelia Czerwik",
       "position": "Content Creator i Social Media Managerka",
@@ -172,13 +170,13 @@
       "categories": [
         "Marketing"
       ],
-      "image": "",
+      "image": "/assets/mentorzy/zdjecia-trenerow/webp/amelia-czerwik.webp",
       "imageAlt": "Portret: Amelia Czerwik",
+      "imagePosition": "50% 50%",
       "description": "Na co dzień tworzę treści dla marek w agencji Cheers Stories, a na swoich profilach nagrywam o tym, co sama lubię. Śmieję się, że nagrywam w pracy, a po pracy… też nagrywam :) Zaczynałam jako freelancerka w wieku 21 lat i byłam wtedy totalnym samoukiem. Z czasem zbudowałam własną bazę klientów i samodzielnie ogarniałam ich sociale od A do Z, od pomysłów i…",
       "featured": false
     },
     {
-      "submittedAt": "2026-11-13 09:21:08",
       "id": "alicja-topolnicki",
       "name": "Alicja Topolnicki",
       "position": "IT Recruitment Manager",
@@ -186,13 +184,13 @@
       "categories": [
         "HR"
       ],
-      "image": "",
+      "image": "/assets/mentorzy/zdjecia-trenerow/webp/alicja-topolnicki.webp",
       "imageAlt": "Portret: Alicja Topolnicki",
+      "imagePosition": "50% 50%",
       "description": "Nie żyję pracą, ale pracuję by żyć. Znalazłam ścieżkę, dzięki której moja praca to nie jest tylko przykry obowiązek. Na co dzień zajmuję się rekrutacją - nie samym szukaniem i zatrunianiem osób, ale też wspieram klientów w definiowaniu procesów rekrutacyjnych, a w firmie... a firmie zajmuję się tym, czym trzeba od rekrutacji, po ogarnianie dofinansowań :)",
       "featured": false
     },
     {
-      "submittedAt": "2026-11-13 14:06:23",
       "id": "karolina-buczkowska-maziarka",
       "name": "Karolina Buczkowska-Maziarka",
       "position": "Managing Partner",
@@ -200,13 +198,13 @@
       "categories": [
         "Marketing"
       ],
-      "image": "",
+      "image": "/assets/mentorzy/zdjecia-trenerow/webp/karolina-buczkowska-maziarka.webp",
       "imageAlt": "Portret: Karolina Buczkowska-Maziarka",
+      "imagePosition": "50% 50%",
       "description": "Od kilku lat prowadzę agencję PR, w której realizujemy projekty dla klientów B2B. Specjalizujemy się w budowaniu wzierunku w mediach i na LinkedInie oraz biznesowym matchmakingu. Wspieramy także komunikacyjnie marki zagraniczne, które planują wejście lub ekspansję na polskim rynku.",
       "featured": false
     },
     {
-      "submittedAt": "2026-11-16 10:32:20",
       "id": "gabriela-sobczak",
       "name": "Gabriela Sobczak",
       "position": "Specjalistka ds. HR",
@@ -215,13 +213,13 @@
         "HR",
         "Kompetencje miękkie"
       ],
-      "image": "",
+      "image": "/assets/mentorzy/zdjecia-trenerow/webp/gabriela-sobczak.webp",
       "imageAlt": "Portret: Gabriela Sobczak",
+      "imagePosition": "50% 50%",
       "description": "Od ponad 8 lat jestem związana z branżą HR, wcześniej pracując w agencji rekrutacyjnej, obecnie w HR wewnętrznym w firmie z branży IT. Na co dzień wspieram pracowników w rozwoju, organizuję szkolenia z kompetencji miękkich, prowadzę procesy rekrutacyjne oraz dbam o odpowiednie wdrożenie nowych osób do naszej firmy. Żyjemy w czasach dużej zmienności, gdzie…",
       "featured": false
     },
     {
-      "submittedAt": "2026-11-16 19:57:41",
       "id": "agnieszka-warsinska",
       "name": "Agnieszka Warsińska",
       "position": "Prezeska",
@@ -230,13 +228,13 @@
         "IT i dane",
         "Kompetencje miękkie"
       ],
-      "image": "",
+      "image": "/assets/mentorzy/zdjecia-trenerow/webp/agnieszka-warsinska.webp",
       "imageAlt": "Portret: Agnieszka Warsińska",
+      "imagePosition": "50% 50%",
       "description": "Na co dzień jestem project managerem, a po godzinach prezesem fundacji. Tworzymy narzędzia, aplikacje i procesy, które pomagają polskim organizacjom pozarządowym rozwijać się w cyfrowym świecie.",
       "featured": false
     },
     {
-      "submittedAt": "2026-11-16 23:10:52",
       "id": "maja-sajdak",
       "name": "Maja Sajdak",
       "position": "Profesorka uczelni, tutorka, trenerka i mentorka",
@@ -244,13 +242,13 @@
       "categories": [
         "Kompetencje miękkie"
       ],
-      "image": "",
+      "image": "/assets/mentorzy/zdjecia-trenerow/webp/maja-sajdak.webp",
       "imageAlt": "Portret: Maja Sajdak",
+      "imagePosition": "50% 50%",
       "description": "Od ponad 17 lat pracuję na Uniwersytecie Ekonomicznym w Poznaniu i wciąż fascynuje mnie to samo pytanie: jak ludzie i firmy radzą sobie ze zmianą i dlaczego niektórym wychodzi to lepiej niż innym. Badam to, uczę tego i prowadzę warsztaty, a od lat opiekuję się też kołem naukowym Compertus. Ta praca z młodymi ludźmi daje mi chyba najwięcej satysfakcji. Lubię…",
       "featured": false
     },
     {
-      "submittedAt": "2026-11-17 14:26:07",
       "id": "marta-krzeslak",
       "name": "Marta Krześlak",
       "position": "Starsza specjalistka ds. HR",
@@ -261,11 +259,11 @@
       ],
       "image": "",
       "imageAlt": "",
+      "imagePosition": "50% 50%",
       "description": "HRem jestem z zawodu, ale też z zainteresowań. Na co dzień pracuje z ludźmi - wspierając ich rozwój, układając procesy personalne i zarządzając szkoleniami, ale też prowadząc procesy rekrutacji. Ciekawią mnie ludzie to jak się komunikujemy i jak zmieniają się warunki pracy, ale też cały świat pracy - zwłaszcza w kwestiach technologiczno-socjologicznych.…",
       "featured": false
     },
     {
-      "submittedAt": "2026-11-17 18:33:12",
       "id": "gabriel-chrostowski",
       "name": "Gabriel Chrostowski",
       "position": "Analityk i ekonomista",
@@ -274,13 +272,13 @@
         "Finanse",
         "IT i dane"
       ],
-      "image": "",
+      "image": "/assets/mentorzy/zdjecia-trenerow/webp/gabriel-chrostowski.webp",
       "imageAlt": "Portret: Gabriel Chrostowski",
+      "imagePosition": "50% 50%",
       "description": "W skrócie: zajmuję się analizą danych ekonomicznych. Łączę pracę analityczną i dziennikarską. Piszę raporty, tworzę analizy dotyczące makroekonomii, technologii, zmian społecznych, ekonomicznych i politycznych. Lubię poszukać dziury w całym, sprawdzić co w trawie piszczy. Jestem współautorem wielu raportów, które nadają tempo debacie ekonomicznej, m.in.…",
       "featured": true
     },
     {
-      "submittedAt": "2026-11-18 20:51:11",
       "id": "michalina-kotowicz-manko",
       "name": "Michalina Kotowicz-Mańko",
       "position": "Senior Project & Program Manager",
@@ -288,41 +286,41 @@
       "categories": [
         "Kompetencje miękkie"
       ],
-      "image": "",
+      "image": "/assets/mentorzy/zdjecia-trenerow/webp/michalina-kotowicz-manko.webp",
       "imageAlt": "Portret: Michalina Kotowicz-Mańko",
+      "imagePosition": "50% 50%",
       "description": "Na co dzień pracuję przy dużych projektach i zmianach w organizacjach, a od kilku lat coraz mocniej angażuję się w edukację, mentoring i rozwój młodych ludzi. Lubię łączyć doświadczenie z praktyki z tym, czego sama nauczyłam się po drodze, także na własnych błędach. Wierzę, że młodym osobom często nie brakuje talentu, tylko kogoś, kto pomoże im zobaczyć…",
       "featured": false
     },
     {
-      "submittedAt": "2026-11-19 11:30:40",
-      "id": "micha-kozak",
+      "id": "michal-kozak",
       "name": "Michał Kozak",
       "position": "AI Solutions Architect",
       "company": "",
       "categories": [
         "IT i dane"
       ],
-      "image": "",
+      "image": "/assets/mentorzy/zdjecia-trenerow/webp/michal-kozak.webp",
       "imageAlt": "Portret: Michał Kozak",
+      "imagePosition": "50% 50%",
       "description": "Jestem architektem automatyzacji i AI z Poznania. Od ponad dekady łączę technologię z realnymi potrzebami biznesu. Zaczynałem jako programista full-stack, a dziś projektuję systemy inteligentnej automatyzacji. Dzięki temu patrzę na procesy całościowo — od czystego kodu po wartość, którą można zmierzyć w wynikach firmy.",
       "featured": false
     },
     {
-      "submittedAt": "2026-11-19 18:30:21",
-      "id": "daria-anio",
+      "id": "daria-aniol",
       "name": "Daria Anioł",
       "position": "Marketing & Strategy Specialist",
       "company": "",
       "categories": [
         "Marketing"
       ],
-      "image": "",
+      "image": "/assets/mentorzy/zdjecia-trenerow/webp/daria-aniol.webp",
       "imageAlt": "Portret: Daria Anioł",
+      "imagePosition": "50% 50%",
       "description": "Od 10 lat pomagam markom odnaleźć swój głos w mediach społecznościowych, łącząc kreatywne pomysły z konkretnym planem działania. Na co dzień żyję światem short wideo, współpracą z twórcami i budowaniem marek od zera. Chcę wspierać młodych ludzi, bo wiem, jak trudno na starcie przełożyć wiedzę ze szkoleń na rynkową praktykę i nie zgubić się w branżowym…",
       "featured": false
     },
     {
-      "submittedAt": "2026-11-20 08:18:40",
       "id": "nikola-sobon",
       "name": "Nikola Soboń",
       "position": "Prezeska i koordynatorka projektów społecznych",
@@ -331,13 +329,13 @@
         "Marketing",
         "Kompetencje miękkie"
       ],
-      "image": "",
+      "image": "/assets/mentorzy/zdjecia-trenerow/webp/nikola_sobon.jpg",
       "imageAlt": "Portret: Nikola Soboń",
+      "imagePosition": "50% 50%",
       "description": "Od 7 lat pasjonuję się działalnością społeczną opartą w szczególności o zarządzanie projektami. Realizowałam projekty z zakresu m.in. edukacji, ekologii, wsparcia dziewcząt, a obecnie od 5 lat przede wszystkim w obszarze empatii - coroczne zbiórki karteczek z empatycznym przesłaniem, konferencje, e-booki, badania społeczne. Buduję strategię rozwoju fundacji…",
       "featured": false
     },
     {
-      "submittedAt": "2026-11-20 14:02:33",
       "id": "damian-kasperski",
       "name": "Damian Kasperski",
       "position": "Power BI Developer i analityk danych",
@@ -346,9 +344,24 @@
         "IT i dane",
         "Finanse"
       ],
-      "image": "",
-      "imageAlt": "",
+      "image": "/assets/mentorzy/zdjecia-trenerow/webp/damian-kasperski.webp",
+      "imageAlt": "Portret: Damian Kasperski",
+      "imagePosition": "50% 50%",
       "description": "Na co dzień pracuję w Dziale Ekspansji Żabka Polska, gdzie łączę dane z różnych systemów, buduję raporty i aplikacje oraz automatyzuję zadania, żeby ułatwiać pracę innym. Studiowałem ekonomię i prawo, a później finanse i rachunkowość, i początkowo planowałem karierę w doradztwie podatkowym. Moja droga prowadziła przez staże w kancelariach, samodzielną naukę…",
+      "featured": false
+    },
+    {
+      "id": "maarta-andrzejewska",
+      "name": "Marta Andrzejewska",
+      "position": "Kierownik Działu Marketingu",
+      "company": "Uniwersytet Ekonomiczny w Poznaniu",
+      "categories": [
+        "Kompetencje miękkie"
+      ],
+      "image": "/assets/mentorzy/zdjecia-trenerow/webp/marta-andrzejewska.webp",
+      "imageAlt": "Portret: Marta Andrzejewska",
+      "imagePosition": "50% 50%",
+      "description": "Jestem piarowcem, ekspertem w zakresie komunikacji, organizacji wydarzeń i działań marketingowych. Kilkanaście lat pracowałam w międzynarodowej korporacji medycznej, a ponad 4 lata temu wróciłam do mojej Alma Mater i jestem częścią społeczności UEP. Kiedy byłam na studiach najbardziej brakowało mi praktyki w biznesie, dowiedzenia się, jak to jest w firmie, na czym polega praca w danym zawodzie. Myślę, że dla młodych osób, które dopiero zaczynają pracę bardzo przydatny jest kontakt z ludźmi z doświadczeniem, którzy dzielą się z nimi wiedzą bez pudrowania, wywyższania się i opowiadania ciągle o sobie. W całej mojej pracy menedżerskich skupiam się na rozwijaniu innych, wspieraniu, wyszukiwaniu i wzmacnianiu ich silnych stron. Stawiam zawsze na wzajemny szacunek i swobodną komunikację, tak aby każdy we współpracy ze mną czuł się komfortowo. ",
       "featured": false
     }
   ]

@@ -161,17 +161,23 @@
   var previousButton = document.getElementById("mentorTrainersPrev");
   var nextButton = document.getElementById("mentorTrainersNext");
   var status = document.getElementById("mentorTrainersStatus");
+  var modal = document.getElementById("mentorTrainerModal");
+  var modalDialog = modal ? modal.querySelector(".mentor-trainer-modal-dialog") : null;
+  var modalClose = document.getElementById("mentorTrainerModalClose");
+  var modalMedia = document.getElementById("mentorTrainerModalMedia");
+  var modalImage = document.getElementById("mentorTrainerModalImage");
+  var modalInitials = document.getElementById("mentorTrainerModalInitials");
+  var modalCategories = document.getElementById("mentorTrainerModalCategories");
+  var modalTitle = document.getElementById("mentorTrainerModalTitle");
+  var modalRole = document.getElementById("mentorTrainerModalRole");
+  var modalDescription = document.getElementById("mentorTrainerModalDescription");
+  var lastModalTrigger = null;
   var trainers = [];
   var categories = [];
   var activeCategory = "";
-  var visibleCount = 0;
-  var loopStart = 0;
-  var loopEnd = 0;
-  var loopSetWidth = 0;
-  var loopReady = false;
   var resizeFrame = 0;
 
-  if (!section || !total || !filters || !track || !previousButton || !nextButton || !status) return;
+  if (!section || !total || !filters || !track || !previousButton || !nextButton || !status || !modal || !modalDialog || !modalClose || !modalMedia || !modalImage || !modalInitials || !modalCategories || !modalTitle || !modalRole || !modalDescription) return;
 
   function cleanText(value) {
     return typeof value === "string" ? value.trim() : "";
@@ -188,6 +194,7 @@
       categories: Array.isArray(item.categories) ? item.categories.map(cleanText).filter(Boolean) : [],
       image: cleanText(item.image),
       imageAlt: cleanText(item.imageAlt),
+      imagePosition: cleanText(item.imagePosition) || "50% 50%",
       description: cleanText(item.description),
       featured: item.featured === true
     };
@@ -199,27 +206,68 @@
     }).join("");
   }
 
-  function createTrainerCard(trainer, options) {
-    options = options || {};
+  function openTrainerModal(trainer, trigger) {
+    lastModalTrigger = trigger;
+    modalTitle.textContent = trainer.name;
+    modalRole.textContent = trainer.position + (trainer.company ? " @ " + trainer.company : "");
+    modalCategories.textContent = trainer.categories.length
+      ? "Obszary: " + trainer.categories.join(", ")
+      : "";
+    modalDescription.textContent = trainer.description;
+    modalInitials.textContent = initialsFor(trainer.name);
 
+    if (trainer.image) {
+      modalMedia.classList.add("has-image");
+      modalImage.src = trainer.image;
+      modalImage.alt = trainer.imageAlt || "Portret: " + trainer.name;
+      modalImage.style.objectPosition = trainer.imagePosition;
+      modalImage.hidden = false;
+      modalInitials.hidden = true;
+    } else {
+      modalMedia.classList.remove("has-image");
+      modalImage.removeAttribute("src");
+      modalImage.alt = "";
+      modalImage.hidden = true;
+      modalInitials.hidden = false;
+    }
+
+    trigger.setAttribute("aria-expanded", "true");
+    modal.hidden = false;
+    modal.setAttribute("aria-hidden", "false");
+    document.body.classList.add("mentor-trainer-modal-open");
+    modalDialog.scrollTop = 0;
+    modalClose.focus();
+  }
+
+  function closeTrainerModal() {
+    if (modal.hidden) return;
+
+    modal.hidden = true;
+    modal.setAttribute("aria-hidden", "true");
+    document.body.classList.remove("mentor-trainer-modal-open");
+
+    if (lastModalTrigger) {
+      lastModalTrigger.setAttribute("aria-expanded", "false");
+      lastModalTrigger.focus();
+      lastModalTrigger = null;
+    }
+  }
+
+  function createTrainerCard(trainer) {
     var card = document.createElement("article");
     var media = document.createElement("div");
     var fallback = document.createElement("span");
     var overlay = document.createElement("div");
+    var teaser = document.createElement("div");
+    var summary = document.createElement("div");
     var name = document.createElement("h3");
     var nameHighlight = document.createElement("span");
     var role = document.createElement("p");
+    var more = document.createElement("button");
 
     card.className = "mentor-trainer-card";
     card.setAttribute("data-trainer-id", trainer.id);
-
-    if (options.clone) {
-      card.classList.add("is-clone");
-      card.setAttribute("aria-hidden", "true");
-      card.setAttribute("tabindex", "-1");
-    } else {
-      card.setAttribute("tabindex", "0");
-    }
+    card.setAttribute("role", "listitem");
     media.className = "mentor-trainer-media";
     fallback.className = "mentor-trainer-initials";
     fallback.textContent = initialsFor(trainer.name);
@@ -228,9 +276,10 @@
     if (trainer.image) {
       var image = document.createElement("img");
       image.src = trainer.image;
-      image.alt = options.clone ? "" : (trainer.imageAlt || "Portret: " + trainer.name);
+      image.alt = trainer.imageAlt || "Portret: " + trainer.name;
       image.loading = "lazy";
       image.decoding = "async";
+      image.style.objectPosition = trainer.imagePosition;
       image.addEventListener("load", function () {
         card.classList.add("has-image");
         fallback.hidden = true;
@@ -245,32 +294,40 @@
 
     if (trainer.description) {
       var description = document.createElement("p");
+      teaser.className = "mentor-trainer-teaser";
       description.className = "mentor-trainer-description";
+      description.setAttribute("aria-hidden", "true");
       description.textContent = trainer.description;
-      overlay.appendChild(description);
-
-      if (!options.clone) {
-        description.id = "mentor-trainer-description-" + trainer.id;
-        card.setAttribute("aria-describedby", description.id);
-      }
+      teaser.appendChild(description);
+      overlay.appendChild(teaser);
     }
 
     nameHighlight.textContent = trainer.name;
     name.appendChild(nameHighlight);
-    overlay.appendChild(name);
+    summary.className = "mentor-trainer-summary";
+    summary.appendChild(name);
 
     role.className = "mentor-trainer-role";
-    role.textContent = trainer.position + (trainer.company ? " · " + trainer.company : "");
-    if (role.textContent.trim()) overlay.appendChild(role);
+    role.textContent = trainer.position + (trainer.company ? " @ " + trainer.company : "");
+    if (role.textContent.trim()) summary.appendChild(role);
+    overlay.appendChild(summary);
+
+    if (trainer.description) {
+      more.type = "button";
+      more.className = "mentor-trainer-more";
+      more.textContent = "Zobacz więcej";
+      more.setAttribute("aria-haspopup", "dialog");
+      more.setAttribute("aria-controls", "mentorTrainerModal");
+      more.setAttribute("aria-expanded", "false");
+      more.setAttribute("aria-label", "Zobacz pełny profil: " + trainer.name);
+      more.addEventListener("click", function () {
+        openTrainerModal(trainer, more);
+      });
+      teaser.appendChild(more);
+    }
 
     card.appendChild(media);
     card.appendChild(overlay);
-
-    if (!options.clone) {
-      card.addEventListener("click", function () {
-        card.focus({ preventScroll: true });
-      });
-    }
 
     return card;
   }
@@ -286,32 +343,16 @@
     var visible = visibleTrainers();
     track.innerHTML = "";
     track.scrollLeft = 0;
-    loopReady = false;
-    loopSetWidth = 0;
-    visibleCount = visible.length;
     track.classList.toggle("is-single", visible.length === 1);
-    track.classList.toggle("is-looping", visible.length > 1);
 
     if (!visible.length) {
       var empty = document.createElement("p");
       empty.className = "mentor-trainers-message";
       empty.textContent = "W tej kategorii nie dodano jeszcze trenerów.";
       track.appendChild(empty);
-    } else if (visible.length === 1) {
-      visible.forEach(function (trainer) {
-        track.appendChild(createTrainerCard(trainer));
-      });
     } else {
       visible.forEach(function (trainer) {
-        track.appendChild(createTrainerCard(trainer, { clone: true }));
-      });
-
-      visible.forEach(function (trainer) {
         track.appendChild(createTrainerCard(trainer));
-      });
-
-      visible.forEach(function (trainer) {
-        track.appendChild(createTrainerCard(trainer, { clone: true }));
       });
     }
 
@@ -323,7 +364,6 @@
       : "Wyświetlono trenerów: " + visible.length + ".";
 
     window.requestAnimationFrame(function () {
-      setupLoop(visible.length);
       updateArrows();
     });
   }
@@ -332,17 +372,23 @@
     filters.innerHTML = "";
     filters.hidden = categories.length === 0;
 
-    categories.forEach(function (category) {
+    [{ value: "", label: "Wszyscy" }].concat(categories.map(function (category) {
+      return { value: category, label: category };
+    })).forEach(function (filter) {
       var button = document.createElement("button");
-      var isActive = category === activeCategory;
+      var isActive = filter.value === activeCategory;
 
       button.type = "button";
       button.className = "mentor-trainers-filter" + (isActive ? " is-active" : "");
-      button.textContent = category;
+      button.textContent = filter.label;
       button.setAttribute("aria-pressed", isActive ? "true" : "false");
       button.addEventListener("click", function () {
-        activeCategory = category;
-        renderFilters();
+        activeCategory = filter.value;
+        Array.prototype.forEach.call(filters.querySelectorAll("button"), function (filterButton) {
+          var isSelected = filterButton === button;
+          filterButton.classList.toggle("is-active", isSelected);
+          filterButton.setAttribute("aria-pressed", isSelected ? "true" : "false");
+        });
         renderCards();
       });
       filters.appendChild(button);
@@ -378,105 +424,15 @@
     }
   }
 
-  function setScrollPosition(position) {
-    track.classList.add("is-jumping");
-    track.scrollLeft = position;
-
-    window.requestAnimationFrame(function () {
-      track.classList.remove("is-jumping");
-    });
-  }
-
-  function cardsInFocus() {
-    var viewportWidth = window.innerWidth || track.clientWidth;
-
-    if (viewportWidth <= 699) return 1;
-    if (viewportWidth <= 999) return 2;
-    if (viewportWidth <= 1299) return 3;
-    if (viewportWidth <= 1649) return 4;
-    return 5;
-  }
-
-  function updateCardStates() {
-    var cards = Array.prototype.slice.call(track.querySelectorAll(".mentor-trainer-card"));
-    var styles;
-    var paddingLeft;
-    var gap;
-    var cardWidth;
-    var firstOffset;
-    var firstActiveIndex;
-    var activeCount;
-
-    if (!cards.length) return;
-
-    styles = window.getComputedStyle(track);
-    paddingLeft = parseFloat(styles.paddingLeft) || 0;
-    gap = parseFloat(styles.columnGap || styles.gap) || 0;
-    cardWidth = cards[0].offsetWidth;
-
-    if (!cardWidth) return;
-
-    firstOffset = cards[0].offsetLeft - paddingLeft;
-    firstActiveIndex = Math.round((track.scrollLeft - firstOffset) / (cardWidth + gap));
-    firstActiveIndex = Math.max(0, Math.min(cards.length - 1, firstActiveIndex));
-    activeCount = Math.min(cardsInFocus(), cards.length - firstActiveIndex);
-
-    cards.forEach(function (card, index) {
-      var isActive = index >= firstActiveIndex && index < firstActiveIndex + activeCount;
-      card.classList.toggle("is-active", isActive);
-      card.classList.toggle("is-muted", !isActive);
-    });
-  }
-
-  function setupLoop(count) {
-    var cards = track.querySelectorAll(".mentor-trainer-card");
-    var firstOriginal = cards[count];
-    var firstTrailingClone = cards[count * 2];
-    var styles;
-    var paddingLeft;
-
-    loopReady = false;
-    loopSetWidth = 0;
-
-    if (count < 2 || !firstOriginal || !firstTrailingClone) return;
-
-    styles = window.getComputedStyle(track);
-    paddingLeft = parseFloat(styles.paddingLeft) || 0;
-    loopStart = firstOriginal.offsetLeft - paddingLeft;
-    loopEnd = firstTrailingClone.offsetLeft - paddingLeft;
-    loopSetWidth = loopEnd - loopStart;
-
-    if (loopSetWidth <= 0) return;
-
-    setScrollPosition(loopStart);
-    loopReady = true;
-    updateCardStates();
-  }
-
-  function maintainLoopPosition() {
-    var target;
-
-    if (!loopReady || loopSetWidth <= 0) return;
-
-    target = track.scrollLeft;
-
-    if (target >= loopEnd - 1) {
-      setScrollPosition(target - loopSetWidth);
-    } else if (target <= loopStart - loopSetWidth + 1) {
-      setScrollPosition(target + loopSetWidth);
-    }
-  }
-
   function updateArrows() {
     var hasCards = track.querySelectorAll(".mentor-trainer-card").length > 1;
     var canScroll = hasCards && track.scrollWidth > track.clientWidth + 2;
-    var isLooping = loopSetWidth > 0;
     var maxScroll = Math.max(0, track.scrollWidth - track.clientWidth);
 
     previousButton.hidden = !canScroll;
     nextButton.hidden = !canScroll;
-    previousButton.disabled = !canScroll || (!isLooping && track.scrollLeft <= 2);
-    nextButton.disabled = !canScroll || (!isLooping && track.scrollLeft >= maxScroll - 2);
+    previousButton.disabled = !canScroll || track.scrollLeft <= 2;
+    nextButton.disabled = !canScroll || track.scrollLeft >= maxScroll - 2;
   }
 
   previousButton.addEventListener("click", function () {
@@ -488,18 +444,41 @@
   });
 
   track.addEventListener("scroll", function () {
-    maintainLoopPosition();
-    updateCardStates();
     updateArrows();
   }, { passive: true });
 
   window.addEventListener("resize", function () {
     window.cancelAnimationFrame(resizeFrame);
     resizeFrame = window.requestAnimationFrame(function () {
-      setupLoop(visibleCount);
-      updateCardStates();
       updateArrows();
     });
+  });
+
+  modalClose.addEventListener("click", closeTrainerModal);
+
+  modal.addEventListener("click", function (event) {
+    if (event.target === modal) closeTrainerModal();
+  });
+
+  modalImage.addEventListener("error", function () {
+    modalMedia.classList.remove("has-image");
+    modalImage.hidden = true;
+    modalInitials.hidden = false;
+  });
+
+  document.addEventListener("keydown", function (event) {
+    if (modal.hidden) return;
+
+    if (event.key === "Escape") {
+      event.preventDefault();
+      closeTrainerModal();
+      return;
+    }
+
+    if (event.key === "Tab") {
+      event.preventDefault();
+      modalClose.focus();
+    }
   });
 
   fetch("data/trenerzy.json", { cache: "no-store" })
@@ -518,11 +497,8 @@
         });
         return result;
       }, []);
-      activeCategory = categories[0] || "";
-
-      total.textContent = data && typeof data.totalExperts === "number" && isFinite(data.totalExperts)
-        ? String(Math.max(0, Math.round(data.totalExperts)))
-        : String(trainers.length);
+      activeCategory = "";
+      total.textContent = String(trainers.length);
 
       renderFilters();
       renderCards();
