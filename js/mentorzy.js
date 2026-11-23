@@ -164,6 +164,12 @@
   var trainers = [];
   var categories = [];
   var activeCategory = "";
+  var visibleCount = 0;
+  var loopStart = 0;
+  var loopEnd = 0;
+  var loopSetWidth = 0;
+  var loopReady = false;
+  var resizeFrame = 0;
 
   if (!section || !total || !filters || !track || !previousButton || !nextButton || !status) return;
 
@@ -193,7 +199,9 @@
     }).join("");
   }
 
-  function createTrainerCard(trainer) {
+  function createTrainerCard(trainer, options) {
+    options = options || {};
+
     var card = document.createElement("article");
     var media = document.createElement("div");
     var fallback = document.createElement("span");
@@ -202,8 +210,16 @@
     var nameHighlight = document.createElement("span");
     var role = document.createElement("p");
 
-    card.className = "mentor-trainer-card" + (trainer.featured ? " is-featured" : "");
+    card.className = "mentor-trainer-card";
     card.setAttribute("data-trainer-id", trainer.id);
+
+    if (options.clone) {
+      card.classList.add("is-clone");
+      card.setAttribute("aria-hidden", "true");
+      card.setAttribute("tabindex", "-1");
+    } else {
+      card.setAttribute("tabindex", "0");
+    }
     media.className = "mentor-trainer-media";
     fallback.className = "mentor-trainer-initials";
     fallback.textContent = initialsFor(trainer.name);
@@ -212,7 +228,7 @@
     if (trainer.image) {
       var image = document.createElement("img");
       image.src = trainer.image;
-      image.alt = trainer.imageAlt || "Portret: " + trainer.name;
+      image.alt = options.clone ? "" : (trainer.imageAlt || "Portret: " + trainer.name);
       image.loading = "lazy";
       image.decoding = "async";
       image.addEventListener("load", function () {
@@ -227,11 +243,16 @@
 
     overlay.className = "mentor-trainer-overlay";
 
-    if (trainer.description && trainer.featured) {
+    if (trainer.description) {
       var description = document.createElement("p");
       description.className = "mentor-trainer-description";
       description.textContent = trainer.description;
       overlay.appendChild(description);
+
+      if (!options.clone) {
+        description.id = "mentor-trainer-description-" + trainer.id;
+        card.setAttribute("aria-describedby", description.id);
+      }
     }
 
     nameHighlight.textContent = trainer.name;
@@ -239,11 +260,18 @@
     overlay.appendChild(name);
 
     role.className = "mentor-trainer-role";
-    role.textContent = trainer.position + (trainer.company ? " @" + trainer.company : "");
+    role.textContent = trainer.position + (trainer.company ? " · " + trainer.company : "");
     if (role.textContent.trim()) overlay.appendChild(role);
 
     card.appendChild(media);
     card.appendChild(overlay);
+
+    if (!options.clone) {
+      card.addEventListener("click", function () {
+        card.focus({ preventScroll: true });
+      });
+    }
+
     return card;
   }
 
@@ -258,16 +286,32 @@
     var visible = visibleTrainers();
     track.innerHTML = "";
     track.scrollLeft = 0;
+    loopReady = false;
+    loopSetWidth = 0;
+    visibleCount = visible.length;
     track.classList.toggle("is-single", visible.length === 1);
+    track.classList.toggle("is-looping", visible.length > 1);
 
     if (!visible.length) {
       var empty = document.createElement("p");
       empty.className = "mentor-trainers-message";
       empty.textContent = "W tej kategorii nie dodano jeszcze trenerów.";
       track.appendChild(empty);
-    } else {
+    } else if (visible.length === 1) {
       visible.forEach(function (trainer) {
         track.appendChild(createTrainerCard(trainer));
+      });
+    } else {
+      visible.forEach(function (trainer) {
+        track.appendChild(createTrainerCard(trainer, { clone: true }));
+      });
+
+      visible.forEach(function (trainer) {
+        track.appendChild(createTrainerCard(trainer));
+      });
+
+      visible.forEach(function (trainer) {
+        track.appendChild(createTrainerCard(trainer, { clone: true }));
       });
     }
 
@@ -277,6 +321,11 @@
     status.textContent = visible.length === 1
       ? "Wyświetlono jednego trenera."
       : "Wyświetlono trenerów: " + visible.length + ".";
+
+    window.requestAnimationFrame(function () {
+      setupLoop(visible.length);
+      updateArrows();
+    });
   }
 
   function renderFilters() {
@@ -317,7 +366,9 @@
 
   function scrollTrack(direction) {
     var card = track.querySelector(".mentor-trainer-card");
-    var distance = card ? card.offsetWidth + 26 : 340;
+    var styles = window.getComputedStyle(track);
+    var gap = parseFloat(styles.columnGap || styles.gap) || 18;
+    var distance = card ? card.offsetWidth + gap : 320;
     var target = track.scrollLeft + direction * distance;
 
     if (typeof track.scrollTo === "function") {
@@ -327,12 +378,128 @@
     }
   }
 
+  function setScrollPosition(position) {
+    track.classList.add("is-jumping");
+    track.scrollLeft = position;
+
+    window.requestAnimationFrame(function () {
+      track.classList.remove("is-jumping");
+    });
+  }
+
+  function cardsInFocus() {
+    var viewportWidth = window.innerWidth || track.clientWidth;
+
+    if (viewportWidth <= 699) return 1;
+    if (viewportWidth <= 999) return 2;
+    if (viewportWidth <= 1299) return 3;
+    if (viewportWidth <= 1649) return 4;
+    return 5;
+  }
+
+  function updateCardStates() {
+    var cards = Array.prototype.slice.call(track.querySelectorAll(".mentor-trainer-card"));
+    var styles;
+    var paddingLeft;
+    var gap;
+    var cardWidth;
+    var firstOffset;
+    var firstActiveIndex;
+    var activeCount;
+
+    if (!cards.length) return;
+
+    styles = window.getComputedStyle(track);
+    paddingLeft = parseFloat(styles.paddingLeft) || 0;
+    gap = parseFloat(styles.columnGap || styles.gap) || 0;
+    cardWidth = cards[0].offsetWidth;
+
+    if (!cardWidth) return;
+
+    firstOffset = cards[0].offsetLeft - paddingLeft;
+    firstActiveIndex = Math.round((track.scrollLeft - firstOffset) / (cardWidth + gap));
+    firstActiveIndex = Math.max(0, Math.min(cards.length - 1, firstActiveIndex));
+    activeCount = Math.min(cardsInFocus(), cards.length - firstActiveIndex);
+
+    cards.forEach(function (card, index) {
+      var isActive = index >= firstActiveIndex && index < firstActiveIndex + activeCount;
+      card.classList.toggle("is-active", isActive);
+      card.classList.toggle("is-muted", !isActive);
+    });
+  }
+
+  function setupLoop(count) {
+    var cards = track.querySelectorAll(".mentor-trainer-card");
+    var firstOriginal = cards[count];
+    var firstTrailingClone = cards[count * 2];
+    var styles;
+    var paddingLeft;
+
+    loopReady = false;
+    loopSetWidth = 0;
+
+    if (count < 2 || !firstOriginal || !firstTrailingClone) return;
+
+    styles = window.getComputedStyle(track);
+    paddingLeft = parseFloat(styles.paddingLeft) || 0;
+    loopStart = firstOriginal.offsetLeft - paddingLeft;
+    loopEnd = firstTrailingClone.offsetLeft - paddingLeft;
+    loopSetWidth = loopEnd - loopStart;
+
+    if (loopSetWidth <= 0) return;
+
+    setScrollPosition(loopStart);
+    loopReady = true;
+    updateCardStates();
+  }
+
+  function maintainLoopPosition() {
+    var target;
+
+    if (!loopReady || loopSetWidth <= 0) return;
+
+    target = track.scrollLeft;
+
+    if (target >= loopEnd - 1) {
+      setScrollPosition(target - loopSetWidth);
+    } else if (target <= loopStart - loopSetWidth + 1) {
+      setScrollPosition(target + loopSetWidth);
+    }
+  }
+
+  function updateArrows() {
+    var hasCards = track.querySelectorAll(".mentor-trainer-card").length > 1;
+    var canScroll = hasCards && track.scrollWidth > track.clientWidth + 2;
+    var isLooping = loopSetWidth > 0;
+    var maxScroll = Math.max(0, track.scrollWidth - track.clientWidth);
+
+    previousButton.hidden = !canScroll;
+    nextButton.hidden = !canScroll;
+    previousButton.disabled = !canScroll || (!isLooping && track.scrollLeft <= 2);
+    nextButton.disabled = !canScroll || (!isLooping && track.scrollLeft >= maxScroll - 2);
+  }
+
   previousButton.addEventListener("click", function () {
     scrollTrack(-1);
   });
 
   nextButton.addEventListener("click", function () {
     scrollTrack(1);
+  });
+
+  track.addEventListener("scroll", function () {
+    maintainLoopPosition();
+    updateCardStates();
+    updateArrows();
+  }, { passive: true });
+
+  window.addEventListener("resize", function () {
+    window.cancelAnimationFrame(resizeFrame);
+    resizeFrame = window.requestAnimationFrame(function () {
+      setupLoop(visibleCount);
+      updateCardStates();
+      updateArrows();
+    });
   });
 
   fetch("data/trenerzy.json", { cache: "no-store" })
