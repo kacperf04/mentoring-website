@@ -161,11 +161,23 @@
   var previousButton = document.getElementById("mentorTrainersPrev");
   var nextButton = document.getElementById("mentorTrainersNext");
   var status = document.getElementById("mentorTrainersStatus");
+  var modal = document.getElementById("mentorTrainerModal");
+  var modalDialog = modal ? modal.querySelector(".mentor-trainer-modal-dialog") : null;
+  var modalClose = document.getElementById("mentorTrainerModalClose");
+  var modalMedia = document.getElementById("mentorTrainerModalMedia");
+  var modalImage = document.getElementById("mentorTrainerModalImage");
+  var modalInitials = document.getElementById("mentorTrainerModalInitials");
+  var modalCategories = document.getElementById("mentorTrainerModalCategories");
+  var modalTitle = document.getElementById("mentorTrainerModalTitle");
+  var modalRole = document.getElementById("mentorTrainerModalRole");
+  var modalDescription = document.getElementById("mentorTrainerModalDescription");
+  var lastModalTrigger = null;
   var trainers = [];
   var categories = [];
   var activeCategory = "";
+  var resizeFrame = 0;
 
-  if (!section || !total || !filters || !track || !previousButton || !nextButton || !status) return;
+  if (!section || !total || !filters || !track || !previousButton || !nextButton || !status || !modal || !modalDialog || !modalClose || !modalMedia || !modalImage || !modalInitials || !modalCategories || !modalTitle || !modalRole || !modalDescription) return;
 
   function cleanText(value) {
     return typeof value === "string" ? value.trim() : "";
@@ -182,6 +194,7 @@
       categories: Array.isArray(item.categories) ? item.categories.map(cleanText).filter(Boolean) : [],
       image: cleanText(item.image),
       imageAlt: cleanText(item.imageAlt),
+      imagePosition: cleanText(item.imagePosition) || "50% 50%",
       description: cleanText(item.description),
       featured: item.featured === true
     };
@@ -193,6 +206,53 @@
     }).join("");
   }
 
+  function openTrainerModal(trainer, trigger) {
+    lastModalTrigger = trigger;
+    modalTitle.textContent = trainer.name;
+    modalRole.textContent = trainer.position + (trainer.company ? " @ " + trainer.company : "");
+    modalCategories.textContent = trainer.categories.length
+      ? "Obszary: " + trainer.categories.join(", ")
+      : "";
+    modalDescription.textContent = trainer.description;
+    modalInitials.textContent = initialsFor(trainer.name);
+
+    if (trainer.image) {
+      modalMedia.classList.add("has-image");
+      modalImage.src = trainer.image;
+      modalImage.alt = trainer.imageAlt || "Portret: " + trainer.name;
+      modalImage.style.objectPosition = trainer.imagePosition;
+      modalImage.hidden = false;
+      modalInitials.hidden = true;
+    } else {
+      modalMedia.classList.remove("has-image");
+      modalImage.removeAttribute("src");
+      modalImage.alt = "";
+      modalImage.hidden = true;
+      modalInitials.hidden = false;
+    }
+
+    trigger.setAttribute("aria-expanded", "true");
+    modal.hidden = false;
+    modal.setAttribute("aria-hidden", "false");
+    document.body.classList.add("mentor-trainer-modal-open");
+    modalDialog.scrollTop = 0;
+    modalClose.focus();
+  }
+
+  function closeTrainerModal() {
+    if (modal.hidden) return;
+
+    modal.hidden = true;
+    modal.setAttribute("aria-hidden", "true");
+    document.body.classList.remove("mentor-trainer-modal-open");
+
+    if (lastModalTrigger) {
+      lastModalTrigger.setAttribute("aria-expanded", "false");
+      lastModalTrigger.focus();
+      lastModalTrigger = null;
+    }
+  }
+
   function createTrainerCard(trainer) {
     var card = document.createElement("article");
     var inner = document.createElement("div");
@@ -200,6 +260,7 @@
     var media = document.createElement("div");
     var fallback = document.createElement("span");
     var overlay = document.createElement("div");
+<<<<<<< HEAD
     var frontName = document.createElement("h3");
     var frontNameHighlight = document.createElement("span");
     var frontRole = document.createElement("p");
@@ -212,6 +273,18 @@
     inner.className = "mentor-trainer-inner";
     front.className = "mentor-trainer-front";
 
+=======
+    var teaser = document.createElement("div");
+    var summary = document.createElement("div");
+    var name = document.createElement("h3");
+    var nameHighlight = document.createElement("span");
+    var role = document.createElement("p");
+    var more = document.createElement("button");
+
+    card.className = "mentor-trainer-card";
+    card.setAttribute("data-trainer-id", trainer.id);
+    card.setAttribute("role", "listitem");
+>>>>>>> 98014ff3860daeb34c82356124b7101f7a86d45e
     media.className = "mentor-trainer-media";
     fallback.className = "mentor-trainer-initials";
     fallback.textContent = initialsFor(trainer.name);
@@ -223,6 +296,7 @@
       image.alt = trainer.imageAlt || "Portret: " + trainer.name;
       image.loading = "lazy";
       image.decoding = "async";
+      image.style.objectPosition = trainer.imagePosition;
       image.addEventListener("load", function () {
         card.classList.add("has-image");
         fallback.hidden = true;
@@ -238,6 +312,7 @@
     frontName.appendChild(frontNameHighlight);
     overlay.appendChild(frontName);
 
+<<<<<<< HEAD
     frontRole.className = "mentor-trainer-role";
     frontRole.textContent = roleText.trim();
     overlay.appendChild(frontRole);
@@ -264,8 +339,15 @@
         back.appendChild(backRole);
       }
 
+=======
+    if (trainer.description) {
+      var description = document.createElement("p");
+      teaser.className = "mentor-trainer-teaser";
+>>>>>>> 98014ff3860daeb34c82356124b7101f7a86d45e
       description.className = "mentor-trainer-description";
+      description.setAttribute("aria-hidden", "true");
       description.textContent = trainer.description;
+<<<<<<< HEAD
       back.appendChild(description);
       inner.appendChild(back);
 
@@ -289,6 +371,39 @@
     }
 
     card.appendChild(inner);
+=======
+      teaser.appendChild(description);
+      overlay.appendChild(teaser);
+    }
+
+    nameHighlight.textContent = trainer.name;
+    name.appendChild(nameHighlight);
+    summary.className = "mentor-trainer-summary";
+    summary.appendChild(name);
+
+    role.className = "mentor-trainer-role";
+    role.textContent = trainer.position + (trainer.company ? " @ " + trainer.company : "");
+    if (role.textContent.trim()) summary.appendChild(role);
+    overlay.appendChild(summary);
+
+    if (trainer.description) {
+      more.type = "button";
+      more.className = "mentor-trainer-more";
+      more.textContent = "Zobacz więcej";
+      more.setAttribute("aria-haspopup", "dialog");
+      more.setAttribute("aria-controls", "mentorTrainerModal");
+      more.setAttribute("aria-expanded", "false");
+      more.setAttribute("aria-label", "Zobacz pełny profil: " + trainer.name);
+      more.addEventListener("click", function () {
+        openTrainerModal(trainer, more);
+      });
+      teaser.appendChild(more);
+    }
+
+    card.appendChild(media);
+    card.appendChild(overlay);
+
+>>>>>>> 98014ff3860daeb34c82356124b7101f7a86d45e
     return card;
   }
 
@@ -336,6 +451,10 @@
     status.textContent = visible.length === 1
       ? "Wyświetlono jednego trenera."
       : "Wyświetlono trenerów: " + visible.length + ".";
+
+    window.requestAnimationFrame(function () {
+      updateArrows();
+    });
   }
 
   function visibleTrainers() {
@@ -349,17 +468,23 @@
     filters.innerHTML = "";
     filters.hidden = categories.length === 0;
 
-    categories.forEach(function (category) {
+    [{ value: "", label: "Wszyscy" }].concat(categories.map(function (category) {
+      return { value: category, label: category };
+    })).forEach(function (filter) {
       var button = document.createElement("button");
-      var isActive = category === activeCategory;
+      var isActive = filter.value === activeCategory;
 
       button.type = "button";
       button.className = "mentor-trainers-filter" + (isActive ? " is-active" : "");
-      button.textContent = category;
+      button.textContent = filter.label;
       button.setAttribute("aria-pressed", isActive ? "true" : "false");
       button.addEventListener("click", function () {
-        activeCategory = category;
-        renderFilters();
+        activeCategory = filter.value;
+        Array.prototype.forEach.call(filters.querySelectorAll("button"), function (filterButton) {
+          var isSelected = filterButton === button;
+          filterButton.classList.toggle("is-active", isSelected);
+          filterButton.setAttribute("aria-pressed", isSelected ? "true" : "false");
+        });
         renderCards();
       });
       filters.appendChild(button);
@@ -382,7 +507,14 @@
   }
 
   function scrollTrack(direction) {
+<<<<<<< HEAD
     var distance = getStepWidth();
+=======
+    var card = track.querySelector(".mentor-trainer-card");
+    var styles = window.getComputedStyle(track);
+    var gap = parseFloat(styles.columnGap || styles.gap) || 18;
+    var distance = card ? card.offsetWidth + gap : 320;
+>>>>>>> 98014ff3860daeb34c82356124b7101f7a86d45e
     var target = track.scrollLeft + direction * distance;
 
     if (typeof track.scrollTo === "function") {
@@ -390,6 +522,17 @@
     } else {
       track.scrollLeft = target;
     }
+  }
+
+  function updateArrows() {
+    var hasCards = track.querySelectorAll(".mentor-trainer-card").length > 1;
+    var canScroll = hasCards && track.scrollWidth > track.clientWidth + 2;
+    var maxScroll = Math.max(0, track.scrollWidth - track.clientWidth);
+
+    previousButton.hidden = !canScroll;
+    nextButton.hidden = !canScroll;
+    previousButton.disabled = !canScroll || track.scrollLeft <= 2;
+    nextButton.disabled = !canScroll || track.scrollLeft >= maxScroll - 2;
   }
 
   previousButton.addEventListener("click", function () {
@@ -400,7 +543,47 @@
     scrollTrack(1);
   });
 
+<<<<<<< HEAD
   window.addEventListener("resize", updateCarouselControls);
+=======
+  track.addEventListener("scroll", function () {
+    updateArrows();
+  }, { passive: true });
+
+  window.addEventListener("resize", function () {
+    window.cancelAnimationFrame(resizeFrame);
+    resizeFrame = window.requestAnimationFrame(function () {
+      updateArrows();
+    });
+  });
+
+  modalClose.addEventListener("click", closeTrainerModal);
+
+  modal.addEventListener("click", function (event) {
+    if (event.target === modal) closeTrainerModal();
+  });
+
+  modalImage.addEventListener("error", function () {
+    modalMedia.classList.remove("has-image");
+    modalImage.hidden = true;
+    modalInitials.hidden = false;
+  });
+
+  document.addEventListener("keydown", function (event) {
+    if (modal.hidden) return;
+
+    if (event.key === "Escape") {
+      event.preventDefault();
+      closeTrainerModal();
+      return;
+    }
+
+    if (event.key === "Tab") {
+      event.preventDefault();
+      modalClose.focus();
+    }
+  });
+>>>>>>> 98014ff3860daeb34c82356124b7101f7a86d45e
 
   fetch("data/trenerzy.json", { cache: "no-store" })
     .then(function (response) {
@@ -418,11 +601,8 @@
         });
         return result;
       }, []);
-      activeCategory = categories[0] || "";
-
-      total.textContent = data && typeof data.totalExperts === "number" && isFinite(data.totalExperts)
-        ? String(Math.max(0, Math.round(data.totalExperts)))
-        : String(trainers.length);
+      activeCategory = "";
+      total.textContent = String(trainers.length);
 
       renderFilters();
       renderCards();

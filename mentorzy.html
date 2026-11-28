@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Kalam:wght@400;700&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="css/style.css?v=16" />
-<link rel="stylesheet" href="css/mentorzy.css?v=12" />
+<link rel="stylesheet" href="css/mentorzy.css?v=28" />
 <link rel="canonical" href="https://kanalstudencki.pl/mentorzy" />
 </head>
 <body>
@@ -278,13 +278,84 @@
 
     <div class="mentor-trainers-carousel">
       <button class="mentor-trainers-arrow mentor-trainers-arrow-prev" id="mentorTrainersPrev" type="button" aria-label="Pokaż poprzednich trenerów" hidden>‹</button>
-      <div class="mentor-trainers-track" id="mentorTrainersTrack" aria-busy="true">
+      <div class="mentor-trainers-track" id="mentorTrainersTrack" role="list" aria-label="Trenerzy programu" aria-busy="true">
         <p class="mentor-trainers-message">Ładujemy trenerów…</p>
       </div>
       <button class="mentor-trainers-arrow mentor-trainers-arrow-next" id="mentorTrainersNext" type="button" aria-label="Pokaż kolejnych trenerów" hidden>›</button>
     </div>
 
     <p class="sr-only" id="mentorTrainersStatus" role="status" aria-live="polite"></p>
+  </div>
+</section>
+
+<!-- ===================== KONTAKT ===================== -->
+<section class="mentor-contact" id="kontakt" aria-labelledby="mentorContactTitle">
+  <div class="mentor-contact-inner">
+    <img class="mentor-contact-doodle mentor-contact-doodle-top" src="assets/mentorzy/arrows-orange.svg" alt="" aria-hidden="true" />
+    <span class="mentor-contact-doodle mentor-contact-doodle-bottom" aria-hidden="true">»»</span>
+
+    <header class="mentor-contact-heading">
+      <p>Masz pytania?</p>
+      <h2 id="mentorContactTitle">Napisz do nas!</h2>
+      <a class="mentor-contact-email" href="mailto:kontakt@kanalstudencki.pl">
+        <span class="mentor-contact-email-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none"><path d="m9 6 6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg>
+        </span>
+        <span>kontakt@kanalstudencki.pl</span>
+      </a>
+    </header>
+
+    <figure class="mentor-contact-media">
+      <img src="assets/mentorzy/contact-team.webp" alt="Zespół Fundacji Kanał Studencki" width="405" height="723" loading="lazy" decoding="async" />
+    </figure>
+
+    <form class="mentor-contact-form" id="mentorContactForm" action="mailto:kontakt@kanalstudencki.pl" method="post" enctype="text/plain" novalidate>
+      <div class="mentor-contact-fields">
+        <div class="mentor-contact-field">
+          <label for="mentorContactName">Imię <span aria-hidden="true">*</span></label>
+          <input id="mentorContactName" name="name" type="text" autocomplete="name" placeholder="Super imię" required maxlength="80" />
+        </div>
+
+        <div class="mentor-contact-field">
+          <label for="mentorContactType">Kto się do nas zgłasza</label>
+          <select id="mentorContactType" name="contactType">
+            <option value="">Wybierz opcję</option>
+            <option value="Student / studentka">Student / studentka</option>
+            <option value="Koło naukowe / organizacja studencka">Koło naukowe / organizacja studencka</option>
+            <option value="Firma / partner">Firma / partner</option>
+            <option value="Mentor / trener">Mentor / trener</option>
+            <option value="Inne">Inne</option>
+          </select>
+        </div>
+
+        <div class="mentor-contact-field mentor-contact-field-wide">
+          <label for="mentorContactEmail">Adres e-mail <span aria-hidden="true">*</span></label>
+          <input id="mentorContactEmail" name="email" type="email" autocomplete="email" inputmode="email" placeholder="mail@mailowy.pl" required maxlength="160" />
+        </div>
+
+        <div class="mentor-contact-field mentor-contact-field-wide">
+          <label for="mentorContactMessage">Opisz, z czym się do nas zgłaszasz <span aria-hidden="true">*</span></label>
+          <textarea id="mentorContactMessage" name="message" rows="5" placeholder="Zgłaszam się z czymś fajnym!" required maxlength="1500" aria-describedby="mentorContactMessageHint"></textarea>
+          <small id="mentorContactMessageHint">Maksymalnie 1500 znaków.</small>
+        </div>
+      </div>
+
+      <div class="mentor-contact-honeypot" aria-hidden="true">
+        <label for="mentorContactWebsite">Nie wypełniaj tego pola</label>
+        <input id="mentorContactWebsite" name="website" type="text" tabindex="-1" autocomplete="off" />
+      </div>
+
+      <label class="mentor-contact-consent" for="mentorContactConsent">
+        <input id="mentorContactConsent" name="consent" type="checkbox" required />
+        <span class="mentor-contact-checkbox" aria-hidden="true"></span>
+        <span>Wyrażam zgodę na przetwarzanie danych zgodnie z naszą <a href="https://kanalstudencki.pl/polityka-prywatnosci/" target="_blank" rel="noopener">Polityką Prywatności</a>. <b aria-hidden="true">*</b></span>
+      </label>
+
+      <div class="mentor-contact-actions">
+        <button class="mentor-contact-submit" type="submit">Wyślij</button>
+        <p class="mentor-contact-status" id="mentorContactStatus" role="status" aria-live="polite"></p>
+      </div>
+    </form>
   </div>
 </section>
 
@@ -342,6 +413,23 @@
   </div>
 </div>
 
+<!-- ========== POPUP TRENERA ========== -->
+<div class="mentor-trainer-modal" id="mentorTrainerModal" hidden aria-hidden="true">
+  <div class="mentor-trainer-modal-dialog" role="dialog" aria-modal="true" aria-labelledby="mentorTrainerModalTitle" tabindex="-1">
+    <button class="mentor-trainer-modal-close" id="mentorTrainerModalClose" type="button" aria-label="Zamknij profil trenera">&times;</button>
+    <div class="mentor-trainer-modal-media" id="mentorTrainerModalMedia">
+      <img id="mentorTrainerModalImage" alt="" hidden />
+      <span class="mentor-trainer-modal-initials" id="mentorTrainerModalInitials" aria-hidden="true"></span>
+    </div>
+    <div class="mentor-trainer-modal-content">
+      <p class="mentor-trainer-modal-categories" id="mentorTrainerModalCategories"></p>
+      <h3 id="mentorTrainerModalTitle"></h3>
+      <p class="mentor-trainer-modal-role" id="mentorTrainerModalRole"></p>
+      <p class="mentor-trainer-modal-description" id="mentorTrainerModalDescription"></p>
+    </div>
+  </div>
+</div>
+
 <!-- =====================================================
    POPUP NEWSLETTER
 ===================================================== -->
@@ -372,6 +460,7 @@
 
 <script src="js/consent.js?v=3"></script>
 <script src="js/main.js?v=15"></script>
-<script src="js/mentorzy.js?v=3"></script>
+<script src="js/mentorzy.js?v=12"></script>
+<script src="js/contact.js?v=1"></script>
 </body>
 </html>
