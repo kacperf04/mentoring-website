@@ -195,15 +195,23 @@
 
   function createTrainerCard(trainer) {
     var card = document.createElement("article");
+    var inner = document.createElement("div");
+    var front = document.createElement("div");
     var media = document.createElement("div");
     var fallback = document.createElement("span");
     var overlay = document.createElement("div");
-    var name = document.createElement("h3");
-    var nameHighlight = document.createElement("span");
-    var role = document.createElement("p");
+    var frontName = document.createElement("h3");
+    var frontNameHighlight = document.createElement("span");
+    var frontRole = document.createElement("p");
+    var roleText = trainer.position + (trainer.company ? " @" + trainer.company : "");
+    var hasDescription = Boolean(trainer.description);
 
-    card.className = "mentor-trainer-card" + (trainer.featured ? " is-featured" : "");
+    card.className = "mentor-trainer-card" + (hasDescription ? " has-description" : "");
     card.setAttribute("data-trainer-id", trainer.id);
+
+    inner.className = "mentor-trainer-inner";
+    front.className = "mentor-trainer-front";
+
     media.className = "mentor-trainer-media";
     fallback.className = "mentor-trainer-initials";
     fallback.textContent = initialsFor(trainer.name);
@@ -226,39 +234,91 @@
     }
 
     overlay.className = "mentor-trainer-overlay";
+    frontNameHighlight.textContent = trainer.name;
+    frontName.appendChild(frontNameHighlight);
+    overlay.appendChild(frontName);
 
-    if (trainer.description && trainer.featured) {
+    frontRole.className = "mentor-trainer-role";
+    frontRole.textContent = roleText.trim();
+    overlay.appendChild(frontRole);
+
+    front.appendChild(media);
+    front.appendChild(overlay);
+    inner.appendChild(front);
+
+    if (hasDescription) {
+      var back = document.createElement("div");
+      var backName = document.createElement("h3");
+      var backNameHighlight = document.createElement("span");
       var description = document.createElement("p");
+
+      back.className = "mentor-trainer-back";
+      backNameHighlight.textContent = trainer.name;
+      backName.appendChild(backNameHighlight);
+      back.appendChild(backName);
+
+      if (roleText.trim()) {
+        var backRole = document.createElement("p");
+        backRole.className = "mentor-trainer-role";
+        backRole.textContent = roleText.trim();
+        back.appendChild(backRole);
+      }
+
       description.className = "mentor-trainer-description";
       description.textContent = trainer.description;
-      overlay.appendChild(description);
+      back.appendChild(description);
+      inner.appendChild(back);
+
+      card.tabIndex = 0;
+      card.setAttribute("role", "button");
+      card.setAttribute("aria-pressed", "false");
+      card.setAttribute("aria-label", trainer.name + " — kliknij, aby przeczytać opis");
+
+      var toggleFlip = function () {
+        var flipped = card.classList.toggle("is-flipped");
+        card.setAttribute("aria-pressed", flipped ? "true" : "false");
+      };
+
+      card.addEventListener("click", toggleFlip);
+      card.addEventListener("keydown", function (event) {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          toggleFlip();
+        }
+      });
     }
 
-    nameHighlight.textContent = trainer.name;
-    name.appendChild(nameHighlight);
-    overlay.appendChild(name);
-
-    role.className = "mentor-trainer-role";
-    role.textContent = trainer.position + (trainer.company ? " @" + trainer.company : "");
-    if (role.textContent.trim()) overlay.appendChild(role);
-
-    card.appendChild(media);
-    card.appendChild(overlay);
+    card.appendChild(inner);
     return card;
   }
 
-  function visibleTrainers() {
-    if (!activeCategory) return trainers.slice();
-    return trainers.filter(function (trainer) {
-      return trainer.categories.indexOf(activeCategory) !== -1;
-    });
+  function cardsPerView() {
+    if (window.innerWidth <= 560) return 1;
+    if (window.innerWidth <= 980) return 2;
+    return 3;
+  }
+
+  function getStepWidth() {
+    var card = track.querySelector(".mentor-trainer-card");
+    if (!card) return 340;
+    var gapValue = parseFloat(window.getComputedStyle(track).columnGap || window.getComputedStyle(track).gap) || 24;
+    return card.offsetWidth + gapValue;
+  }
+
+  function updateCarouselControls() {
+    var count = track.querySelectorAll(".mentor-trainer-card").length;
+    var fitsInView = count > 0 && count <= cardsPerView();
+
+    track.classList.toggle("is-centered", fitsInView);
+    previousButton.hidden = fitsInView || count < 2;
+    nextButton.hidden = fitsInView || count < 2;
   }
 
   function renderCards() {
     var visible = visibleTrainers();
+
     track.innerHTML = "";
     track.scrollLeft = 0;
-    track.classList.toggle("is-single", visible.length === 1);
 
     if (!visible.length) {
       var empty = document.createElement("p");
@@ -271,12 +331,18 @@
       });
     }
 
-    previousButton.hidden = visible.length < 2;
-    nextButton.hidden = visible.length < 2;
+    updateCarouselControls();
     track.setAttribute("aria-busy", "false");
     status.textContent = visible.length === 1
       ? "Wyświetlono jednego trenera."
       : "Wyświetlono trenerów: " + visible.length + ".";
+  }
+
+  function visibleTrainers() {
+    if (!activeCategory) return trainers.slice();
+    return trainers.filter(function (trainer) {
+      return trainer.categories.indexOf(activeCategory) !== -1;
+    });
   }
 
   function renderFilters() {
@@ -316,8 +382,7 @@
   }
 
   function scrollTrack(direction) {
-    var card = track.querySelector(".mentor-trainer-card");
-    var distance = card ? card.offsetWidth + 26 : 340;
+    var distance = getStepWidth();
     var target = track.scrollLeft + direction * distance;
 
     if (typeof track.scrollTo === "function") {
@@ -334,6 +399,8 @@
   nextButton.addEventListener("click", function () {
     scrollTrack(1);
   });
+
+  window.addEventListener("resize", updateCarouselControls);
 
   fetch("data/trenerzy.json", { cache: "no-store" })
     .then(function (response) {
